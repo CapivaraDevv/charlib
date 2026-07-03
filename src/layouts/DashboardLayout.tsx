@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import Sidebar from "../../components/layout/Sidebar";
-import Header from "../../components/layout/Header";
+import Sidebar from "../components/layout/Sidebar";
+import Header from "../components/layout/Header";
 
 type Props = {
   children: ReactNode;
@@ -9,11 +9,11 @@ type Props = {
 export default function MainLayout({ children }: Props) {
   return (
     <div className="flex h-screen bg-[#5B3E2B] text-white">
-      <aside className="w-64 h-full border-r border-white/10">
+      <aside className="h-full w-64 border-r border-white/10">
         <Sidebar />
       </aside>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         <header className="h-16 border-b border-white/10">
           <Header />
         </header>

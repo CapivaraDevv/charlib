@@ -1,7 +1,30 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+@theme {
+  --font-display: "Playfair Display", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-crimson-text: "Crimson Text", serif;
+}
+
+:root {
+  font-family: var(--font-body);
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
 
 .crimson-text-regular {
-  font-family: "Crimson Text", serif;
+  font-family: var(--font-crimson-text);
   font-weight: 400;
   font-style: normal;
 }
