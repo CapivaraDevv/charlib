@@ -1,15 +1,35 @@
 import ContinueReadingCard from "./ContinueReadingCard";
 import StatsCard from "./StatsCard";
+import { books } from "../../data/books";
+import { stats } from "../../data/stats";
+import { Flame, BookOpen, Target } from "lucide-react";
 
 export default function ContinueReadingSection() {
   return (
     <section className="grid grid-cols-[2fr_1fr] gap-2">
-      <ContinueReadingCard />
+      <ContinueReadingCard book={books[0]} />
 
-      <aside className="flex h-full flex-col gap-4 pt-10">
-        <StatsCard title="Sequência" />
-        <StatsCard title="Meta do mês" />
-        <StatsCard title="Livros" />
+      <aside className="flex flex-col gap-4 pt-10">
+        <StatsCard
+          title="Sequência"
+          value={`${stats.streak} dias`}
+          subtitle="Lendo sem interrupções"
+          icon={<Flame size={28} />}
+        />
+
+        <StatsCard
+          title="Meta do mês"
+          value={`${stats.monthly.completed}/${stats.monthly.goal}`}
+          subtitle="Livros concluídos"
+          icon={<Target size={28} />}
+        />
+
+        <StatsCard
+          title="Biblioteca"
+          value={`${stats.library}`}
+          subtitle="Livros cadastrados"
+          icon={<BookOpen size={28} />}
+        />
       </aside>
     </section>
   );
