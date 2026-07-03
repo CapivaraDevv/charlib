@@ -1,15 +1,11 @@
-import Header from "../../components/home/Header"
+
 import ContinueReadingCard from "../../components/home/ContinueReadingCard";
-import MainLayout from "../../layouts/MainLayout"
+import DashboardLayout from "../../layouts/DashboardLayout"
 
 export default function Home(){
     return (
-        <MainLayout>
-            
-            <Header />
-
+        <DashboardLayout>
             <ContinueReadingCard />
-
-        </MainLayout>
+        </DashboardLayout>
     );
 }
