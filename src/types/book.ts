@@ -7,4 +7,7 @@ export interface Book {
   rating: number;
   notes: number;
   image: string;
+
+  status: "reading" | "completed" | "planned"
+  file: string | null;
 }

@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const menu = [
-    { label: "Biblioteca", path: "/biblioteca" },
+    { label: "Home", path: "/"},
+    { label: "Biblioteca", path: "/library" },
     { label: "Adicionar Livro", path: "/adicionar-livro" },
     { label: "Estatísticas", path: "/estatisticas" },
     { label: "Configurações", path: "/configuracoes" },

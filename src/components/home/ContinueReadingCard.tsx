@@ -1,6 +1,6 @@
 import Card from "../common/Card";
 import type { Book } from "../../types/book";
-import ProgressBar from "../common/ProgressBar";
+import ProgressBar from "../common/LinearProgress";
 
 type ContinueReadingCardProps = {
   book: Book;
