@@ -20,7 +20,7 @@ export default function ReaderHeader({ book }: ReaderHeaderProps) {
           ← Biblioteca
         </button>
 
-        <div>
+        {/* <div>
           <h1 className="text-xl font-bold">
             {book.title}
           </h1>
@@ -28,7 +28,7 @@ export default function ReaderHeader({ book }: ReaderHeaderProps) {
           <p className="text-sm text-gray-400">
             {book.author}
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* Direita */}

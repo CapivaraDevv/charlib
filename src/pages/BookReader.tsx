@@ -1,14 +1,25 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { books } from "../data/books";
 import ReaderHeader from "../components/reader/ReaderHeader";
-import ReaderFooter from "../components/reader/ReaderFooter";
-import PdfViewer from "../components/reader/PDFViewer";
+import PdfViewer from "../components/reader/PdfViewer";
 
 export default function BookReader() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = localStorage.getItem(`book-progress-${id}`);
+
+    return saved ? Number(saved) : 1;
+  });
 
   const book = books.find((book) => book.id === Number(id));
+
+  useEffect(() => {
+    if (!book) return;
+
+    localStorage.setItem(`book-progress-${book.id}`, String(currentPage));
+  }, [currentPage, book]);
 
   if (!book) {
     return (
@@ -27,6 +38,8 @@ export default function BookReader() {
     );
   }
 
+  const savedPage = Number(localStorage.getItem(`book-progress-${book?.id}`));
+
   if (!book.file) {
     return (
       <div>
@@ -39,7 +52,7 @@ export default function BookReader() {
     );
   }
 
-  const progress = Math.round((book.currentPage / book.pages) * 100);
+  const progress = Math.round((currentPage / book.pages) * 100);
 
   return (
     <main className="min-h-screen bg-background text-white">
@@ -70,7 +83,7 @@ export default function BookReader() {
             </div>
 
             <p className="mt-2">
-              {book.currentPage} / {book.pages} páginas
+              {currentPage} / {book.pages} páginas
             </p>
           </div>
         </div>
@@ -78,9 +91,7 @@ export default function BookReader() {
 
       {/* Área de leitura */}
 
-      <PdfViewer file={book.file} />
-
-      <ReaderFooter book={book} />
+      <PdfViewer file={book.file} page={currentPage} setPage={setCurrentPage} />
     </main>
   );
 }
