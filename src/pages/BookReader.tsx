@@ -12,6 +12,8 @@ export default function BookReader() {
 
     return saved ? Number(saved) : 1;
   });
+  const [readingMode, setReadingMode] = useState(false);
+  const [showControls, setShowControls] = useState(true);
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -20,6 +22,32 @@ export default function BookReader() {
 
     localStorage.setItem(`book-progress-${book.id}`, String(currentPage));
   }, [currentPage, book]);
+
+  useEffect(() => {
+    if (!readingMode) {
+      setShowControls(true);
+      return;
+    }
+
+    let timer: number;
+
+    function handleMouseMove() {
+      setShowControls(true);
+
+      clearTimeout(timer);
+
+      timer = window.setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(timer);
+    };
+  }, [readingMode]);
 
   if (!book) {
     return (
@@ -38,8 +66,6 @@ export default function BookReader() {
     );
   }
 
-  const savedPage = Number(localStorage.getItem(`book-progress-${book?.id}`));
-
   if (!book.file) {
     return (
       <div>
@@ -55,43 +81,61 @@ export default function BookReader() {
   const progress = Math.round((currentPage / book.pages) * 100);
 
   return (
-    <main className="min-h-screen bg-background text-white">
+    <main
+      className={`min-h-screen bg-background text-white ${
+        readingMode ? "flex flex-col items-center justify-center" : ""
+      }`}
+    >
       {/* Header */}
 
-      <ReaderHeader book={book} />
+      {!readingMode && <ReaderHeader book={book} />}
 
+      <button
+        onClick={() => setReadingMode((prev) => !prev)}
+        className={`fixed right-6 top-6 z-50 rounded-lg bg-primary px-4 py-2 transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      >
+        {readingMode ? "Sair da leitura" : "Modo leitura"}
+      </button>
       {/* Informações */}
+      {!readingMode && (
+        <section className="flex gap-10 p-10">
+          <img src={book.image} alt={book.title} className="w-52 rounded-lg" />
 
-      <section className="flex gap-10 p-10">
-        <img src={book.image} alt={book.title} className="w-52 rounded-lg" />
+          <div>
+            <h1 className="text-5xl font-bold">{book.title}</h1>
 
-        <div>
-          <h1 className="text-5xl font-bold">{book.title}</h1>
+            <p className="mt-3 text-xl text-gray-400">{book.author}</p>
 
-          <p className="mt-3 text-xl text-gray-400">{book.author}</p>
+            <div className="mt-8">
+              <p className="mb-2">Progresso</p>
 
-          <div className="mt-8">
-            <p className="mb-2">Progresso</p>
+              <div className="h-3 w-96 rounded-full bg-[#3E281D]">
+                <div
+                  className="h-full rounded-full bg-primary"
+                  style={{
+                    width: `${progress}%`,
+                  }}
+                />
+              </div>
 
-            <div className="h-3 w-96 rounded-full bg-[#3E281D]">
-              <div
-                className="h-full rounded-full bg-primary"
-                style={{
-                  width: `${progress}%`,
-                }}
-              />
+              <p className="mt-2">
+                {currentPage} / {book.pages} páginas
+              </p>
             </div>
-
-            <p className="mt-2">
-              {currentPage} / {book.pages} páginas
-            </p>
           </div>
-        </div>
-      </section>
-
+        </section>
+      )}
       {/* Área de leitura */}
 
-      <PdfViewer file={book.file} page={currentPage} setPage={setCurrentPage} />
+      <div className={readingMode ? "w-full flex justify-center" : ""}>
+        <PdfViewer
+          file={book.file}
+          page={currentPage}
+          setPage={setCurrentPage}
+        />
+      </div>
     </main>
   );
 }
