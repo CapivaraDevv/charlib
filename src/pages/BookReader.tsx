@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { books } from "../data/books";
 import ReaderHeader from "../components/reader/ReaderHeader";
 import PdfViewer from "../components/reader/PdfViewer";
+import ProgressBar from "../components/common/ProgressBar";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export default function BookReader() {
   });
   const [readingMode, setReadingMode] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -22,6 +24,12 @@ export default function BookReader() {
 
     localStorage.setItem(`book-progress-${book.id}`, String(currentPage));
   }, [currentPage, book]);
+
+  useEffect(() => {
+    if (!book) return;
+
+    localStorage.setItem("last-book", String(book.id));
+  }, [book]);
 
   useEffect(() => {
     if (!readingMode) {
@@ -92,9 +100,9 @@ export default function BookReader() {
 
       <button
         onClick={() => setReadingMode((prev) => !prev)}
-        className={`fixed right-6 top-6 z-50 rounded-lg bg-primary px-4 py-2 transition-opacity duration-300 ${
+        className={`fixed right-6 z-50 rounded-lg bg-primary px-4 py-2 transition-opacity duration-300 ${
           showControls ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        } ${readingMode ? "top-6" : "top-25"} `}
       >
         {readingMode ? "Sair da leitura" : "Modo leitura"}
       </button>
@@ -111,14 +119,7 @@ export default function BookReader() {
             <div className="mt-8">
               <p className="mb-2">Progresso</p>
 
-              <div className="h-3 w-96 rounded-full bg-[#3E281D]">
-                <div
-                  className="h-full rounded-full bg-primary"
-                  style={{
-                    width: `${progress}%`,
-                  }}
-                />
-              </div>
+              <ProgressBar value={progress} />
 
               <p className="mt-2">
                 {currentPage} / {book.pages} páginas
@@ -128,6 +129,8 @@ export default function BookReader() {
         </section>
       )}
       {/* Área de leitura */}
+
+      <button onClick={() => setIsNoteModalOpen(true)}>Nova nota</button>
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>
         <PdfViewer

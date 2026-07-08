@@ -5,9 +5,12 @@ import { stats } from "../../data/stats";
 import { Flame, BookOpen, Target } from "lucide-react";
 
 export default function ContinueReadingSection() {
+  const lastBookId = Number(localStorage.getItem("last-book") ?? books[0]);
+  const lastBook = books.find((book) => book.id === lastBookId);
+
   return (
     <section className="grid grid-cols-[2fr_1fr] gap-2">
-      <ContinueReadingCard book={books[0]} />
+      {lastBook && <ContinueReadingCard book={lastBook} />}
 
       <aside className="flex flex-col gap-4 pt-10">
         <StatsCard

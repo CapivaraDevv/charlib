@@ -1,12 +1,18 @@
 import type { Book } from "../../types/book";
 import Card from "./Card";
 import BookCover from "./BookCover";
+import ProgressBar from "./ProgressBar";
+
 
 type BookCardProps = {
   book: Book;
 };
 
 export default function BookCard({ book }: BookCardProps) {
+  const currentPage =
+  Number(localStorage.getItem(`book-progress-${book.id}`)) || book.currentPage;
+  const progress = ((currentPage / book.pages) * 100)
+
   return (
     <Card
       classname="
@@ -42,6 +48,9 @@ export default function BookCard({ book }: BookCardProps) {
             {book.pages} pág.
           </span>
         </div>
+
+        <ProgressBar value={progress} className="mt-1" />
+        <p className="text-sm mt-1">{currentPage} / {book.pages}</p>
       </div>
     </Card>
   );

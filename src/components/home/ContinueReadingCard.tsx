@@ -1,6 +1,6 @@
 import Card from "../common/Card";
 import type { Book } from "../../types/book";
-import ProgressBar from "../common/LinearProgress";
+import ProgressBar from "../common/ProgressBar";
 
 type ContinueReadingCardProps = {
   book: Book;
@@ -9,7 +9,10 @@ type ContinueReadingCardProps = {
 export default function ContinueReadingCard({
   book,
 }: ContinueReadingCardProps) {
-  const progress = Math.round((book.currentPage / book.pages) * 100);
+  const currentPage =
+  Number(localStorage.getItem(`book-progress-${book.id}`)) || book.currentPage;
+  const progress = Math.round((currentPage / book.pages) * 100);
+
   return (
     <Card classname="mt-10 flex flex-col p-8">
       <h2 className="mb-6 font-display text-2xl font-bold">
@@ -33,7 +36,7 @@ export default function ContinueReadingCard({
           <div className="mt-4 flex flex-wrap items-center gap-5 text-lg text-white/90">
             <span>⭐ {book.rating} / 5</span>
             <span>
-              {book.currentPage} / {book.pages} páginas
+              {currentPage} / {book.pages} páginas
             </span>
             <span>{book.notes} notas</span>
           </div>

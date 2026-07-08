@@ -19,16 +19,6 @@ export default function ReaderHeader({ book }: ReaderHeaderProps) {
         >
           ← Biblioteca
         </button>
-
-        {/* <div>
-          <h1 className="text-xl font-bold">
-            {book.title}
-          </h1>
-
-          <p className="text-sm text-gray-400">
-            {book.author}
-          </p>
-        </div> */}
       </div>
 
       {/* Direita */}
