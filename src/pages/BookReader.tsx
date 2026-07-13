@@ -4,6 +4,7 @@ import { books } from "../data/books";
 import ReaderHeader from "../components/reader/ReaderHeader";
 import PdfViewer from "../components/reader/PdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
+import ReaderToolbar from "../components/reader/ReaderToolbar";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -98,14 +99,15 @@ export default function BookReader() {
 
       {!readingMode && <ReaderHeader book={book} />}
 
-      <button
-        onClick={() => setReadingMode((prev) => !prev)}
-        className={`fixed right-6 z-50 rounded-lg bg-primary px-4 py-2 transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "pointer-events-none opacity-0"
-        } ${readingMode ? "top-6" : "top-25"} `}
-      >
-        {readingMode ? "Sair da leitura" : "Modo leitura"}
-      </button>
+      <ReaderToolbar readingMode={readingMode}
+        showControls={showControls}
+        onToggleReadingMode={() => setReadingMode((prev) => !prev)} 
+        onAddNote={() => setIsNoteModalOpen(true)}
+        onAddBookmark={() => {
+          console.log("Marcador")
+        }} 
+      />
+      
       {/* Informações */}
       {!readingMode && (
         <section className="flex gap-10 p-10">
@@ -130,7 +132,7 @@ export default function BookReader() {
       )}
       {/* Área de leitura */}
 
-      <button onClick={() => setIsNoteModalOpen(true)}>Nova nota</button>
+      
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>
         <PdfViewer
