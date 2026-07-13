@@ -5,6 +5,8 @@ import ReaderHeader from "../components/reader/ReaderHeader";
 import PdfViewer from "../components/reader/PdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
 import ReaderToolbar from "../components/reader/ReaderToolbar";
+import NoteModal from "../components/reader/NoteModal";
+import { saveNote } from "../services/notes";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -57,6 +59,19 @@ export default function BookReader() {
       clearTimeout(timer);
     };
   }, [readingMode]);
+
+  function handleSaveNote(content: string) {
+  if (!book) return;
+
+  saveNote({
+    id: crypto.randomUUID(),
+    bookId: book.id,
+    page: currentPage,
+    content,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  });
+}
 
   if (!book) {
     return (
@@ -132,6 +147,12 @@ export default function BookReader() {
       )}
       {/* Área de leitura */}
 
+      <NoteModal 
+        open={isNoteModalOpen}
+        page={currentPage}
+        onClose={() => setIsNoteModalOpen(false)}
+        onSave={handleSaveNote}
+      />
       
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>

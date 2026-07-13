@@ -22,7 +22,7 @@ export default function ReaderHeader({ book }: ReaderHeaderProps) {
       </div>
 
       {/* Direita */}
-      <div className="flex items-center gap-3">
+      {/* <div className="flex items-center gap-3">
 
         <button 
             aria-label="Favoritar livro"
@@ -45,7 +45,7 @@ export default function ReaderHeader({ book }: ReaderHeaderProps) {
           <Settings size={20} />
         </button>
 
-      </div>
+      </div> */}
     </header>
   );
 }
