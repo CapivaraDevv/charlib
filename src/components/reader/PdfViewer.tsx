@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.js?url";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
+import BookmarkRibbon from "./BookMarkRibbon";
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
@@ -11,11 +12,16 @@ interface PdfViewerProps {
   file: string;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  bookmarked: boolean;
 }
 
-export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
+export default function PdfViewer({
+  file,
+  page,
+  setPage,
+  bookmarked,
+}: PdfViewerProps) {
   const [numPages, setNumPages] = useState(0);
-  
 
   function onLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -28,7 +34,6 @@ export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
   function prevPage() {
     setPage((p) => Math.max(p - 1, 1));
   }
-
 
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
@@ -48,25 +53,18 @@ export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
     };
   }, [numPages]);
 
-
   return (
     <div className="flex flex-col items-center gap-4 mb-4">
+      <div className="relative inline-block">
+        <BookmarkRibbon active={bookmarked} />
 
-      <Document
-        file={file}
-        onLoadSuccess={onLoadSuccess}
-      >
-
-        <div className="relative">
-
+        <Document file={file} onLoadSuccess={onLoadSuccess}>
           <Page
             pageNumber={page}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />
 
-
-          {/* Cache da próxima página */}
           {page < numPages && (
             <div className="hidden">
               <Page
@@ -77,8 +75,6 @@ export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
             </div>
           )}
 
-
-          {/* Cache da página anterior */}
           {page > 1 && (
             <div className="hidden">
               <Page
@@ -88,17 +84,11 @@ export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
               />
             </div>
           )}
-
-        </div>
-
-      </Document>
-
+        </Document>
+      </div>
 
       <div className="flex gap-4">
-        <button
-          onClick={prevPage}
-          disabled={page <= 1}
-        >
+        <button onClick={prevPage} disabled={page <= 1}>
           <ChevronLeft />
         </button>
 
@@ -106,14 +96,10 @@ export default function PdfViewer({ file, page, setPage }: PdfViewerProps) {
           {page} / {numPages}
         </span>
 
-        <button
-          onClick={nextPage}
-          disabled={page >= numPages}
-        >
+        <button onClick={nextPage} disabled={page >= numPages}>
           <ChevronRight />
         </button>
       </div>
-
     </div>
   );
 }

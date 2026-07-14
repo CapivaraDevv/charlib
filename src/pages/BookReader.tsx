@@ -6,10 +6,16 @@ import PdfViewer from "../components/reader/PdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
 import ReaderToolbar from "../components/reader/ReaderToolbar";
 import NoteModal from "../components/reader/NoteModal";
-import { saveNote } from "../services/notes";
-import { getNotes } from "../services/notes";
+import { saveNote, getNotes } from "../services/notes";
 import type { Note } from "../types/note";
 import NotesPanel from "../components/reader/NotesPanel";
+import type { BookMark } from "../types/bookmark";
+import {
+  getBookMarks,
+  removeBookMark,
+  saveBookMark,
+} from "../services/bookMarks";
+import BookmarksPanel from "../components/reader/BookMarksPanel";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -24,6 +30,12 @@ export default function BookReader() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [bookMarks, setBookMarks] = useState<BookMark[]>([]);
+  const [showBookMarks, setShowBookMarks] = useState(false);
+
+  const isCurrentPageBookmarked = bookMarks.some(
+    (bookmark) => bookmark.page === currentPage,
+  );
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -43,6 +55,12 @@ export default function BookReader() {
     if (!book) return;
 
     setNotes(getNotes(book.id));
+  }, [book]);
+
+  useEffect(() => {
+    if (!book) return;
+
+    setBookMarks(getBookMarks(book.id));
   }, [book]);
 
   useEffect(() => {
@@ -84,6 +102,25 @@ export default function BookReader() {
     });
 
     setNotes(getNotes(book.id));
+  }
+
+  function handleBookMark() {
+    if (!book) return;
+
+    const exists = bookMarks.find((bookmark) => bookmark.page === currentPage);
+
+    if (exists) {
+      removeBookMark(exists.id);
+    } else {
+      saveBookMark({
+        id: crypto.randomUUID(),
+        bookId: book.id,
+        page: currentPage,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    setBookMarks(getBookMarks(book.id));
   }
 
   if (!book) {
@@ -132,10 +169,9 @@ export default function BookReader() {
         showControls={showControls}
         onToggleReadingMode={() => setReadingMode((prev) => !prev)}
         onAddNote={() => setIsNoteModalOpen(true)}
-        onAddBookmark={() => {
-          console.log("Marcador");
-        }}
         onToggleNotes={() => setShowNotes(true)}
+        onAddBookmark={handleBookMark}
+        onToggleBookMarks={() => setShowBookMarks(true)}
       />
 
       {/* Informações */}
@@ -162,6 +198,16 @@ export default function BookReader() {
       )}
       {/* Área de leitura */}
 
+      <BookmarksPanel
+        open={showBookMarks}
+        bookmarks={bookMarks}
+        onClose={() => setShowBookMarks(false)}
+        onSelect={(page) => {
+          setCurrentPage(page);
+          setShowBookMarks(false);
+        }}
+      />
+
       <NoteModal
         open={isNoteModalOpen}
         page={currentPage}
@@ -184,6 +230,7 @@ export default function BookReader() {
           file={book.file}
           page={currentPage}
           setPage={setCurrentPage}
+          bookmarked={isCurrentPageBookmarked}
         />
       </div>
     </main>

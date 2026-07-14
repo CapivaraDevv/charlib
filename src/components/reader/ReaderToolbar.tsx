@@ -1,12 +1,15 @@
-import { BookOpen, NotebookPen, NotebookText, Bookmark } from "lucide-react";
+import { BookOpen, NotebookPen, NotebookText, Bookmark, BookMarked } from "lucide-react";
 
 type ReaderToolbarProps = {
   readingMode: boolean;
   showControls: boolean;
   onToggleReadingMode: () => void;
+
   onAddNote: () => void;
-  onAddBookmark: () => void;
   onToggleNotes: () => void;
+
+  onAddBookmark: () => void;
+  onToggleBookMarks: () => void;
 };
 
 export default function ReaderToolbar({
@@ -14,8 +17,9 @@ export default function ReaderToolbar({
   showControls,
   onToggleReadingMode,
   onAddNote,
-  onAddBookmark,
   onToggleNotes,
+  onAddBookmark,
+  onToggleBookMarks,
 }: ReaderToolbarProps) {
   return (
     <div
@@ -47,6 +51,14 @@ export default function ReaderToolbar({
         title="Adicionar marcador"
       >
         <Bookmark size={22} />
+      </button>
+
+      <button
+        onClick={onToggleBookMarks}
+        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        title="Meus marcadores"
+      >
+        <BookMarked size={22} />
       </button>
 
       <button
