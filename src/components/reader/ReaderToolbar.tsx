@@ -1,8 +1,4 @@
-import {
-  BookOpen,
-  NotebookPen,
-  Bookmark,
-} from "lucide-react";
+import { BookOpen, NotebookPen, NotebookText, Bookmark } from "lucide-react";
 
 type ReaderToolbarProps = {
   readingMode: boolean;
@@ -10,6 +6,7 @@ type ReaderToolbarProps = {
   onToggleReadingMode: () => void;
   onAddNote: () => void;
   onAddBookmark: () => void;
+  onToggleNotes: () => void;
 };
 
 export default function ReaderToolbar({
@@ -18,13 +15,14 @@ export default function ReaderToolbar({
   onToggleReadingMode,
   onAddNote,
   onAddBookmark,
+  onToggleNotes,
 }: ReaderToolbarProps) {
   return (
     <div
-      className={`fixed top-6 right-6 z-50 flex items-center gap-3 rounded-2xl bg-surface/95 p-3 shadow-xl backdrop-blur transition-all duration-300 ${
+      className={`fixed left-1/2 top-6 z-50 flex -translate-x-1/2 items-center gap-3 rounded-2xl bg-surface/95 p-3 shadow-xl backdrop-blur transition-all duration-300 ${
         showControls
-          ? "opacity-100 translate-y-0"
-          : "pointer-events-none opacity-0 -translate-y-3"
+          ? "translate-y-0 opacity-100"
+          : "-translate-y-3 opacity-0 pointer-events-none"
       }`}
     >
       <button
@@ -33,6 +31,14 @@ export default function ReaderToolbar({
         title="Nova nota"
       >
         <NotebookPen size={22} />
+      </button>
+
+      <button
+        onClick={onToggleNotes}
+        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        title="Notas"
+      >
+        <NotebookText size={22} />
       </button>
 
       <button
@@ -46,9 +52,7 @@ export default function ReaderToolbar({
       <button
         onClick={onToggleReadingMode}
         className={`flex h-11 items-center gap-2 rounded-xl px-4 transition-colors ${
-          readingMode
-            ? "bg-primary text-background"
-            : "hover:bg-surface-hover"
+          readingMode ? "bg-primary text-background" : "hover:bg-surface-hover"
         }`}
       >
         <BookOpen size={20} />

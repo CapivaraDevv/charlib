@@ -7,6 +7,9 @@ import ProgressBar from "../components/common/ProgressBar";
 import ReaderToolbar from "../components/reader/ReaderToolbar";
 import NoteModal from "../components/reader/NoteModal";
 import { saveNote } from "../services/notes";
+import { getNotes } from "../services/notes";
+import type { Note } from "../types/note";
+import NotesPanel from "../components/reader/NotesPanel";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -19,6 +22,8 @@ export default function BookReader() {
   const [readingMode, setReadingMode] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -32,6 +37,12 @@ export default function BookReader() {
     if (!book) return;
 
     localStorage.setItem("last-book", String(book.id));
+  }, [book]);
+
+  useEffect(() => {
+    if (!book) return;
+
+    setNotes(getNotes(book.id));
   }, [book]);
 
   useEffect(() => {
@@ -61,17 +72,19 @@ export default function BookReader() {
   }, [readingMode]);
 
   function handleSaveNote(content: string) {
-  if (!book) return;
+    if (!book) return;
 
-  saveNote({
-    id: crypto.randomUUID(),
-    bookId: book.id,
-    page: currentPage,
-    content,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  });
-}
+    saveNote({
+      id: crypto.randomUUID(),
+      bookId: book.id,
+      page: currentPage,
+      content,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    setNotes(getNotes(book.id));
+  }
 
   if (!book) {
     return (
@@ -114,15 +127,17 @@ export default function BookReader() {
 
       {!readingMode && <ReaderHeader book={book} />}
 
-      <ReaderToolbar readingMode={readingMode}
+      <ReaderToolbar
+        readingMode={readingMode}
         showControls={showControls}
-        onToggleReadingMode={() => setReadingMode((prev) => !prev)} 
+        onToggleReadingMode={() => setReadingMode((prev) => !prev)}
         onAddNote={() => setIsNoteModalOpen(true)}
         onAddBookmark={() => {
-          console.log("Marcador")
-        }} 
+          console.log("Marcador");
+        }}
+        onToggleNotes={() => setShowNotes(true)}
       />
-      
+
       {/* Informações */}
       {!readingMode && (
         <section className="flex gap-10 p-10">
@@ -147,13 +162,22 @@ export default function BookReader() {
       )}
       {/* Área de leitura */}
 
-      <NoteModal 
+      <NoteModal
         open={isNoteModalOpen}
         page={currentPage}
         onClose={() => setIsNoteModalOpen(false)}
         onSave={handleSaveNote}
       />
-      
+
+      <NotesPanel
+        open={showNotes}
+        notes={notes}
+        onClose={() => setShowNotes(false)}
+        onSelect={(page) => {
+          setCurrentPage(page);
+          setShowNotes(false);
+        }}
+      />
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>
         <PdfViewer
