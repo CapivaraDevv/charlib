@@ -14,11 +14,13 @@ export default function MainLayout({ children }: Props) {
       </aside>
 
       <div className="flex flex-1 flex-col">
-        <header className="h-16 border-b border-white/10">
+        <header className="h-20 border-b border-white/10 bg-[#4A3225]">
           <Header />
         </header>
 
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-6">
+          {children}
+        </main>
       </div>
     </div>
   );
