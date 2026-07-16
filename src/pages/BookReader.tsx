@@ -14,7 +14,7 @@ import {
   getBookMarks,
   removeBookMark,
   saveBookMark,
-} from "../services/bookMarks";
+} from "../services/bookmarks";
 import BookmarksPanel from "../components/reader/BookMarksPanel";
 
 export default function BookReader() {
