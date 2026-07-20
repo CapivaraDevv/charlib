@@ -7,6 +7,8 @@ type NotesPanelProps = {
   notes: Note[];
   onClose: () => void;
   onSelect: (page: number) => void;
+  onEdit: (note: Note) => void;
+  onDelete: (note: Note) => void;
 };
 
 export default function NotesPanel({
@@ -14,6 +16,8 @@ export default function NotesPanel({
   notes,
   onClose,
   onSelect,
+  onEdit,
+  onDelete,
 }: NotesPanelProps) {
   return (
     <aside
@@ -36,6 +40,8 @@ export default function NotesPanel({
         <NotesList
           notes={notes}
           onSelect={onSelect}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
       </div>
     </aside>

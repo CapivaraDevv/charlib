@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import type { Note } from "../../types/note";
+
 
 type NoteModalProps = {
   open: boolean;
   page: number;
+  note?: Note | null;
   onClose: () => void;
   onSave: (content: string) => void;
 };
@@ -10,16 +13,17 @@ type NoteModalProps = {
 export default function NoteModal({
   open,
   page,
+  note,
   onClose,
   onSave,
 }: NoteModalProps) {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    if (open) {
-      setContent("");
-    }
-  }, [open]);
+    if (!open) return;
+    
+    setContent(note?.content ?? "");
+  }, [open, note]);
 
   function handleSave() {
     const text = content.trim();
@@ -36,7 +40,7 @@ export default function NoteModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-xl">
-        <h2 className="font-display text-2xl font-bold">Nova nota</h2>
+        <h2 className="font-display text-2xl font-bold">{note ? "Editar nota" : "Nova nota"}</h2>
 
         <p className="mt-2 text-text-muted">Página {page}</p>
 
@@ -59,7 +63,7 @@ export default function NoteModal({
             onClick={handleSave}
             className="rounded-xl bg-primary px-5 py-2 text-background transition-colors hover:opacity-90"
           >
-            Salvar
+            {note ? "Atualizar" : "Salvar"}
           </button>
         </div>
       </div>

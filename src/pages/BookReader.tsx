@@ -6,7 +6,7 @@ import PdfViewer from "../components/reader/PdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
 import ReaderToolbar from "../components/reader/ReaderToolbar";
 import NoteModal from "../components/reader/NoteModal";
-import { saveNote, getNotes } from "../services/notes";
+import { saveNote, getNotes, updateNote, deleteNote } from "../services/notes";
 import type { Note } from "../types/note";
 import NotesPanel from "../components/reader/NotesPanel";
 import type { BookMark } from "../types/bookmark";
@@ -28,6 +28,7 @@ export default function BookReader() {
   const [readingMode, setReadingMode] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState<Note[]>([]);
   const [bookMarks, setBookMarks] = useState<BookMark[]>([]);
@@ -100,6 +101,26 @@ export default function BookReader() {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
+
+    setNotes(getNotes(book.id));
+  }
+
+  function handleUpdateNote(content: string) {
+    if (!book || !selectedNote) return;
+
+    updateNote({
+      ...selectedNote,
+      content,
+    });
+
+    setNotes(getNotes(book.id));
+    setSelectedNote(null);
+  }
+
+  function handleDeleteNote(note: Note) {
+    if(!book) return;
+
+    deleteNote(note.id, book.id);
 
     setNotes(getNotes(book.id));
   }
@@ -211,8 +232,12 @@ export default function BookReader() {
       <NoteModal
         open={isNoteModalOpen}
         page={currentPage}
-        onClose={() => setIsNoteModalOpen(false)}
-        onSave={handleSaveNote}
+        note={selectedNote}
+        onClose={() => {
+          setIsNoteModalOpen(false);
+          setSelectedNote(null);
+        }}
+        onSave={selectedNote ? handleUpdateNote : handleSaveNote}
       />
 
       <NotesPanel
@@ -223,6 +248,12 @@ export default function BookReader() {
           setCurrentPage(page);
           setShowNotes(false);
         }}
+        onEdit={(note) => {
+          setSelectedNote(note);
+          setIsNoteModalOpen(true);
+          setShowNotes(false);
+        }}
+        onDelete={handleDeleteNote}
       />
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>
