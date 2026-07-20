@@ -31,7 +31,7 @@ export default function ComingSoonCard() {
 
         <div className="rounded-xl bg-black/10 p-4">
           <div className="flex items-center gap-3">
-            <Trophy className="h-5 w-5 text-[#C49A6C]" />
+            <Trophy className="h-5 w-5 text-primary" />
 
             <h3 className="font-semibold">Conquistas</h3>
           </div>
@@ -43,7 +43,7 @@ export default function ComingSoonCard() {
 
         <div className="rounded-xl bg-black/10 p-4">
           <div className="flex items-center gap-3">
-            <Target className="h-5 w-5 text-[#C49A6C]" />
+            <Target className="h-5 w-5 text-primary" />
 
             <h3 className="font-semibold">Desafios</h3>
           </div>

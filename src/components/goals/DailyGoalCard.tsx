@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { BookOpen } from "lucide-react";
+import Button from "../common/Button";
+
 import type { ReadingType, DailyReadingGoal } from "../../types/reading";
 
 import {
   getDailyReadingGoal,
   setDailyReadingGoal,
 } from "../../services/readingService";
-
-import { BookOpen } from "lucide-react";
 
 export default function DailyGoalCard() {
   const [type, setType] = useState<ReadingType>("pages");
@@ -16,14 +17,16 @@ export default function DailyGoalCard() {
   useEffect(() => {
     const savedGoal = getDailyReadingGoal();
 
-    if (savedGoal) {
-      setGoal(savedGoal);
-      setType(savedGoal.type);
-      setTarget(savedGoal.target);
-    }
+    if (!savedGoal) return;
+
+    setGoal(savedGoal);
+    setType(savedGoal.type);
+    setTarget(savedGoal.target);
   }, []);
 
   function handleSaveGoal() {
+    if (target <= 0) return;
+
     const newGoal: DailyReadingGoal = {
       enabled: true,
       type,
@@ -34,102 +37,113 @@ export default function DailyGoalCard() {
     setGoal(newGoal);
   }
 
+  function handleRemoveGoal() {
+    if (!goal) return;
+
+    const disabledGoal = {
+      ...goal,
+      enabled: false,
+    };
+
+    setDailyReadingGoal(disabledGoal);
+    setGoal(disabledGoal);
+  }
+
   return (
-    <section
-      className="
-        rounded-2xl
-        border
-        border-[#C49A6C]/20
-        bg-[#4A3225]
-        p-6
-        shadow-lg
-      "
-    >
-      <div>
-        <div className="flex items-center gap-3">
-          <BookOpen className="h-6 w-6 text-[#C49A6C]" />
+    <section className="rounded-xl border border-white/10 bg-[#4A3225] p-6">
+      <header className="flex items-center gap-3">
+        <BookOpen className="h-6 w-6 text-primary" />
 
-          <h2 className="text-2xl font-bold">Meta diária</h2>
+        <div>
+          <h2 className="text-2xl font-semibold">Meta diária</h2>
+
+          <p className="mt-1 text-sm text-white/60">
+            Defina quanto deseja ler todos os dias.
+          </p>
         </div>
+      </header>
 
-        <p className="mt-1 text-sm text-white/60">
-          Defina quanto você quer ler todos os dias.
-        </p>
-      </div>
-
-      {goal && (
-        <div className="mt-6 rounded-xl bg-black/10 p-4">
+      {goal?.enabled && (
+        <div className="mt-6 rounded-lg border border-white/10 bg-black/20 p-5">
           <p className="text-sm text-white/60">Meta atual</p>
 
-          <p className="mt-1 text-3xl font-bold text-[#C49A6C]">
-            {goal.target} {goal.type === "pages" ? "páginas" : "minutos"}
-          </p>
+          <h3 className="mt-2 text-4xl font-bold text-primary">
+            {goal.target}
+          </h3>
 
-          <p className="mt-2 text-sm text-white/50">por dia</p>
+          <p className="text-white/70">
+            {goal.type === "pages" ? "páginas por dia" : "minutos por dia"}
+          </p>
         </div>
       )}
 
-      <div className="mt-6 space-y-5">
+      <div className="mt-8 space-y-5">
         <div>
-          <label className="text-sm text-white/70">Tipo de meta</label>
+          <label className="mb-2 block text-sm text-white/70">
+            Tipo de meta
+          </label>
 
           <select
             value={type}
             onChange={(e) => setType(e.target.value as ReadingType)}
             className="
-              mt-2
-              w-full
-              rounded-xl
-              border
-              border-white/10
-              bg-white/5
-              p-3
-              outline-none
-            "
+                  w-full
+                  rounded-lg
+                  border
+                border-white/10
+                  bg-black/20
+                  py-3
+                  px-4
+                  text-foreground
+                  outline-none
+                  transition-colors
+                  focus:border-primary
+                "
           >
-            <option value="pages">Páginas</option>
+            <option value="pages" className="bg-background text-foreground">
+              Páginas
+            </option>
 
-            <option value="minutes">Minutos</option>
+            <option value="minutes" className="bg-background text-foreground">
+              Minutos
+            </option>
           </select>
         </div>
 
         <div>
-          <label className="text-sm text-white/70">Quantidade</label>
+          <label className="mb-2 block text-sm text-white/70">Quantidade</label>
 
           <input
             type="number"
             min={1}
+            step={1}
             value={target}
             onChange={(e) => setTarget(Number(e.target.value))}
             className="
-              mt-2
               w-full
-              rounded-xl
+              rounded-lg
               border
               border-white/10
-              bg-white/5
-              p-3
+              bg-black/20
+              px-4
+              py-3
+              text-white
               outline-none
+              transition-colors
+              focus:border-primary
             "
           />
         </div>
 
-        <button
-          onClick={handleSaveGoal}
-          className="
-            w-full
-            rounded-xl
-            bg-[#C49A6C]
-            px-5
-            py-3
-            font-semibold
-            text-[#2B1B14]
-            transition
-            hover:brightness-110
-          "
-        >
-          Salvar meta
-        </button>
+        <Button variant="primary" onClick={handleSaveGoal} className="mt-3">
+            Salvar meta
+        </Button>
+
+        {goal?.enabled && (
+          <Button variant="outline" onClick={handleRemoveGoal} className="mt-3">
+            Remover meta
+          </Button>
+        )}
       </div>
     </section>
   );
