@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.js?url";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -27,13 +27,13 @@ export default function PdfViewer({
     setNumPages(numPages);
   }
 
-  function nextPage() {
+  const nextPage = useCallback(() => {
     setPage((p) => Math.min(p + 1, numPages));
-  }
+  }, [numPages, setPage]);
 
-  function prevPage() {
+  const prevPage = useCallback(() => {
     setPage((p) => Math.max(p - 1, 1));
-  }
+  }, [setPage]);
 
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
@@ -51,7 +51,7 @@ export default function PdfViewer({
     return () => {
       window.removeEventListener("keydown", handleKey);
     };
-  }, [numPages]);
+  }, [nextPage, prevPage]);
 
   return (
     <div className="flex flex-col items-center gap-4 mb-4">

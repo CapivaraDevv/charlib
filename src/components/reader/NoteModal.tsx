@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Note } from "../../types/note";
+
 import Modal from "../common/Modal";
 import Button from "../common/Button";
 
@@ -18,13 +19,7 @@ export default function NoteModal({
   onClose,
   onSave,
 }: NoteModalProps) {
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    if (!open) return;
-
-    setContent(note?.content ?? "");
-  }, [open, note]);
+  const [content, setContent] = useState(note?.content ?? "");
 
   function handleSave() {
     const text = content.trim();
@@ -40,11 +35,10 @@ export default function NoteModal({
     <Modal
       open={open}
       title={note ? "Editar nota" : "Nova nota"}
+      size="md"
       onClose={onClose}
     >
-      <p className="text-text-muted">
-        Página {page}
-      </p>
+      <p className="text-text-muted">Página {page}</p>
 
       <textarea
         value={content}
@@ -58,22 +52,21 @@ export default function NoteModal({
           rounded-xl
           border
           border-white/10
-          bg-card-background
+          bg-background
           p-4
           outline-none
+          transition-colors
+          placeholder:text-text-muted
           focus:border-primary
         "
       />
 
       <div className="mt-6 flex justify-end gap-3">
-        <Button
-          variant="outline"
-          onClick={onClose}
-        >
+        <Button variant="outline" onClick={onClose} className="w-auto">
           Cancelar
         </Button>
 
-        <Button onClick={handleSave}>
+        <Button onClick={handleSave} className="w-auto">
           {note ? "Atualizar" : "Salvar"}
         </Button>
       </div>

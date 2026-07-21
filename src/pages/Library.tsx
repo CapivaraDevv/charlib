@@ -6,6 +6,8 @@ import LibraryHeader from "../components/library/LibraryHeader";
 import SearchBar from "../components/library/SearchBar";
 import FilterTabs from "../components/library/FilterTabs";
 import BooksGrid from "../components/library/BooksGrid";
+import Dropdown from "../components/common/Dropdown";
+import Button from "../components/common/Button";
 import { books } from "../data/books";
 import type { Book } from "../types/book";
 
@@ -21,7 +23,6 @@ export default function Library() {
 
   const [sortBy, setSortBy] = useState("progress");
 
-
   useEffect(() => {
     const params: Record<string, string> = {};
 
@@ -34,7 +35,7 @@ export default function Library() {
     }
 
     setSearchParams(params);
-  }, [selectedFilter, debouncedSearch]);
+  }, [selectedFilter, debouncedSearch, setSearchParams]);
 
   const filteredBooks = useMemo(() => {
     const filterMap: Record<string, Book["status"] | "all"> = {
@@ -70,7 +71,7 @@ export default function Library() {
           return 0;
       }
     });
-  }, [books, selectedFilter, debouncedSearch, sortBy]);
+  }, [selectedFilter, debouncedSearch, sortBy]);
 
   return (
     <DashboardLayout>
@@ -83,16 +84,31 @@ export default function Library() {
         onChange={setSelectedFilter}
       />
 
-      <div className="flex justify-end mb-4">
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="bg-surface text-white px-3 py-2 rounded-md"
-        >
-          <option value="progress">Progresso</option>
-          <option value="rating">Nota</option>
-          <option value="title">Título</option>
-        </select>
+      <div className="mb-4 flex justify-end">
+        <Dropdown
+          trigger={
+            <Button variant="outline" className="w-auto">
+              Ordenar por
+            </Button>
+          }
+          items={[
+            {
+              id: "progress",
+              label: "Progresso",
+              onClick: () => setSortBy("progress"),
+            },
+            {
+              id: "rating",
+              label: "Nota",
+              onClick: () => setSortBy("rating"),
+            },
+            {
+              id: "title",
+              label: "Título",
+              onClick: () => setSortBy("title"),
+            },
+          ]}
+        />
       </div>
 
       <BooksGrid books={filteredBooks} />

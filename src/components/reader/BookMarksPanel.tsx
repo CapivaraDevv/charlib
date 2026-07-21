@@ -1,5 +1,6 @@
 import type { BookMark } from "../../types/bookmark";
 import { X, Bookmark as BookmarkIcon } from "lucide-react";
+import EmptyState from "../common/EmptyState";
 
 interface BookmarksPanelProps {
   open: boolean;
@@ -26,19 +27,18 @@ export default function BookmarksPanel({
           <h2 className="text-xl font-semibold">Marcadores</h2>
         </div>
 
-        <button
-          onClick={onClose}
-          className="rounded p-2 hover:bg-white/10"
-        >
+        <button onClick={onClose} className="rounded p-2 hover:bg-white/10">
           <X size={20} />
         </button>
       </header>
 
       <div className="flex flex-col gap-3 p-6">
         {bookmarks.length === 0 ? (
-          <p className="text-sm text-gray-400">
-            Nenhum marcador salvo.
-          </p>
+          <EmptyState
+            icon={<BookmarkIcon size={40} />}
+            title="Nenhum marcador"
+            description="Salve páginas importantes."
+          />
         ) : (
           bookmarks.map((bookmark) => (
             <button
@@ -46,9 +46,7 @@ export default function BookmarksPanel({
               onClick={() => onSelect(bookmark.page)}
               className="cursor-pointer rounded-lg border border-[#3E281D] p-4 text-left transition hover:bg-white/5"
             >
-              <p className="font-semibold">
-                Página {bookmark.page}
-              </p>
+              <p className="font-semibold">Página {bookmark.page}</p>
 
               <p className="mt-1 text-sm text-gray-400">
                 {new Date(bookmark.createdAt).toLocaleDateString("pt-BR")}

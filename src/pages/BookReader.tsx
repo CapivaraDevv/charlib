@@ -30,13 +30,7 @@ export default function BookReader() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [showNotes, setShowNotes] = useState(false);
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [bookMarks, setBookMarks] = useState<BookMark[]>([]);
   const [showBookMarks, setShowBookMarks] = useState(false);
-
-  const isCurrentPageBookmarked = bookMarks.some(
-    (bookmark) => bookmark.page === currentPage,
-  );
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -52,21 +46,20 @@ export default function BookReader() {
     localStorage.setItem("last-book", String(book.id));
   }, [book]);
 
-  useEffect(() => {
-    if (!book) return;
+  const [notes, setNotes] = useState<Note[]>(() => {
+    if (!book) return [];
 
-    setNotes(getNotes(book.id));
-  }, [book]);
+    return getNotes(book.id);
+  });
 
-  useEffect(() => {
-    if (!book) return;
+  const [bookMarks, setBookMarks] = useState<BookMark[]>(() => {
+    if (!book) return [];
 
-    setBookMarks(getBookMarks(book.id));
-  }, [book]);
+    return getBookMarks(book.id);
+  });
 
   useEffect(() => {
     if (!readingMode) {
-      setShowControls(true);
       return;
     }
 
@@ -173,6 +166,10 @@ export default function BookReader() {
     );
   }
 
+  const isCurrentPageBookmarked = bookMarks.some(
+    (bookmark) => bookmark.page === currentPage,
+  );
+
   const progress = Math.round((currentPage / book.pages) * 100);
 
   return (
@@ -190,7 +187,17 @@ export default function BookReader() {
         showControls={showControls}
         notesOpen={showNotes}
         bookmarksOpen={showBookMarks}
-        onToggleReadingMode={() => setReadingMode((prev) => !prev)}
+        onToggleReadingMode={() => {
+          setReadingMode((prev) => {
+            const next = !prev;
+
+            if (!next) {
+              setShowControls(true);
+            }
+
+            return next;
+          });
+        }}
         onAddNote={() => setIsNoteModalOpen(true)}
         onToggleNotes={() => {
           setShowNotes((prev) => {
@@ -252,6 +259,7 @@ export default function BookReader() {
       />
 
       <NoteModal
+        key={selectedNote?.id ?? "new"}
         open={isNoteModalOpen}
         page={currentPage}
         note={selectedNote}

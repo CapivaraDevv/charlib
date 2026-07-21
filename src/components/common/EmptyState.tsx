@@ -1,0 +1,31 @@
+import type { ReactNode } from "react";
+
+interface EmptyStateProps {
+  icon?: ReactNode;
+  title: string;
+  description?: string;
+  action?: ReactNode;
+}
+
+export default function EmptyState({
+  icon,
+  title,
+  description,
+  action,
+}: EmptyStateProps) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-surface p-10 text-center">
+      {icon && <div className="mb-4 text-primary">{icon}</div>}
+
+      <h3 className="text-xl font-semibold">{title}</h3>
+
+      {description && (
+        <p className="mt-2 max-w-sm text-text-muted">
+          {description}
+        </p>
+      )}
+
+      {action && <div className="mt-6">{action}</div>}
+    </div>
+  );
+}   

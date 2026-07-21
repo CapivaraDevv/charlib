@@ -71,8 +71,6 @@ export default function NotesPanel({
           <NotesList
             notes={filteredNotes}
             currentPage={currentPage}
-            isSearching={search.trim().length > 0}
-            onSelect={onSelect}
             onEdit={onEdit}
             onDelete={onDelete}
             onView={(note) => setSelectedNote(note)}

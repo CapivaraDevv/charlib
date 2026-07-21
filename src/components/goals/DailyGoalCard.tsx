@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BookOpen } from "lucide-react";
 import Button from "../common/Button";
 
@@ -10,19 +10,17 @@ import {
 } from "../../services/readingService";
 
 export default function DailyGoalCard() {
-  const [type, setType] = useState<ReadingType>("pages");
-  const [target, setTarget] = useState(30);
-  const [goal, setGoal] = useState<DailyReadingGoal | null>(null);
+  const [goal, setGoal] = useState<DailyReadingGoal | null>(() => {
+    return getDailyReadingGoal();
+  });
 
-  useEffect(() => {
-    const savedGoal = getDailyReadingGoal();
+  const [type, setType] = useState<ReadingType>(() => {
+    return getDailyReadingGoal()?.type ?? "pages";
+  });
 
-    if (!savedGoal) return;
-
-    setGoal(savedGoal);
-    setType(savedGoal.type);
-    setTarget(savedGoal.target);
-  }, []);
+  const [target, setTarget] = useState(() => {
+    return getDailyReadingGoal()?.target ?? 10;
+  });
 
   function handleSaveGoal() {
     if (target <= 0) return;
@@ -136,7 +134,7 @@ export default function DailyGoalCard() {
         </div>
 
         <Button variant="primary" onClick={handleSaveGoal} className="mt-3">
-            Salvar meta
+          Salvar meta
         </Button>
 
         {goal?.enabled && (
