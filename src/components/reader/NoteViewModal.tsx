@@ -1,5 +1,6 @@
 import type { Note } from "../../types/note";
 import { Pencil, Trash2, X, BookOpen } from "lucide-react";
+import Button from "../common/Button";
 
 type NoteViewModalProps = {
   open: boolean;
@@ -47,29 +48,32 @@ export default function NoteViewModal({
         </div>
 
         <div className="mt-6 flex justify-end gap-3">
-          <button
+          <Button
             onClick={() => onDelete(note)}
-            className="cursor-pointer flex items-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-white hover:opacity-90"
+            variant="danger"
+            className="flex items-center gap-2"
           >
             <Trash2 size={18} />
             Excluir
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => onEdit(note)}
-            className="cursor-pointer flex items-center gap-2 rounded-xl bg-surface-hover px-4 py-2 hover:opacity-90"
+            variant="outline"
+            className="flex items-center gap-2"
           >
             <Pencil size={18} />
             Editar
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={() => onGoToPage(note.page)}
-            className="cursor-pointer flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-background hover:opacity-90"
+            variant="primary"
+            className="flex items-center gap-2"
           >
             <BookOpen size={18} />
             Ir para página
-          </button>
+          </Button>
         </div>
       </div>
     </div>

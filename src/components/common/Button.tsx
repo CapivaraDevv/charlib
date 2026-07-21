@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "outline" | "ghost";
+  variant?: "primary" | "outline" | "ghost" | "danger";
 }
 
 export default function Button({
@@ -29,17 +29,25 @@ export default function Button({
       text-foreground
       hover:bg-white/5
     `,
+    danger: `
+      bg-red-500
+      text-white
+      hover:opacity-90
+    `,
   };
 
   return (
     <button
       className={`
-        w-full
+        cursor-pointer
         rounded-lg
         px-5
         py-3
         font-medium
         transition-colors
+        disabled:cursor-not-allowed
+        disabled:opacity-50
+
         ${variants[variant]}
         ${className}
       `}
@@ -48,4 +56,4 @@ export default function Button({
       {children}
     </button>
   );
-} 
+}

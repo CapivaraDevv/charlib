@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Note } from "../../types/note";
+import Button from "../common/Button";
 
 
 type NoteModalProps = {
@@ -52,19 +53,20 @@ export default function NoteModal({
         />
 
         <div className="mt-6 flex justify-end gap-3">
-          <button
+          <Button
+            variant="outline"
             onClick={onClose}
-            className="cursor-pointer rounded-xl bg-surface-hover px-5 py-2 transition-colors hover:opacity-90"
+            className=""
           >
             Cancelar
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={handleSave}
-            className="cursor-pointer rounded-xl bg-primary px-5 py-2 text-background transition-colors hover:opacity-90"
+            variant="primary"
           >
             {note ? "Atualizar" : "Salvar"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

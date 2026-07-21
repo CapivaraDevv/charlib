@@ -1,21 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import type { Book } from "../../types/book";
+import Button from "../common/Button";
+import { ChevronLeft } from "lucide-react";
 
-interface ReaderHeaderProps {
-  book: Book;
-}
 
-export default function ReaderHeader({ book }: ReaderHeaderProps) {
+export default function ReaderHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="flex items-center px-8 py-5">
-      <button
+    <header className="flex items-center px-10 py-5">
+      <Button
         onClick={() => navigate("/library")}
-        className="rounded-md px-3 py-2 hover:bg-white/10"
+        variant="outline"
+        className="flex items-center gap-2"
       >
-        ← Biblioteca
-      </button>
+        <ChevronLeft size={18}/>
+        Biblioteca
+      </Button>
     </header>
   );
 }

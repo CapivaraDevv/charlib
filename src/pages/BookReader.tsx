@@ -164,7 +164,7 @@ export default function BookReader() {
   if (!book.file) {
     return (
       <div>
-        <ReaderHeader book={book} />
+        <ReaderHeader />
 
         <div className="flex h-[70vh] items-center justify-center">
           <p>Este livro ainda não possui um arquivo para leitura.</p>
@@ -183,7 +183,7 @@ export default function BookReader() {
     >
       {/* Header */}
 
-      {!readingMode && <ReaderHeader book={book} />}
+      {!readingMode && <ReaderHeader />}
 
       <ReaderToolbar
         readingMode={readingMode}
@@ -243,6 +243,7 @@ export default function BookReader() {
       <NotesPanel
         open={showNotes}
         notes={notes}
+        currentPage={currentPage}
         onClose={() => setShowNotes(false)}
         onSelect={(page) => {
           setCurrentPage(page);

@@ -57,11 +57,7 @@ export default function NotesList({
               <div className="flex items-center gap-2">
                 <span className="font-semibold">Página {note.page}</span>
 
-                {isCurrentPage && (
-                  <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-medium text-primary">
-                    Atual
-                  </span>
-                )}
+                
               </div>
 
               <span className="text-sm text-text-muted">

@@ -31,7 +31,7 @@ export default function ReaderToolbar({
     >
       <button
         onClick={onAddNote}
-        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        className="cursor-pointer flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
         title="Nova nota"
       >
         <NotebookPen size={22} />
@@ -39,7 +39,7 @@ export default function ReaderToolbar({
 
       <button
         onClick={onToggleNotes}
-        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        className="cursor-pointer flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
         title="Notas"
       >
         <NotebookText size={22} />
@@ -47,7 +47,7 @@ export default function ReaderToolbar({
 
       <button
         onClick={onAddBookmark}
-        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        className="cursor-pointer flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
         title="Adicionar marcador"
       >
         <Bookmark size={22} />
@@ -55,7 +55,7 @@ export default function ReaderToolbar({
 
       <button
         onClick={onToggleBookMarks}
-        className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
+        className="cursor-pointer flex h-11 w-11 items-center justify-center rounded-xl transition-colors hover:bg-surface-hover"
         title="Meus marcadores"
       >
         <BookMarked size={22} />
@@ -63,7 +63,7 @@ export default function ReaderToolbar({
 
       <button
         onClick={onToggleReadingMode}
-        className={`flex h-11 items-center gap-2 rounded-xl px-4 transition-colors ${
+        className={`cursor-pointer flex h-11 items-center gap-2 rounded-xl px-4 transition-colors ${
           readingMode ? "bg-primary text-background" : "hover:bg-surface-hover"
         }`}
       >
