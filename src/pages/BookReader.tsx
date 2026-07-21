@@ -118,7 +118,7 @@ export default function BookReader() {
   }
 
   function handleDeleteNote(note: Note) {
-    if(!book) return;
+    if (!book) return;
 
     deleteNote(note.id, book.id);
 
@@ -188,11 +188,33 @@ export default function BookReader() {
       <ReaderToolbar
         readingMode={readingMode}
         showControls={showControls}
+        notesOpen={showNotes}
+        bookmarksOpen={showBookMarks}
         onToggleReadingMode={() => setReadingMode((prev) => !prev)}
         onAddNote={() => setIsNoteModalOpen(true)}
-        onToggleNotes={() => setShowNotes(true)}
+        onToggleNotes={() => {
+          setShowNotes((prev) => {
+            const next = !prev;
+
+            if (next) {
+              setShowBookMarks(false);
+            }
+
+            return next;
+          });
+        }}
         onAddBookmark={handleBookMark}
-        onToggleBookMarks={() => setShowBookMarks(true)}
+        onToggleBookMarks={() => {
+          setShowBookMarks((prev) => {
+            const next = !prev;
+
+            if (next) {
+              setShowNotes(false);
+            }
+
+            return next;
+          });
+        }}
       />
 
       {/* Informações */}

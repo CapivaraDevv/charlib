@@ -8,7 +8,7 @@ type RecentBooksProps = {
 
 export default function RecentBooks({ books }: RecentBooksProps) {
   return (
-    <Card classname="mt-8 p-8">
+    <Card className="mt-8 p-8">
       <div className="mb-6 flex items-center justify-between px-4">
         <h2 className="font-display text-2xl font-bold">
           Adicionados recentemente

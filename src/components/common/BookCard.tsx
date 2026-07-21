@@ -15,7 +15,7 @@ export default function BookCard({ book }: BookCardProps) {
 
   return (
     <Card
-      classname="
+      className="
         p-4
         transition-all
         duration-300

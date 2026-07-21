@@ -3,6 +3,7 @@ import NotesList from "./NotesList";
 import type { Note } from "../../types/note";
 import NoteViewModal from "./NoteViewModal";
 import { useState, useMemo } from "react";
+import Input from "../common/Input";
 
 type NotesPanelProps = {
   open: boolean;
@@ -43,7 +44,7 @@ export default function NotesPanel({
   return (
     <>
       <aside
-        className={`fixed top-0 right-0 z-40 h-screen w-[380px] border-l border-white/10 bg-surface shadow-2xl transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-40 h-screen w-[380px] border-l border-white/10 bg-card-background shadow-2xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -59,12 +60,10 @@ export default function NotesPanel({
         </header>
 
         <div className="border-b border-white/10 p-4">
-          <input
-            type="text"
+          <Input
             placeholder="Buscar notas..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-background px-4 py-2 outline-none focus:border-primary"
           />
         </div>
 

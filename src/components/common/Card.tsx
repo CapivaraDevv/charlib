@@ -3,9 +3,18 @@ import clsx from "clsx";
 
 interface CardProps {
   children: ReactNode;
-  classname?: string;
+  className?: string;
 }
 
-export default function Card({ children, classname }: CardProps) {
-  return <div className={clsx("rounded-3xl bg-[#4A3225]", classname)}>{children}</div>;
+export default function Card({ children, className }: CardProps) {
+  return (
+    <div
+      className={clsx(
+        "rounded-3xl bg-card-background",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
 }

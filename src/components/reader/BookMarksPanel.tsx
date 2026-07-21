@@ -16,7 +16,7 @@ export default function BookmarksPanel({
 }: BookmarksPanelProps) {
   return (
     <aside
-      className={`fixed right-0 top-0 z-50 h-screen w-96 border-l border-[#3E281D] bg-[#1A120E] shadow-2xl transition-transform duration-300 ${
+      className={`fixed right-0 top-0 z-50 h-screen w-96 border-l border-card-background bg-card-background shadow-2xl transition-transform duration-300 ${
         open ? "translate-x-0" : "translate-x-full"
       }`}
     >
@@ -44,7 +44,7 @@ export default function BookmarksPanel({
             <button
               key={bookmark.id}
               onClick={() => onSelect(bookmark.page)}
-              className="rounded-lg border border-[#3E281D] p-4 text-left transition hover:bg-white/5"
+              className="cursor-pointer rounded-lg border border-[#3E281D] p-4 text-left transition hover:bg-white/5"
             >
               <p className="font-semibold">
                 Página {bookmark.page}

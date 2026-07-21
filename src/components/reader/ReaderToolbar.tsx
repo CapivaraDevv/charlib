@@ -3,6 +3,8 @@ import { BookOpen, NotebookPen, NotebookText, Bookmark, BookMarked } from "lucid
 type ReaderToolbarProps = {
   readingMode: boolean;
   showControls: boolean;
+  notesOpen: boolean;
+  bookmarksOpen: boolean;
   onToggleReadingMode: () => void;
 
   onAddNote: () => void;

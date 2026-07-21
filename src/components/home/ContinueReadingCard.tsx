@@ -14,7 +14,7 @@ export default function ContinueReadingCard({
   const progress = Math.round((currentPage / book.pages) * 100);
 
   return (
-    <Card classname="mt-10 flex flex-col p-8">
+    <Card className="mt-10 flex flex-col p-8">
       <h2 className="mb-6 font-display text-2xl font-bold">
         Continue lendo...
       </h2>
