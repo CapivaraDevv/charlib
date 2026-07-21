@@ -54,14 +54,14 @@ export default function NoteModal({
         <div className="mt-6 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="rounded-xl bg-surface-hover px-5 py-2 transition-colors hover:opacity-90"
+            className="cursor-pointer rounded-xl bg-surface-hover px-5 py-2 transition-colors hover:opacity-90"
           >
             Cancelar
           </button>
 
           <button
             onClick={handleSave}
-            className="rounded-xl bg-primary px-5 py-2 text-background transition-colors hover:opacity-90"
+            className="cursor-pointer rounded-xl bg-primary px-5 py-2 text-background transition-colors hover:opacity-90"
           >
             {note ? "Atualizar" : "Salvar"}
           </button>
