@@ -1,4 +1,5 @@
 import DailyGoalCard from "../components/goals/DailyGoalCard";
+import MonthlyGoalCard from "../components/goals/MonthlyGoalCard";
 import ReadingCardStreak from "../components/goals/ReadingCardStreak";
 import WeeklyGoalCard from "../components/goals/WeeklyGoalCard";
 
@@ -11,11 +12,12 @@ export default function Goals() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <DailyGoalCard />
-
-
+        
         <ReadingCardStreak />
 
         <WeeklyGoalCard />
+
+        <MonthlyGoalCard />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { ReadingEntry, DailyReadingGoal } from "../types/reading";
+import type { ReadingEntry, DailyReadingGoal, WeeklyReadingGoal, MonthlyReadingGoal } from "../types/reading";
 
 const READING_ENTRIES_KEY = "reading_entries";
 
@@ -49,6 +49,20 @@ export function getWeeklyReadingGoal() {
     return JSON.parse(data)
 }
 
-export function setWeeklyReadingGoal(goal: DailyReadingGoal): void {
+export function setWeeklyReadingGoal(goal: WeeklyReadingGoal): void {
     localStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal))
+}
+
+const MONTHLY_READING_GOAL_KEY = "monthly_reading_goal";
+
+export function getMonthlyReadingGoal() {
+    const data = localStorage.getItem(MONTHLY_READING_GOAL_KEY)
+
+    if(!data) return null;
+
+    return JSON.parse(data)
+}
+
+export function setMonthlyReadingGoal(goal: MonthlyReadingGoal): void {
+    localStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal))
 }

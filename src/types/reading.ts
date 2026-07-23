@@ -27,3 +27,9 @@ export interface WeeklyReadingGoal {
   type: ReadingType;
   target: number;
 }
+
+export interface MonthlyReadingGoal {
+  enabled: boolean;
+  type: ReadingType;
+  target: number;
+}
