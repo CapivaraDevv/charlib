@@ -1,5 +1,6 @@
 import DailyGoalCard from "../components/goals/DailyGoalCard";
-import ComingSoonCard from "../components/goals/ComingSoonCard";
+import ReadingCardStreak from "../components/goals/ReadingCardStreak";
+import WeeklyGoalCard from "../components/goals/WeeklyGoalCard";
 
 export default function Goals() {
   return (
@@ -11,7 +12,10 @@ export default function Goals() {
       <div className="grid gap-6 lg:grid-cols-2">
         <DailyGoalCard />
 
-        <ComingSoonCard />
+
+        <ReadingCardStreak />
+
+        <WeeklyGoalCard />
       </div>
     </div>
   );

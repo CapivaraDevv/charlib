@@ -38,3 +38,17 @@ export function getDailyReadingGoal(): DailyReadingGoal | null {
 
     return JSON.parse(goal)
 }
+
+const WEEKLY_READING_GOAL_KEY = "weekly_reading_goal";
+
+export function getWeeklyReadingGoal() {
+    const data = localStorage.getItem(WEEKLY_READING_GOAL_KEY)
+
+    if(!data) return null;
+
+    return JSON.parse(data)
+}
+
+export function setWeeklyReadingGoal(goal: DailyReadingGoal): void {
+    localStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal))
+}

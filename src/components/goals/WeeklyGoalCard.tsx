@@ -2,34 +2,34 @@ import { useState } from "react";
 import { BookOpen } from "lucide-react";
 import Button from "../common/Button";
 
-import type { ReadingType, DailyReadingGoal } from "../../types/reading";
+import type { ReadingType, WeeklyReadingGoal } from "../../types/reading";
 
 import {
-  getDailyReadingGoal,
-  setDailyReadingGoal,
+  getWeeklyReadingGoal,
+  setWeeklyReadingGoal,
 } from "../../services/readingService";
 
-export default function DailyGoalCard() {
-  const initialGoal = getDailyReadingGoal();
+export default function WeeklyGoalCard() {
+  const initialGoal = getWeeklyReadingGoal();
 
-  const [goal, setGoal] = useState<DailyReadingGoal | null>(initialGoal);
+  const [goal, setGoal] = useState<WeeklyReadingGoal | null>(initialGoal);
 
   const [type, setType] = useState<ReadingType>(initialGoal?.type ?? "pages");
 
-  const [target, setTarget] = useState(initialGoal?.target ?? 10);
+  const [target, setTarget] = useState(initialGoal?.target ?? 50);
 
   const [isEditing, setIsEditing] = useState(false);
 
   function handleSaveGoal() {
     if (target <= 0) return;
 
-    const newGoal: DailyReadingGoal = {
+    const newGoal: WeeklyReadingGoal = {
       enabled: true,
       type,
       target,
     };
 
-    setDailyReadingGoal(newGoal);
+    setWeeklyReadingGoal(newGoal);
     setGoal(newGoal);
     setIsEditing(false);
   }
@@ -37,12 +37,12 @@ export default function DailyGoalCard() {
   function handleRemoveGoal() {
     if (!goal) return;
 
-    const disabledGoal = {
+    const disabledGoal: WeeklyReadingGoal = {
       ...goal,
       enabled: false,
     };
 
-    setDailyReadingGoal(disabledGoal);
+    setWeeklyReadingGoal(disabledGoal);
     setGoal(disabledGoal);
     setIsEditing(false);
   }
@@ -53,10 +53,10 @@ export default function DailyGoalCard() {
         <BookOpen className="h-6 w-6 text-primary" />
 
         <div>
-          <h2 className="text-2xl font-semibold">Meta diária</h2>
+          <h2 className="text-2xl font-semibold">Meta semanal</h2>
 
           <p className="mt-1 text-sm text-white/60">
-            Defina quanto deseja ler todos os dias.
+            Defina quanto deseja ler semanalmente.
           </p>
         </div>
       </header>
@@ -70,7 +70,7 @@ export default function DailyGoalCard() {
           </h3>
 
           <p className="text-white/70">
-            {goal.type === "pages" ? "páginas por dia" : "minutos por dia"}
+            {goal.type === "pages" ? "páginas por semana" : "minutos por semana"}
           </p>
         </div>
       )}

@@ -1,6 +1,6 @@
 import { Flame, Trophy, Target } from "lucide-react";
 
-export default function ComingSoonCard() {
+export default function ReadingCardStreak() {
   return (
     <section
       className="
