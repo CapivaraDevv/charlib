@@ -1,13 +1,25 @@
 export default function LibraryHeader() {
-    return (
-        <div className="mb-8">
-            <h1 className="font-display text-4xl font-bold">
-                Biblioteca
-            </h1>
+  return (
+    <header className="mb-8 sm:mb-10">
+      <p className="text-xs font-medium uppercase tracking-[0.24em] text-primary/70">
+        Sua coleção
+      </p>
 
-            <p className="mt-2 text-text-muted">
-                Todos os seus livros em um só lugar.
-            </p>
-        </div>   
-    )
+      <h1 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+        Biblioteca
+      </h1>
+
+      <p className="mt-2 max-w-md text-sm text-text-muted sm:text-base">
+        Toque ou passe o mouse sobre um livro para retirá-lo da estante.
+      </p>
+
+      <div className="mt-6 flex items-center gap-4">
+        <div className="h-px flex-1 bg-white/[0.08]" />
+        <span className="text-[10px] uppercase tracking-[0.28em] text-white/25">
+          estante
+        </span>
+        <div className="h-px flex-1 bg-white/[0.08]" />
+      </div>
+    </header>
+  );
 }

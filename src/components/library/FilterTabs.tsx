@@ -10,7 +10,7 @@ export default function FilterTabs({
   onChange,
 }: FilterTabsProps) {
   return (
-    <div className="mb-8 flex gap-3">
+    <div className="mb-6 flex flex-wrap gap-2 sm:mb-8 sm:gap-3">
       {filters.map((filter) => (
         <button
           key={filter}

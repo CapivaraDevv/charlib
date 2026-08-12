@@ -5,9 +5,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import LibraryHeader from "../components/library/LibraryHeader";
 import SearchBar from "../components/library/SearchBar";
 import FilterTabs from "../components/library/FilterTabs";
-import BooksGrid from "../components/library/BooksGrid";
-import Dropdown from "../components/common/Dropdown";
-import Button from "../components/common/Button";
+import Bookshelf from "../components/library/Bookshelf";
+import LibraryToolbar from "../components/library/LibraryToolbar";
 import { books } from "../data/books";
 import type { Book } from "../types/book";
 
@@ -73,6 +72,9 @@ export default function Library() {
     });
   }, [selectedFilter, debouncedSearch, sortBy]);
 
+  const hasActiveFilters =
+    selectedFilter !== "Todos" || debouncedSearch.length > 0;
+
   return (
     <DashboardLayout>
       <LibraryHeader />
@@ -84,34 +86,16 @@ export default function Library() {
         onChange={setSelectedFilter}
       />
 
-      <div className="mb-4 flex justify-end">
-        <Dropdown
-          trigger={
-            <Button variant="outline" className="w-auto">
-              Ordenar por
-            </Button>
-          }
-          items={[
-            {
-              id: "progress",
-              label: "Progresso",
-              onClick: () => setSortBy("progress"),
-            },
-            {
-              id: "rating",
-              label: "Nota",
-              onClick: () => setSortBy("rating"),
-            },
-            {
-              id: "title",
-              label: "Título",
-              onClick: () => setSortBy("title"),
-            },
-          ]}
-        />
-      </div>
+      <LibraryToolbar
+        bookCount={filteredBooks.length}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+      />
 
-      <BooksGrid books={filteredBooks} />
+      <Bookshelf
+        books={filteredBooks}
+        hasActiveFilters={hasActiveFilters}
+      />
     </DashboardLayout>
   );
 }

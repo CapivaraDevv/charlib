@@ -55,3 +55,56 @@ body {
 .font-reading {
   font-family: var(--font-reading);
 }
+
+/* =========================
+   Bookshelf
+========================= */
+
+.bookshelf {
+  --spine-height: 120px;
+}
+
+@media (min-width: 640px) {
+  .bookshelf {
+    --spine-height: 136px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bookshelf {
+    --spine-height: 152px;
+  }
+}
+
+.shelf-book-spine {
+  height: var(--spine-height);
+}
+
+.shelf-book-slot {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.shelf-book--reading .shelf-book-spine {
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+.shelf-book--completed .shelf-book-spine {
+  opacity: 0.92;
+}
+
+.shelf-book--planned .shelf-book-spine {
+  opacity: 0.72;
+  filter: saturate(0.75);
+}
+
+.bookshelf-row + .bookshelf-row {
+  margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shelf-book-spine,
+  .bookshelf-plank {
+    transition: none;
+  }
+}
