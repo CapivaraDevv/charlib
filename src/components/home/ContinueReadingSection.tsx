@@ -12,7 +12,7 @@ export default function ContinueReadingSection() {
     <section className="grid grid-cols-[2fr_1fr] gap-2">
       {lastBook && <ContinueReadingCard book={lastBook} />}
 
-      <aside className="flex flex-col gap-4 pt-10">
+      <aside className="flex flex-col gap-4 pt-6">
         <StatsCard
           title="Sequência"
           value={`${stats.streak} dias`}

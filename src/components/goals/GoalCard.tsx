@@ -34,6 +34,7 @@ export default function GoalCard({
   period,
   periodLabel,
   title,
+  description,
   defaultTarget,
   unitLabels,
   getGoal,
@@ -102,22 +103,29 @@ export default function GoalCard({
       }}
       whileHover={{ y: -2 }}
       className={`
-        group relative overflow-hidden rounded-2xl border border-white/[0.08]
-        bg-card-background shadow-[0_8px_32px_rgba(0,0,0,0.18)]
-        transition-shadow duration-300 hover:border-white/[0.12]
-        hover:shadow-[0_12px_40px_rgba(0,0,0,0.24)]
+        group relative overflow-hidden rounded-[var(--radius-card)] border border-text/10
+        bg-card-background shadow-[0_8px_32px_rgba(0,0,0,0.22)]
+        transition-shadow duration-300 hover:border-text/15
+        hover:shadow-[0_12px_40px_rgba(0,0,0,0.28)]
         ${isFeatured ? "p-8 lg:p-9" : "p-6 lg:p-7"}
       `}
     >
-
       <header className="relative">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
+          {periodLabel}
+        </p>
+
         <h2
-          className={`mt-2 font-display font-bold tracking-tight text-white ${
+          className={`mt-2 font-display font-bold tracking-tight text-text ${
             isFeatured ? "text-2xl lg:text-3xl" : "text-xl lg:text-2xl"
           }`}
         >
           {title}
         </h2>
+
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-text-muted">
+          {description}
+        </p>
       </header>
 
       <AnimatePresence mode="wait">
@@ -129,8 +137,8 @@ export default function GoalCard({
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <div className="relative mt-6 rounded-xl border border-white/[0.06] bg-black/15 p-5">
-              <p className="text-xs uppercase tracking-widest text-white/40">
+            <div className="relative mt-6 rounded-xl border border-text/10 bg-background/50 p-5">
+              <p className="text-xs uppercase tracking-widest text-text-muted">
                 Meta definida
               </p>
 
@@ -143,7 +151,7 @@ export default function GoalCard({
                 {goal.target}
               </motion.p>
 
-              <p className="text-sm text-white/60">{unit}</p>
+              <p className="text-sm text-text-muted">{unit}</p>
 
               <GoalProgressDisplay
                 current={currentProgress}
@@ -163,8 +171,8 @@ export default function GoalCard({
             className="relative mt-6"
           >
             {!goal?.enabled && (
-              <div className="mb-5 rounded-xl border border-dashed border-white/10 bg-black/10 px-5 py-4">
-                <p className="text-sm text-white/50">
+              <div className="mb-5 rounded-xl border border-dashed border-text/15 bg-background/40 px-5 py-4">
+                <p className="text-sm text-text-muted">
                   Nenhuma meta {periodLabel.toLowerCase()} configurada.
                 </p>
               </div>
@@ -172,13 +180,13 @@ export default function GoalCard({
 
             <div className="space-y-4">
               <div>
-                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-white/50">
+                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted">
                   Tipo
                 </label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as ReadingType)}
-                  className="w-full rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-foreground outline-none transition-colors focus:border-primary/60"
+                  className="w-full rounded-xl border border-text/10 bg-background/60 px-4 py-3 text-text outline-none transition-colors focus:border-primary/60"
                 >
                   <option value="pages" className="bg-background">
                     Páginas
@@ -190,7 +198,7 @@ export default function GoalCard({
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-white/50">
+                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted">
                   Quantidade
                 </label>
                 <input
@@ -199,7 +207,7 @@ export default function GoalCard({
                   step={1}
                   value={target}
                   onChange={(e) => setTarget(Number(e.target.value))}
-                  className="w-full rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-white outline-none transition-colors focus:border-primary/60"
+                  className="w-full rounded-xl border border-text/10 bg-background/60 px-4 py-3 text-text outline-none transition-colors focus:border-primary/60"
                 />
               </div>
             </div>

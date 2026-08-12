@@ -10,11 +10,11 @@ export default function RecentBooks({ books }: RecentBooksProps) {
   return (
     <Card className="mt-8 p-8">
       <div className="mb-6 flex items-center justify-between px-4">
-        <h2 className="font-display text-2xl font-bold">
+        <h2 className="font-display text-2xl font-bold text-text">
           Adicionados recentemente
         </h2>
 
-        <button className="text-surface font-bold transition bg-primary rounded-2xl p-2 cursor-pointer hover:">
+        <button className="cursor-pointer rounded-2xl bg-primary p-2 font-bold text-background transition hover:bg-primary-hover">
           Ver todos
         </button>
       </div>

@@ -19,11 +19,11 @@ export default function LibraryToolbar({
   onSortChange,
 }: LibraryToolbarProps) {
   return (
-    <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-sm text-white/50">
+    <div className="relative z-30 mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-sm text-text-muted">
         {bookCount} {bookCount === 1 ? "livro" : "livros"}
         {sortBy !== "progress" && (
-          <span className="text-white/35">
+          <span className="text-text-muted/70">
             {" "}
             · ordenado por {sortLabels[sortBy]?.toLowerCase()}
           </span>

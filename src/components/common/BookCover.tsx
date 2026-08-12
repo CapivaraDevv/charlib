@@ -6,6 +6,6 @@ type BookCoverProps = {
 
 export default function BookCover({ src, alt, className = "",}: BookCoverProps) {
     return (
-        <img src={src} alt={alt} className={`w-full rounded-xl object-cover ${className}`} />
+        <img src={src} alt={alt} className={`w-full rounded-lg object-cover ${className}`} />
     );
 }

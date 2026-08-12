@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const menu = [
-    { label: "Home", path: "/"},
+    { label: "Home", path: "/" },
     { label: "Biblioteca", path: "/library" },
     { label: "Adicionar Livro", path: "/adicionar-livro" },
     { label: "Objetivos", path: "/objetivos" },
@@ -24,8 +24,8 @@ export default function Sidebar() {
             className={({ isActive }) =>
               `rounded-lg px-4 py-3 transition-colors ${
                 isActive
-                  ? "bg-[#5A3A2A] text-white"
-                  : "text-[#D8C8BC] hover:bg-[#4A3023] hover:text-white"
+                  ? "bg-surface-hover text-text"
+                  : "text-text-muted hover:bg-surface hover:text-text"
               }`
             }
           >

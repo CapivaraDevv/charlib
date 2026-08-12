@@ -15,8 +15,8 @@ export default function Button({
     primary: `
       border border-primary
       bg-primary
-      text-surface
-      hover:opacity-90
+      text-background
+      hover:bg-primary-hover
     `,
     outline: `
       border border-primary
@@ -26,12 +26,12 @@ export default function Button({
     `,
     ghost: `
       bg-transparent
-      text-foreground
-      hover:bg-white/5
+      text-text
+      hover:bg-surface-hover
     `,
     danger: `
       bg-red-500
-      text-white
+      text-text
       hover:opacity-90
     `,
   };

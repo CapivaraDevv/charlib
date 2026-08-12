@@ -20,16 +20,16 @@ export default function GoalProgressDisplay({
     <div className="mt-6 space-y-3">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             {label}
           </p>
           <p className="mt-1 font-display text-3xl font-bold tabular-nums text-primary">
             {current}
-            <span className="ml-1 text-lg font-normal text-white/50">
+            <span className="ml-1 text-lg font-normal text-text-muted">
               / {target}
             </span>
           </p>
-          <p className="text-sm text-white/55">{unit}</p>
+          <p className="text-sm text-text-muted">{unit}</p>
         </div>
 
         <div className="text-right">
@@ -37,14 +37,14 @@ export default function GoalProgressDisplay({
             key={percent}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-display text-2xl font-semibold tabular-nums text-white/90"
+            className="font-display text-2xl font-semibold tabular-nums text-text"
           >
             {Math.round(percent)}%
           </motion.span>
         </div>
       </div>
 
-      <div className="relative h-1.5 overflow-hidden rounded-full bg-[#765242]/60">
+      <div className="relative h-1.5 overflow-hidden rounded-full bg-surface-hover/70">
         <motion.div
           className={`absolute inset-y-0 left-0 rounded-full ${
             isComplete ? "bg-primary" : "bg-primary/90"
@@ -53,7 +53,6 @@ export default function GoalProgressDisplay({
           animate={{ width: `${percent}%` }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent" />
       </div>
     </div>
   );

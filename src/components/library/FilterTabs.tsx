@@ -20,7 +20,7 @@ export default function FilterTabs({
             ${
               selectedFilter === filter
                 ? "bg-primary text-background"
-                : "bg-surface text-text-muted hover:bg-surface-hover hover:text-white"
+                : "bg-surface text-text-muted hover:bg-surface-hover hover:text-text"
             }
           `}
         >

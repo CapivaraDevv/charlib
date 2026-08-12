@@ -30,13 +30,13 @@ export default function Dropdown({ trigger, items, className }: DropdownProps) {
   }, []);
 
   return (
-    <div ref={ref} className="relative inline-block">
+    <div ref={ref} className="relative z-30 inline-block">
       <div onClick={() => setOpen((prev) => !prev)}>{trigger}</div>
 
       {open && (
         <div
           className={clsx(
-            "absolute right-0 mt-2 w-52 rounded-xl border border-white/10 bg-surface shadow-xl",
+            "absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-text/10 bg-surface text-text shadow-xl",
             className,
           )}
         >

@@ -5,7 +5,7 @@ import { readingDays } from "../../data/readingDays";
 export default function ReadingDays() {
   return (
     <Card className="mt-8 p-8">
-        <h2 className="font-display text-2xl font-bold">
+        <h2 className="font-display text-2xl font-bold text-text">
             Dias de leitura
         </h2>
 

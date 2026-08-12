@@ -43,7 +43,7 @@ export default function Bookshelf({ books, hasActiveFilters = false }: Bookshelf
   }
 
   return (
-    <div className="bookshelf relative overflow-visible">
+    <div className="bookshelf relative z-0 overflow-visible rounded-[var(--radius-card)] bg-surface p-4 sm:p-6">
       <div className="space-y-8 overflow-visible sm:space-y-10">
         {rows.map((rowBooks, rowIndex) => (
           <BookshelfRow

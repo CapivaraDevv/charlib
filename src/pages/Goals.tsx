@@ -24,25 +24,25 @@ export default function Goals() {
         <section aria-labelledby="goals-section-title">
           <h2
             id="goals-section-title"
-            className="mb-5 font-display text-lg font-semibold text-white/80 sm:mb-6 sm:text-xl"
+            className="mb-5 font-display text-lg font-semibold text-text sm:mb-6 sm:text-xl"
           >
             Suas metas
           </h2>
 
-          <div className="grid gap-5 sm:gap-6 lg:grid-cols-12">
-            <div className="lg:col-span-5">
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-row grid grid-cols-2 gap-5 ">
               <DailyGoalCard onGoalChange={handleGoalChange} />
+              <WeeklyGoalCard onGoalChange={handleGoalChange} />
             </div>
 
-            <div className="flex flex-col gap-5 sm:gap-6 lg:col-span-7">
-              <WeeklyGoalCard onGoalChange={handleGoalChange} />
+            <div className="gap-5 sm:gap-6 lg:col-span-12">
               <MonthlyGoalCard onGoalChange={handleGoalChange} />
             </div>
           </div>
         </section>
 
         <div className="flex items-center gap-4 py-1 sm:py-2">
-          <div className="h-px flex-1 bg-white/[0.06]" />
+          <div className="h-px flex-1 bg-text/10" />
         </div>
 
         <ReadingCardStreak />

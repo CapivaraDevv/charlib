@@ -16,9 +16,9 @@ export default function BookshelfRow({
   onBookPull,
 }: BookshelfRowProps) {
   return (
-    <div className="bookshelf-row relative overflow-visible pt-3">
+    <div className="bookshelf-row relative isolate overflow-visible pt-3 has-[.shelf-book-slot--expanded]:z-40">
       <div
-        className="flex min-h-[var(--spine-height)] items-end gap-[3px] px-1 pb-0.5 sm:gap-1 sm:px-2"
+        className="relative z-20 flex min-h-[var(--spine-height)] items-end gap-[3px] overflow-visible px-1 pb-0.5 sm:gap-1 sm:px-2"
         style={{ perspective: "900px" }}
       >
         <AnimatePresence mode="popLayout">
@@ -35,12 +35,11 @@ export default function BookshelfRow({
       </div>
 
       <div
-        className="bookshelf-plank relative h-2.5 rounded-sm bg-[#6B4A38] sm:h-3"
+        className="bookshelf-plank pointer-events-none relative z-0 -mt-0.5 h-2.5 rounded-sm bg-surface-hover sm:h-3"
         aria-hidden
       >
-        <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
+        <div className="absolute inset-x-0 top-0 h-px bg-text/10" />
       </div>
-      <div className="mx-2 mt-0.5 h-0.5 rounded-full bg-[#3d2a1e]/80" aria-hidden />
     </div>
   );
 }

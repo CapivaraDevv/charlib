@@ -63,7 +63,7 @@ export default function ShelfBook({
         delay: reducedMotion ? 0 : index * 0.04,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`shelf-book-slot ${isExpanded || isPulling ? "z-30" : "z-10"}`}
+      className={`shelf-book-slot ${isExpanded || isPulling ? "shelf-book-slot--expanded z-50" : "z-10"}`}
     >
       <motion.button
         type="button"
@@ -112,7 +112,7 @@ export default function ShelfBook({
         whileTap={reducedMotion ? undefined : { scale: 0.98 }}
       >
         <motion.div
-          className="relative"
+          className="relative overflow-visible"
           animate={
             isPulling
               ? { boxShadow: "0 24px 48px rgba(0,0,0,0.55)" }
@@ -133,19 +133,19 @@ export default function ShelfBook({
               aria-hidden
               className="absolute inset-0 h-full w-[500%] max-w-none object-cover object-left"
             />
-            <div className="absolute inset-0 bg-black/40" aria-hidden />
-            <div className="absolute inset-x-0 top-0 h-0.5 bg-white/15" aria-hidden />
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-black/40" aria-hidden />
+            <div className="absolute inset-0 bg-background/50" aria-hidden />
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-text/15" aria-hidden />
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-background/50" aria-hidden />
 
             {book.status === "reading" && (
               <div
-                className="absolute left-0 top-2 bottom-2 w-0.5 bg-primary/80"
+                className="absolute bottom-2 left-0 top-2 w-0.5 bg-primary/80"
                 aria-hidden
               />
             )}
 
             <p
-              className="absolute inset-x-0 bottom-2 top-2 flex items-center justify-center px-0.5 text-[8px] font-medium uppercase tracking-wider text-white/85 sm:text-[9px]"
+              className="absolute inset-x-0 bottom-2 top-2 flex items-center justify-center px-0.5 text-[8px] font-medium uppercase tracking-wider text-text/90 sm:text-[9px]"
               style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
               aria-hidden
             >
@@ -174,11 +174,16 @@ export default function ShelfBook({
                     : { opacity: 0, x: -6, rotateY: -15 }
                 }
                 transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute top-0 z-10"
+                className="absolute top-0 z-20 flex items-end gap-2"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <div
-                  className={`overflow-hidden shadow-[4px_8px_16px_rgba(0,0,0,0.45)] ${
+                  className="absolute inset-0 -inset-x-2 -inset-y-2 rounded-lg bg-black"
+                  aria-hidden
+                />
+
+                <div
+                  className={`relative shrink-0 overflow-hidden shadow-[4px_8px_16px_rgba(0,0,0,0.45)] ${
                     isPulling ? "w-[88px] sm:w-[96px]" : "w-[68px] sm:w-[76px]"
                   }`}
                 >
@@ -189,14 +194,18 @@ export default function ShelfBook({
                   />
                 </div>
 
-                <div className="mt-2 w-[88px] text-left sm:w-[96px]">
-                  <p className="line-clamp-2 font-display text-[11px] font-semibold leading-tight text-white sm:text-xs">
+                <div
+                  className={`relative mb-0.5 min-w-0 shrink-0 text-left ${
+                    isPulling ? "w-[96px] sm:w-[104px]" : "w-[80px] sm:w-[88px]"
+                  }`}
+                >
+                  <p className="line-clamp-2 font-display text-[11px] font-semibold leading-tight text-text sm:text-xs">
                     {book.title}
                   </p>
-                  <p className="mt-0.5 line-clamp-1 text-[10px] text-white/55">
+                  <p className="mt-0.5 line-clamp-1 text-[10px] text-text-muted">
                     {book.author}
                   </p>
-                  <p className="mt-1 text-[10px] font-medium tabular-nums text-primary">
+                  <p className="mt-8 text-[10px] font-medium tabular-nums text-primary">
                     {progress}% concluído
                   </p>
                 </div>

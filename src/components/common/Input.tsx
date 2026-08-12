@@ -1,5 +1,4 @@
 
-
 type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({
@@ -12,11 +11,11 @@ export default function Input({
         w-full
         rounded-xl
         border
-        border-white/10
+        border-text/10
         bg-background
         px-4
         py-3
-        text-foreground
+        text-text
         outline-none
         transition-colors
         placeholder:text-text-muted

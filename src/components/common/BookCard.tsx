@@ -31,7 +31,7 @@ export default function BookCard({ book }: BookCardProps) {
       />
 
       <div className="mt-4">
-        <h3 className="line-clamp-2 font-display text-lg font-bold">
+        <h3 className="line-clamp-2 font-display text-lg font-bold text-text">
           {book.title}
         </h3>
 
@@ -50,7 +50,7 @@ export default function BookCard({ book }: BookCardProps) {
         </div>
 
         <ProgressBar value={progress} className="mt-1" />
-        <p className="text-sm mt-1">{currentPage} / {book.pages}</p>
+        <p className="mt-1 text-sm text-text-muted">{currentPage} / {book.pages}</p>
       </div>
     </Card>
   );

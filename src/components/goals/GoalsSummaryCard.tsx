@@ -45,21 +45,18 @@ export default function GoalsSummaryCard() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#3d2a1e] p-6 lg:p-8"
+      className="relative overflow-hidden rounded-[var(--radius-card)] border border-text/10 bg-surface p-6 lg:p-8"
     >
-      {/* <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/[0.04]" />
-      <div className="pointer-events-none absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-[#C49A6C]/[0.06]" /> */}
-
       <div className="relative grid gap-6 sm:grid-cols-3">
-        <div className="sm:border-r sm:border-white/[0.06] sm:pr-6">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+        <div className="sm:border-r sm:border-text/10 sm:pr-6">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             Metas ativas
           </p>
           <p className="mt-2 font-display text-4xl font-bold tabular-nums text-primary">
             {activeCount}
-            <span className="text-lg font-normal text-white/35"> / 3</span>
+            <span className="text-lg font-normal text-text-muted/70"> / 3</span>
           </p>
-          <p className="mt-1 text-sm text-white/50">
+          <p className="mt-1 text-sm text-text-muted">
             {activeCount === 0
               ? "Configure sua primeira meta abaixo"
               : activeCount === 3
@@ -68,33 +65,33 @@ export default function GoalsSummaryCard() {
           </p>
         </div>
 
-        <div className="sm:border-r sm:border-white/[0.06] sm:px-2 sm:pr-6">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+        <div className="sm:border-r sm:border-text/10 sm:px-2 sm:pr-6">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             Progresso principal
           </p>
           {primaryGoal ? (
             <>
-              <p className="mt-2 font-display text-4xl font-bold tabular-nums text-white">
+              <p className="mt-2 font-display text-4xl font-bold tabular-nums text-text">
                 {progressPercent}
-                <span className="text-lg font-normal text-white/35">%</span>
+                <span className="text-lg font-normal text-text-muted/70">%</span>
               </p>
-              <p className="mt-1 text-sm text-white/50">
+              <p className="mt-1 text-sm text-text-muted">
                 {currentProgress} de {primaryGoal.target}{" "}
                 {primaryGoal.type === "pages" ? "páginas" : "min"}
               </p>
             </>
           ) : (
             <>
-              <p className="mt-2 font-display text-2xl font-semibold text-white/30">
+              <p className="mt-2 font-display text-2xl font-semibold text-text-muted/50">
                 —
               </p>
-              <p className="mt-1 text-sm text-white/50">Sem meta prioritária</p>
+              <p className="mt-1 text-sm text-text-muted">Sem meta prioritária</p>
             </>
           )}
         </div>
 
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             Períodos
           </p>
           <ul className="mt-3 space-y-2">
@@ -107,10 +104,10 @@ export default function GoalsSummaryCard() {
                 key={item.label}
                 className="flex items-center justify-between text-sm"
               >
-                <span className="text-white/60">{item.label}</span>
+                <span className="text-text-muted">{item.label}</span>
                 <span
                   className={`h-1.5 w-1.5 rounded-full ${
-                    item.enabled ? "bg-primary" : "bg-white/15"
+                    item.enabled ? "bg-primary" : "bg-text-muted/30"
                   }`}
                 />
               </li>

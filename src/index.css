@@ -14,16 +14,17 @@
      Colors
   ========================= */
 
-  --color-background: #5b3e2b;
-  --color-card-background: #4A3225;
+  --color-background: #1F1410;
+  --color-card-background: #4B2E20;
 
-  --color-surface: #603f2d;
-  --color-surface-hover: #714c37;
+  --color-surface: #5A3625;
+  --color-surface-hover: #6B402B;
 
-  --color-primary: #e9c46a;
-
-  --color-text: #ffffff;
-  --color-text-muted: rgba(255, 255, 255, 0.75);
+  --color-primary: #E8B957;
+  --color-primary-hover: #F2C871;
+  
+  --color-text: #FFF4E6;
+  --color-text-muted: #D2B9A6;
 
   /* =========================
      Border Radius
@@ -83,6 +84,10 @@ body {
 .shelf-book-slot {
   position: relative;
   flex-shrink: 0;
+}
+
+.shelf-book-slot--expanded {
+  isolation: isolate;
 }
 
 .shelf-book--reading .shelf-book-spine {

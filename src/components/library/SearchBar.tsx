@@ -20,14 +20,19 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
         className="
           w-full
           rounded-xl
+          border
+          border-text/10
           bg-surface
           py-3
           pl-12
           pr-4
+          text-text
+          placeholder:text-text-muted
           outline-none
           transition
+          focus:border-primary
           focus:ring-2
-          focus:ring-primary
+          focus:ring-primary/30
         "
       />
     </div>

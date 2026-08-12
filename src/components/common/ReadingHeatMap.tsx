@@ -5,9 +5,9 @@ type ReadingHeatMapProps = {
 };
 
 function getColor(pages: number) {
-  if (pages === 0) return "bg-white/10";
-  if (pages <= 10) return "bg-[#8A5A44]";
-  if (pages <= 30) return "bg-[#B07A5D]";
+  if (pages === 0) return "bg-text/10";
+  if (pages <= 10) return "bg-surface-hover";
+  if (pages <= 30) return "bg-surface";
   return "bg-primary";
 }
 

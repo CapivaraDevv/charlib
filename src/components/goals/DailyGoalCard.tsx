@@ -14,7 +14,7 @@ export default function DailyGoalCard({ onGoalChange }: DailyGoalCardProps) {
       period="daily"
       periodLabel="Diária"
       title="Meta diária"
-      description="Quanto você pretende ler hoje — páginas ou minutos."
+      description="Quanto você pretende ler hoje, páginas ou minutos."
       defaultTarget={10}
       unitLabels={{
         pages: "páginas por dia",
