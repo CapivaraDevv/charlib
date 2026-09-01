@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useState, forwardRef, type KeyboardEvent } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { Book } from "../../types/book";
 import {
@@ -20,15 +20,11 @@ const STATUS_CLASS: Record<Book["status"], string> = {
   planned: "shelf-book--planned",
 };
 
-export default function ShelfBook({
-  book,
-  index,
-  isPulling,
-  onPull,
-}: ShelfBookProps) {
-  const reducedMotion = useReducedMotion();
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
+const ShelfBook = forwardRef<HTMLDivElement, ShelfBookProps>(
+  function ShelfBook({ book, index, isPulling, onPull }, ref) {
+    const reducedMotion = useReducedMotion();
+    const [hovered, setHovered] = useState(false);
+    const [focused, setFocused] = useState(false);
 
   const spineWidth = getSpineWidth(book.id);
   const tilt = getSpineTilt(index);
@@ -49,6 +45,7 @@ export default function ShelfBook({
 
   return (
     <motion.div
+      ref={ref}
       layout
       layoutId={`shelf-book-${book.id}`}
       initial={reducedMotion ? false : { opacity: 0, y: 16 }}
@@ -215,5 +212,8 @@ export default function ShelfBook({
         </motion.div>
       </motion.button>
     </motion.div>
-  );
-}
+    );
+  },
+);
+
+export default ShelfBook;

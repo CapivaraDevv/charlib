@@ -7,7 +7,7 @@ import SearchBar from "../components/library/SearchBar";
 import FilterTabs from "../components/library/FilterTabs";
 import Bookshelf from "../components/library/Bookshelf";
 import LibraryToolbar from "../components/library/LibraryToolbar";
-import { books } from "../data/books";
+import { useLibrary } from "../hooks/useLibrary";
 import type { Book } from "../types/book";
 
 export default function Library() {
@@ -21,6 +21,8 @@ export default function Library() {
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   const [sortBy, setSortBy] = useState("progress");
+
+  const { books, isLoading, error } = useLibrary();
 
   useEffect(() => {
     const params: Record<string, string> = {};
@@ -70,7 +72,7 @@ export default function Library() {
           return 0;
       }
     });
-  }, [selectedFilter, debouncedSearch, sortBy]);
+  }, [books, selectedFilter, debouncedSearch, sortBy]);
 
   const hasActiveFilters =
     selectedFilter !== "Todos" || debouncedSearch.length > 0;
@@ -86,16 +88,34 @@ export default function Library() {
         onChange={setSelectedFilter}
       />
 
-      <LibraryToolbar
-        bookCount={filteredBooks.length}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
-      />
+      {error && (
+        <p
+          role="alert"
+          className="mb-6 rounded-xl border border-red-400/20 bg-red-950/30 px-4 py-3 text-sm text-red-300"
+        >
+          {error}
+        </p>
+      )}
 
-      <Bookshelf
-        books={filteredBooks}
-        hasActiveFilters={hasActiveFilters}
-      />
+      {isLoading ? (
+        <p className="py-12 text-center text-text-muted">
+          Carregando biblioteca...
+        </p>
+      ) : (
+        <>
+          <LibraryToolbar
+            bookCount={filteredBooks.length}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+          />
+
+          <Bookshelf
+            books={filteredBooks}
+            hasActiveFilters={hasActiveFilters}
+          />
+        </>
+      )}
+
     </DashboardLayout>
   );
 }

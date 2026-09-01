@@ -5,6 +5,8 @@ import Card from "../components/common/Card";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 import type { Book } from "../types/book";
+import { saveBook } from "../services/libraryService";
+import { useLibrary } from "../hooks/useLibrary";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -14,11 +16,17 @@ export default function AddBook() {
   const [pdf, setPdf] = useState<File | null>(null);
   const [cover, setCover] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const { reloadBooks } = useLibrary();
 
   const navigate = useNavigate();
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    setError(null);
+
 
     const pageCount = Number(pages);
 
@@ -37,8 +45,29 @@ export default function AddBook() {
       return;
     }
 
-    setError(null);
+    try {
+      setIsSaving(true);
 
+      await saveBook({
+        title,
+        author,
+        pages: pageCount,
+        status,
+        file: pdf,
+        cover,
+      });
+
+      await reloadBooks();
+
+      navigate("/library")
+
+    } catch {
+      setError(
+        "Não foi possível salvar o livro. Verifique o espaço disponível e tente novamente.",
+      );
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -160,36 +189,39 @@ export default function AddBook() {
               </div>
               {/* upload capa */}
               <div className="space-y-2">
-                <p className="text-sm font-medium text-text">Arquivo de capa</p>
+                <p className="text-sm font-medium text-text">
+                  Arquivo de capa (opcional)
+                </p>
 
                 <label
                   htmlFor="book-cover"
                   className="
-                        flex min-h-32 cursor-pointer flex-col items-center
-                        justify-center rounded-xl border border-dashed
-                        border-primary/40 bg-background/40 px-6
-                        text-center transition-colors
-                        hover:border-primary hover:bg-background/70
-                    "
+    relative flex min-h-32 cursor-pointer flex-col
+    items-center justify-center overflow-hidden
+    rounded-xl border border-dashed border-primary/40
+    bg-background/40 px-6 text-center
+    transition-colors hover:border-primary
+    hover:bg-background/70
+  "
                 >
                   <span className="font-medium text-primary">
                     Selecionar capa
                   </span>
 
-                  <span className="mt-1 text-xs text-text-muted">
+                  <span className="mt-1 max-w-full truncate text-xs text-text-muted">
                     {cover ? cover.name : "PNG, JPG ou WebP"}
                   </span>
-                </label>
 
-                <input
-                  id="book-cover"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  className="sr-only"
-                  onChange={(event) =>
-                    setCover(event.target.files?.[0] ?? null)
-                  }
-                />
+                  <input
+                    id="book-cover"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    onChange={(event) =>
+                      setCover(event.target.files?.[0] ?? null)
+                    }
+                  />
+                </label>
               </div>
             </div>
 
@@ -212,8 +244,12 @@ export default function AddBook() {
                 Cancelar
               </Button>
 
-              <Button type="submit" className="w-full sm:w-auto">
-                Adicionar à biblioteca
+              <Button
+                type="submit"
+                className="w-full sm:w-auto"
+                disabled={isSaving}
+              >
+                {isSaving ? "Salvando..." : "Adicionar à biblioteca"}
               </Button>
             </div>
           </form>

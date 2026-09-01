@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { books } from "../data/books";
+import { useLibrary } from "../hooks/useLibrary";
 import ReaderHeader from "../components/reader/ReaderHeader";
 import PdfViewer from "../components/reader/PdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
@@ -20,6 +20,7 @@ import BookmarksPanel from "../components/reader/BookMarksPanel";
 export default function BookReader() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { books, isLoading } = useLibrary();
   const [currentPage, setCurrentPage] = useState(() => {
     const saved = localStorage.getItem(`book-progress-${id}`);
 
@@ -135,6 +136,14 @@ export default function BookReader() {
     }
 
     setBookMarks(getBookMarks(book.id));
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background text-text">
+        Carregando livro...
+      </div>
+    );
   }
 
   if (!book) {
