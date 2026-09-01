@@ -5,8 +5,10 @@ import { stats } from "../../data/stats";
 import { Flame, BookOpen, Target } from "lucide-react";
 
 export default function ContinueReadingSection() {
-  const lastBookId = Number(localStorage.getItem("last-book") ?? books[0]);
-  const lastBook = books.find((book) => book.id === lastBookId);
+  const savedBookId = localStorage.getItem("last-book");
+  const lastBookId = savedBookId ? Number(savedBookId) : null;
+
+  const lastBook = books.find((book) => book.id === lastBookId) ?? books[0];
 
   return (
     <section className="grid grid-cols-[2fr_1fr] gap-2">

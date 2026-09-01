@@ -1,6 +1,7 @@
 import type { Book } from "../../types/book";
 import BookCard from "../common/BookCard";
 import Card from "../common/Card";
+import { Link } from "react-router-dom";
 
 type RecentBooksProps = {
   books: Book[];
@@ -14,9 +15,12 @@ export default function RecentBooks({ books }: RecentBooksProps) {
           Adicionados recentemente
         </h2>
 
-        <button className="cursor-pointer rounded-2xl bg-primary p-2 font-bold text-background transition hover:bg-primary-hover">
+        <Link
+          to="/library"
+          className="cursor-pointer rounded-2xl bg-primary p-2 font-bold text-background transition hover:bg-primary-hover"
+        >
           Ver todos
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-4">

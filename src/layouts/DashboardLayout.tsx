@@ -7,13 +7,13 @@ type Props = {
 
 export default function MainLayout({ children }: Props) {
   return (
-    <div className="flex h-screen bg-background text-text">
-      <aside className="h-full w-64 border-r border-text/10">
+    <div className="flex h-screen overflow-hidden bg-background text-text">
+      <aside className="h-full w-64 shrink-0 border-r border-text/10">
         <Sidebar />
       </aside>
 
-      <div className="flex flex-1 flex-col">
-        <main className="flex-1 overflow-auto p-6">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-6">
           {children}
         </main>
       </div>
