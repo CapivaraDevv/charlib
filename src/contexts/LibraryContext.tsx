@@ -9,18 +9,13 @@ import { LibraryContext } from "../hooks/useLibrary";
 import Logo from "../assets/Logo.png";
 import { books as initialBooks } from "../data/books";
 import {
+  deleteStoredBook,
   getStoredBooks,
   type StoredBook,
 } from "../services/libraryService";
 import type { Book } from "../types/book";
 
-
-
-
-function convertStoredBook(
-  storedBook: StoredBook,
-  objectUrls: string[],
-): Book {
+function convertStoredBook(storedBook: StoredBook, objectUrls: string[]): Book {
   const fileUrl = URL.createObjectURL(storedBook.file);
   objectUrls.push(fileUrl);
 
@@ -42,14 +37,11 @@ function convertStoredBook(
     status: storedBook.status,
     file: fileUrl,
     image: coverUrl,
+    isUserAdded: true,
   };
 }
 
-export function LibraryProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function LibraryProvider({ children }: { children: ReactNode }) {
   const [books, setBooks] = useState<Book[]>(initialBooks);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +49,6 @@ export function LibraryProvider({
   const objectUrlsRef = useRef<string[]>([]);
 
   const reloadBooks = useCallback(async () => {
-
     try {
       const storedBooks = await getStoredBooks();
       const newObjectUrls: string[] = [];
@@ -66,36 +57,38 @@ export function LibraryProvider({
         convertStoredBook(book, newObjectUrls),
       );
 
-      objectUrlsRef.current.forEach((url) =>
-        URL.revokeObjectURL(url),
-      );
+      objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
 
       objectUrlsRef.current = newObjectUrls;
 
       setBooks([...initialBooks, ...convertedBooks]);
       setError(null);
     } catch {
-      setError(
-        "Não foi possível carregar os livros salvos neste navegador.",
-      );
+      setError("Não foi possível carregar os livros salvos neste navegador.");
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+  const removeBook = useCallback(
+    async (id: number) => {
+      await deleteStoredBook(id);
+      await reloadBooks();
+    },
+    [reloadBooks],
+  );
+
   useEffect(() => {
-  const timeoutId = window.setTimeout(() => {
-    void reloadBooks();
-  }, 0);
+    const timeoutId = window.setTimeout(() => {
+      void reloadBooks();
+    }, 0);
 
-  return () => {
-    window.clearTimeout(timeoutId);
+    return () => {
+      window.clearTimeout(timeoutId);
 
-    objectUrlsRef.current.forEach((url) =>
-      URL.revokeObjectURL(url),
-    );
-  };
-}, [reloadBooks]);
+      objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [reloadBooks]);
 
   return (
     <LibraryContext.Provider
@@ -104,10 +97,10 @@ export function LibraryProvider({
         isLoading,
         error,
         reloadBooks,
+        removeBook,
       }}
     >
       {children}
     </LibraryContext.Provider>
   );
 }
-

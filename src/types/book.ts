@@ -8,6 +8,7 @@ export interface Book {
   notes: number;
   image: string;
 
-  status: "reading" | "completed" | "planned"
+  status: "reading" | "completed" | "planned";
   file: string | null;
+  isUserAdded?: boolean;
 }

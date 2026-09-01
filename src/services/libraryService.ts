@@ -128,3 +128,21 @@ export async function getStoredBooks(): Promise<StoredBook[]> {
     database.close();
   }
 }
+
+export async function deleteStoredBook(id: number): Promise<void> {
+  const database = await openDatabase();
+
+  try {
+    const transaction = database.transaction(
+      BOOKS_STORE,
+      "readwrite",
+    );
+
+    transaction.objectStore(BOOKS_STORE).delete(id);
+
+    await transactionToPromise(transaction);
+  } finally {
+    database.close();
+  }
+}
+

@@ -6,6 +6,7 @@ export type LibraryContextValue = {
   isLoading: boolean;
   error: string | null;
   reloadBooks: () => Promise<void>;
+  removeBook: (id: number) => Promise<void>;
 };
 
 export const LibraryContext =
