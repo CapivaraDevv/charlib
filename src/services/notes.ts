@@ -47,3 +47,8 @@ export function deleteNote(noteId: string, bookId: number) {
         JSON.stringify(updatedNotes),
     );
 }
+
+export function removeNotesForBook(bookId: number): void {
+    localStorage.removeItem(getStorageKey(bookId));
+}
+

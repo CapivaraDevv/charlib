@@ -16,11 +16,13 @@ import {
   saveBookMark,
 } from "../services/bookmarks";
 import BookmarksPanel from "../components/reader/BookMarksPanel";
+import Modal from "../components/common/Modal";
+import Button from "../components/common/Button";
 
 export default function BookReader() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { books, isLoading } = useLibrary();
+  const { books, isLoading, removeBook } = useLibrary();
   const [currentPage, setCurrentPage] = useState(() => {
     const saved = localStorage.getItem(`book-progress-${id}`);
 
@@ -32,6 +34,9 @@ export default function BookReader() {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [showNotes, setShowNotes] = useState(false);
   const [showBookMarks, setShowBookMarks] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -138,6 +143,29 @@ export default function BookReader() {
     setBookMarks(getBookMarks(book.id));
   }
 
+  function closeDeleteConfirm() {
+    if (isDeleting) return;
+
+    setShowDeleteConfirm(false);
+    setDeleteError(null);
+  }
+
+  async function handleDeleteBook() {
+    if (!book?.isUserAdded || isDeleting) return;
+
+    setDeleteError(null);
+    setIsDeleting(true);
+
+    try {
+      await removeBook(book.id);
+      navigate("/library", { replace: true });
+    } catch {
+      setDeleteError("Não foi possível excluir o livro. Tente novamente");
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-background text-text">
@@ -189,7 +217,55 @@ export default function BookReader() {
     >
       {/* Header */}
 
-      {!readingMode && <ReaderHeader />}
+      {!readingMode && (
+        <ReaderHeader
+          canDelete={book.isUserAdded === true}
+          onDelete={() => {
+            setDeleteError(null);
+            setShowDeleteConfirm(true);
+          }}
+        />
+      )}
+
+      <Modal
+        open={showDeleteConfirm}
+        title="Excluir livro?"
+        size="sm"
+        onClose={closeDeleteConfirm}
+      >
+        <p className="text-text-muted">
+          Deseja excluir “{book.title}” da biblioteca? O cadastro, o PDF, a
+          capa, o progresso, as notas e os marcadores desse livro serão
+          removidos do CharLib. Essa ação não pode ser desfeita. O arquivo
+          original no computador não será apagado.
+        </p>
+
+        {deleteError && (
+          <p role="alert" className="mt-4 text-sm text-red-300">
+            {deleteError}
+          </p>
+        )}
+
+        <div className="mt-6 flex justify-end gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isDeleting}
+            onClick={closeDeleteConfirm}
+          >
+            Cancelar
+          </Button>
+
+          <Button
+            type="button"
+            variant="danger"
+            disabled={isDeleting}
+            onClick={handleDeleteBook}
+          >
+            {isDeleting ? "Excluindo..." : "Excluir livro"}
+          </Button>
+        </div>
+      </Modal>
 
       <ReaderToolbar
         readingMode={readingMode}

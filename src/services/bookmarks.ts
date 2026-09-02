@@ -31,3 +31,18 @@ export function removeBookMark(id: string){
         JSON.stringify(bookmarks.filter((bookmark) => bookmark.id !== id))
     )
 }
+
+export function removeBookMarksForBook(bookId: number): void {
+  const bookmarks: BookMark[] = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) ?? "[]",
+  );
+
+  const remainingBookmarks = bookmarks.filter(
+    (bookmark) => bookmark.bookId !== bookId,
+  );
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(remainingBookmarks),
+  );
+}

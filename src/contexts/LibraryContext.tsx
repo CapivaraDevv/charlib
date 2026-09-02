@@ -14,6 +14,8 @@ import {
   type StoredBook,
 } from "../services/libraryService";
 import type { Book } from "../types/book";
+import { removeNotesForBook } from "../services/notes";
+import { removeBookMarksForBook } from "../services/bookmarks";
 
 function convertStoredBook(storedBook: StoredBook, objectUrls: string[]): Book {
   const fileUrl = URL.createObjectURL(storedBook.file);
@@ -72,8 +74,34 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const removeBook = useCallback(
     async (id: number) => {
+      if (initialBooks.some((book) => book.id === id)) {
+        throw new Error("Os livros iniciais não podem ser excluídos.");
+      }
+
       await deleteStoredBook(id);
+
+      let cleanupFailed = false;
+
+      try {
+        removeNotesForBook(id);
+        removeBookMarksForBook(id);
+
+        localStorage.removeItem(`book-progress-${id}`);
+
+        if (localStorage.getItem("last-book") === String(id)) {
+          localStorage.removeItem("last-book");
+        }
+      } catch {
+        cleanupFailed = true;
+      }
+
       await reloadBooks();
+
+      if (cleanupFailed) {
+        setError(
+          "O livro foi excluído, mas não foi possível limpar todos os dados de leitura associados.",
+        );
+      }
     },
     [reloadBooks],
   );
