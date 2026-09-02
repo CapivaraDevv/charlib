@@ -16,6 +16,7 @@ import {
   saveBookMark,
 } from "../services/bookmarks";
 import BookmarksPanel from "../components/reader/BookMarksPanel";
+import { recordReadPage } from "../services/readingService";
 import Modal from "../components/common/Modal";
 import Button from "../components/common/Button";
 
@@ -37,6 +38,7 @@ export default function BookReader() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [readingError, setReadingError] = useState<string | null>(null);
 
   const book = books.find((book) => book.id === Number(id));
 
@@ -163,6 +165,19 @@ export default function BookReader() {
       setDeleteError("Não foi possível excluir o livro. Tente novamente");
     } finally {
       setIsDeleting(false);
+    }
+  }
+
+  function handlePageRead(pageNumber: number): boolean {
+    if (!book) return false;
+
+    try {
+      recordReadPage(book.id, pageNumber);
+      setReadingError(null);
+      return true;
+    } catch {
+      setReadingError("Não foi possível registrar a leitura desta página. Tente novamente.");
+      return false;
     }
   }
 
@@ -372,12 +387,21 @@ export default function BookReader() {
         onDelete={handleDeleteNote}
       />
 
+      {readingError && (
+        <p role="alert" className="px-10 py-3 text-sm text-red-300">
+          {readingError}
+        </p>
+      )}
+
       <div className={readingMode ? "w-full flex justify-center" : ""}>
         <PdfViewer
+          key={book.id}
           file={book.file}
           page={currentPage}
           setPage={setCurrentPage}
           bookmarked={isCurrentPageBookmarked}
+          onPageRead={handlePageRead}
+          navigationEnabled={!isNoteModalOpen && !showDeleteConfirm}
         />
       </div>
     </main>

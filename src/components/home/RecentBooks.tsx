@@ -8,6 +8,16 @@ type RecentBooksProps = {
 };
 
 export default function RecentBooks({ books }: RecentBooksProps) {
+
+  const recentBooks = [...books]
+  .sort((a, b) => {
+    const dateA = Date.parse(a.createdAt ?? "") || 0;
+    const dateB = Date.parse(b.createdAt ?? "") || 0;
+
+    return dateB - dateA;
+  })
+  .slice(0, 4);
+
   return (
     <Card className="mt-8 p-8">
       <div className="mb-6 flex items-center justify-between px-4">
@@ -24,7 +34,7 @@ export default function RecentBooks({ books }: RecentBooksProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-4">
-        {books.slice(0, 4).map((book) => (
+        {recentBooks.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
       </div>

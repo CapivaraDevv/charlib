@@ -11,4 +11,5 @@ export interface Book {
   status: "reading" | "completed" | "planned";
   file: string | null;
   isUserAdded?: boolean;
+  createdAt?: string;
 }

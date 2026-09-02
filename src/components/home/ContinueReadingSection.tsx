@@ -1,10 +1,16 @@
 import ContinueReadingCard from "./ContinueReadingCard";
 import StatsCard from "./StatsCard";
-import { books } from "../../data/books";
+import type { Book } from "../../types/book";
 import { stats } from "../../data/stats";
 import { Flame, BookOpen, Target } from "lucide-react";
 
-export default function ContinueReadingSection() {
+type ContinueReadingSectionProps = {
+  books: Book[];
+};
+
+export default function ContinueReadingSection({
+  books,
+}: ContinueReadingSectionProps) {
   const savedBookId = localStorage.getItem("last-book");
   const lastBookId = savedBookId ? Number(savedBookId) : null;
 
@@ -31,7 +37,7 @@ export default function ContinueReadingSection() {
 
         <StatsCard
           title="Biblioteca"
-          value={`${stats.library}`}
+          value={`${books.length}`}
           subtitle="Livros cadastrados"
           icon={<BookOpen size={28} />}
         />

@@ -66,3 +66,36 @@ export function getMonthlyReadingGoal() {
 export function setMonthlyReadingGoal(goal: MonthlyReadingGoal): void {
     localStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal))
 }
+
+export function recordReadPage(
+    bookId: number,
+    pageNumber: number,
+): void {
+    if(
+        !Number.isInteger(bookId) ||
+        bookId < 1 ||
+        !Number.isInteger(pageNumber) ||
+        pageNumber < 1
+    ) {
+        return;
+    }
+
+    const entryId = `reader:${bookId}:page:${pageNumber}`;
+    const entries = getReadingEntries();
+
+    const alreadyRecorded = entries.some(
+        (entry) => entry.id === entryId,
+    );
+
+    if (alreadyRecorded) return;
+
+    addReadingEntry({
+        id: entryId,
+        bookId,
+        type: "pages",
+        amount: 1,
+        date: new Date().toISOString(),
+        source: "reader",
+    });
+
+}

@@ -40,6 +40,7 @@ function convertStoredBook(storedBook: StoredBook, objectUrls: string[]): Book {
     file: fileUrl,
     image: coverUrl,
     isUserAdded: true,
+    createdAt: storedBook.createdAt,
   };
 }
 
