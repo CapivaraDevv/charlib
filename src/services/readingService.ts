@@ -1,4 +1,4 @@
-import type { ReadingEntry, DailyReadingGoal, WeeklyReadingGoal, MonthlyReadingGoal } from "../types/reading";
+import type { ReadingEntry, DailyReadingGoal, WeeklyReadingGoal, MonthlyReadingGoal, ReadingType } from "../types/reading";
 
 const READING_ENTRIES_KEY = "reading_entries";
 
@@ -18,6 +18,33 @@ export function addReadingEntry(entry: ReadingEntry): void{
     entries.push(entry)
 
     localStorage.setItem(READING_ENTRIES_KEY, JSON.stringify(entries))
+}
+
+export function recordManualReading(
+  bookId: number,
+  type: ReadingType,
+  amount: number
+): void {
+  if (!Number.isInteger(bookId) || bookId <= 0) {
+    throw new Error("Livro inválido.");
+  }
+
+  if (type !== "pages" && type !== "minutes") {
+    throw new Error("Tipo de leitura inválido.");
+  }
+
+  if (!Number.isInteger(amount) || amount <= 0) {
+    throw new Error("A quantidade deve ser um número inteiro maior que zero.");
+  }
+
+  addReadingEntry({
+    id: `manual:${crypto.randomUUID()}`,
+    bookId,
+    type,
+    amount,
+    date: new Date().toISOString(),
+    source: "manual",
+  });
 }
 
 const DAILY_READING_GOAL_KEY = "daily_reading_goal";

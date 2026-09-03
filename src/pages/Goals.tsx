@@ -6,11 +6,14 @@ import WeeklyGoalCard from "../components/goals/WeeklyGoalCard";
 import GoalsHero from "../components/goals/GoalsHero";
 import GoalsSummaryCard from "../components/goals/GoalsSummaryCard";
 import DashboardLayout from "../layouts/DashboardLayout";
+import Button from "../components/common/Button";
+import ManualReadingModal from "../components/goals/ManualReadingModal";
 
 export default function Goals() {
   const [summaryKey, setSummaryKey] = useState(0);
+  const [isManualReadingOpen, setIsManualReadingOpen] = useState(false);
 
-  function handleGoalChange() {
+  function refreshGoalsData() {
     setSummaryKey((prev) => prev + 1);
   }
 
@@ -18,6 +21,11 @@ export default function Goals() {
     <DashboardLayout>
       <div className="mx-auto w-full max-w-6xl space-y-8 pb-8 sm:space-y-10">
         <GoalsHero />
+        <div className="flex justify-end">
+          <Button type="button" onClick={() => setIsManualReadingOpen(true)}>
+            Registrar leitura
+          </Button>
+        </div>
 
         <GoalsSummaryCard key={summaryKey} />
 
@@ -31,12 +39,12 @@ export default function Goals() {
 
           <div className="flex flex-col gap-5">
             <div className="flex flex-row grid grid-cols-2 gap-5 ">
-              <DailyGoalCard onGoalChange={handleGoalChange} />
-              <WeeklyGoalCard onGoalChange={handleGoalChange} />
+              <DailyGoalCard onGoalChange={refreshGoalsData} />
+              <WeeklyGoalCard onGoalChange={refreshGoalsData} />
             </div>
 
             <div className="gap-5 sm:gap-6 lg:col-span-12">
-              <MonthlyGoalCard onGoalChange={handleGoalChange} />
+              <MonthlyGoalCard onGoalChange={refreshGoalsData} />
             </div>
           </div>
         </section>
@@ -47,6 +55,11 @@ export default function Goals() {
 
         <ReadingCardStreak />
       </div>
+      <ManualReadingModal
+        open={isManualReadingOpen}
+        onClose={() => setIsManualReadingOpen(false)}
+        onSaved={refreshGoalsData}
+      />
     </DashboardLayout>
   );
 }
