@@ -53,7 +53,7 @@ export default function ContinueReadingSection({
   : null;
 
   return (
-    <section className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-2">
+    <section className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-2 mt-6">
       {lastBook && <ContinueReadingCard book={lastBook} lastReadAt={lastReadAt} />}
 
       <aside className="flex flex-col gap-4 lg:pt-6">
