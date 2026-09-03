@@ -1,75 +1,89 @@
-# React + TypeScript + Vite
+# CharLib
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de leitura. O CharLib funciona localmente no navegador: os dados permanecem no dispositivo do usuário, sem exigir cadastro ou servidor.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Biblioteca com busca, filtros e ordenação.
+- Cadastro de livros com PDF, capa, quantidade de páginas e status de leitura.
+- Leitor de PDF com navegação por botões e teclado.
+- Progresso salvo por livro e retomada da última leitura.
+- Notas e marcadores por página.
+- Metas diária, semanal e mensal em páginas ou minutos.
+- Registro automático de páginas lidas e registro manual de leitura.
+- Sequência de leitura, atividade recente e indicadores na Home.
+- Exclusão segura de livros adicionados pelo usuário, com limpeza dos dados associados.
+- Interface responsiva para desktop e dispositivos móveis.
+- Página 404 para rotas inexistentes.
 
-## React Compiler
+## Tecnologias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- React PDF / PDF.js
+- Framer Motion
+- IndexedDB e localStorage
 
-## Expanding the ESLint configuration
+## Como executar
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Pré-requisito: Node.js instalado.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone <https://github.com/CapivaraDevv/charlib.git>
+cd charlib
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts disponíveis
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev    # inicia o ambiente de desenvolvimento
+npm run lint   # verifica regras de qualidade do código
+npm run build  # valida TypeScript e gera a build de produção
 ```
+
+## Persistência de dados
+
+O projeto adota uma abordagem local-first:
+
+- **IndexedDB:** guarda livros adicionados, PDFs e capas.
+- **localStorage:** guarda progresso, última leitura, metas, registros de leitura, notas e marcadores.
+
+Por isso, os dados permanecem no navegador atual. Limpar os dados do site ou usar outro dispositivo não transfere automaticamente a biblioteca.
+
+## Estrutura principal
+
+```text
+src/
+├── components/  # componentes reutilizáveis e seções da interface
+├── contexts/    # estado compartilhado da biblioteca
+├── pages/       # páginas e rotas da aplicação
+├── services/    # persistência e regras de acesso aos dados
+├── types/       # tipos TypeScript do domínio
+└── utils/       # cálculos de metas, atividade e helpers
+```
+
+## Qualidade
+
+Antes da versão 1.0.0, os fluxos principais foram testados manualmente: cadastro, persistência, leitura de PDF, notas, marcadores, metas, registro manual, exclusão e layout móvel. O projeto também passa em `npm run lint` e `npm run build`.
+
+## Roadmap
+
+A próxima evolução planejada é a sincronização em nuvem com Supabase:
+
+- autenticação de usuários;
+- sincronização de metas, progresso, notas e marcadores;
+- armazenamento de PDFs e capas;
+- migração segura dos dados locais existentes.
+
+Os detalhes estão em [ROADMAP.md](ROADMAP.md).
+
+## Versão
+
+Versão atual: **v1.0.0**.
