@@ -33,10 +33,10 @@ export default function ContinueReadingSection({
   const lastBook = books.find((book) => book.id === lastBookId) ?? books[0];
 
   return (
-    <section className="grid grid-cols-[2fr_1fr] gap-2">
+    <section className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-2">
       {lastBook && <ContinueReadingCard book={lastBook} />}
 
-      <aside className="flex flex-col gap-4 pt-6">
+      <aside className="flex flex-col gap-4 lg:pt-6">
         <StatsCard
           title="Sequência"
           value={`${streak} dia${streak === 1 ? "" : "s"}`}
