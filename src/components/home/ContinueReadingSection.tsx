@@ -1,7 +1,12 @@
 import ContinueReadingCard from "./ContinueReadingCard";
 import StatsCard from "./StatsCard";
 import type { Book } from "../../types/book";
-import { stats } from "../../data/stats";
+import {
+  getReadingEntries,
+  getMonthlyReadingGoal,
+} from "../../services/readingService";
+import { getCurrentReadingStreak } from "../../utils/readingActivity";
+import { getProgressForPeriod } from "../../utils/goalProgress";
 import { Flame, BookOpen, Target } from "lucide-react";
 
 type ContinueReadingSectionProps = {
@@ -13,6 +18,12 @@ export default function ContinueReadingSection({
 }: ContinueReadingSectionProps) {
   const savedBookId = localStorage.getItem("last-book");
   const lastBookId = savedBookId ? Number(savedBookId) : null;
+  const entries = getReadingEntries();
+  const streak = getCurrentReadingStreak(entries);
+  const monthlyGoal = getMonthlyReadingGoal();
+  const monthlyProgress = monthlyGoal?.enabled
+    ? getProgressForPeriod("monthly", monthlyGoal.type)
+    : null;
 
   const lastBook = books.find((book) => book.id === lastBookId) ?? books[0];
 
@@ -23,15 +34,25 @@ export default function ContinueReadingSection({
       <aside className="flex flex-col gap-4 pt-6">
         <StatsCard
           title="Sequência"
-          value={`${stats.streak} dias`}
+          value={`${streak} dia${streak === 1 ? "" : "s"}`}
           subtitle="Lendo sem interrupções"
           icon={<Flame size={28} />}
         />
 
         <StatsCard
           title="Meta do mês"
-          value={`${stats.monthly.completed}/${stats.monthly.goal}`}
-          subtitle="Livros concluídos"
+          value={
+            monthlyGoal?.enabled
+              ? `${monthlyProgress}/${monthlyGoal.target}`
+              : "Sem meta"
+          }
+          subtitle={
+            monthlyGoal?.enabled
+              ? monthlyGoal.type === "pages"
+                ? "Páginas lidas"
+                : "Minutos lidos"
+              : "Configure sua meta mensal"
+          }
           icon={<Target size={28} />}
         />
 

@@ -69,3 +69,31 @@ export function getRecentReadingDays(
 
     return result
 }
+
+export function getCurrentReadingStreak(
+    entries: ReadingEntry[],
+    referenceData: Date = new Date(),
+) : number {
+    if (Number.isNaN(referenceData.getTime())) {
+        return 0;
+    }
+
+    const activeDays = new Set(
+        getReadingDays(entries).filter((day) => day.pages > 0).map((day) => day.date),
+    )
+
+    const cursor = new Date(
+        referenceData.getFullYear(),
+        referenceData.getMonth(),
+        referenceData.getDate(),
+    );
+
+    let streak = 0;
+
+    while (activeDays.has(getLocalDateKey(cursor))){
+        streak += 1;
+        cursor.setDate(cursor.getDate() - 1);
+
+    }
+    return streak
+}

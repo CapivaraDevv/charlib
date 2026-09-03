@@ -1,32 +1,39 @@
 import { motion } from "framer-motion";
 import { Flame, Trophy, Target } from "lucide-react";
-import { stats } from "../../data/stats";
-import { readingDays } from "../../data/readingDays";
+import { getReadingEntries } from "../../services/readingService";
+import {
+  getCurrentReadingStreak,
+  getRecentReadingDays,
+} from "../../utils/readingActivity";
 
-const recentActiveDays = readingDays.filter((d) => d.pages > 0).length;
-
-const journeyItems = [
-  {
-    icon: Flame,
-    title: "Sequência",
-    value: `${stats.streak} dias`,
-    detail: "Dias consecutivos de leitura",
-  },
-  {
-    icon: Trophy,
-    title: "Conquistas",
-    value: "Em breve",
-    detail: "Marcos desbloqueáveis",
-  },
-  {
-    icon: Target,
-    title: "Desafios",
-    value: `${recentActiveDays} dias`,
-    detail: "Com registro este mês",
-  },
-];
 
 export default function ReadingCardStreak() {
+  const entries = getReadingEntries();
+  const streak = getCurrentReadingStreak(entries);
+  const recentActiveDays = getRecentReadingDays(entries).filter(
+    (day) => day.pages > 0,
+  ).length;
+
+  const journeyItems = [
+    {
+      icon: Flame,
+      title: "Sequência",
+      value: `${streak} dia${streak === 1 ? "" : "s"}`,
+      detail: "Dias consecutivos de leitura",
+    },
+    {
+      icon: Trophy,
+      title: "Conquistas",
+      value: "Em breve",
+      detail: "Marcos desbloqueáveis",
+    },
+    {
+      icon: Target,
+      title: "Desafios",
+      value: `${recentActiveDays} dia${recentActiveDays === 1 ? "" : "s"}`,
+      detail: "Com registro nos últimos 30 dias",
+    },
+  ];
   return (
     <motion.section
       initial={{ opacity: 0, y: 24 }}
@@ -57,7 +64,10 @@ export default function ReadingCardStreak() {
             className="rounded-xl border border-text/10 bg-background/40 p-5 transition-colors hover:border-text/15 hover:bg-background/55"
           >
             <div className="flex items-start justify-between">
-              <item.icon className="h-5 w-5 text-primary/80" strokeWidth={1.5} />
+              <item.icon
+                className="h-5 w-5 text-primary/80"
+                strokeWidth={1.5}
+              />
             </div>
 
             <p className="mt-4 text-xs font-medium uppercase tracking-wider text-text-muted">
@@ -79,7 +89,7 @@ export default function ReadingCardStreak() {
             <div
               key={i}
               className={`h-2 w-2 rounded-full ${
-                i < Math.min(stats.streak, 7)
+                i < Math.min(streak, 7)
                   ? "bg-primary/80"
                   : "bg-text-muted/25"
               }`}
