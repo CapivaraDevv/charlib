@@ -23,7 +23,7 @@ export default function GoalProgressDisplay({
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             {label}
           </p>
-          <p className="mt-1 font-display text-3xl font-bold tabular-nums text-primary">
+          <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight text-primary">
             {current}
             <span className="ml-1 text-lg font-normal text-text-muted">
               / {target}
@@ -37,7 +37,7 @@ export default function GoalProgressDisplay({
             key={percent}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-display text-2xl font-semibold tabular-nums text-text"
+            className="text-2xl font-semibold tabular-nums tracking-tight text-text"
           >
             {Math.round(percent)}%
           </motion.span>

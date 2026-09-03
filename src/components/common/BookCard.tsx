@@ -2,6 +2,7 @@ import type { Book } from "../../types/book";
 import Card from "./Card";
 import BookCover from "./BookCover";
 import ProgressBar from "./ProgressBar";
+import { Star } from "lucide-react";
 
 
 type BookCardProps = {
@@ -20,7 +21,8 @@ export default function BookCard({ book }: BookCardProps) {
         transition-all
         duration-300
         hover:-translate-y-1
-        hover:shadow-2xl
+        hover:shadow-xl
+        border border-text/10
         cursor-pointer
       "
     >
@@ -40,8 +42,9 @@ export default function BookCard({ book }: BookCardProps) {
         </p>
 
         <div className="mt-3 flex items-center justify-between">
-          <span className="text-primary font-semibold">
-            ⭐ {book.rating}
+          <span className="flex items-center gap-1 text-primary font-semibold">
+            <Star size={15} fill="currentColor" />
+            {book.rating}
           </span>
 
           <span className="text-xs text-text-muted">

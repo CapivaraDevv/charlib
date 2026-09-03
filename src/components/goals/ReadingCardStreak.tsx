@@ -74,7 +74,7 @@ export default function ReadingCardStreak() {
               {item.title}
             </p>
 
-            <p className="mt-1 font-display text-2xl font-bold text-text">
+            <p className="mt-1 text-2xl font-bold tracking-tight text-text">
               {item.value}
             </p>
 

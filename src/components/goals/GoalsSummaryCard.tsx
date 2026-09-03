@@ -55,7 +55,7 @@ export default function GoalsSummaryCard() {
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
             Metas ativas
           </p>
-          <p className="mt-2 font-display text-4xl font-bold tabular-nums text-primary">
+          <p className="mt-2 text-4xl font-bold tabular-nums tracking-tight text-primary">
             {activeCount}
             <span className="text-lg font-normal text-text-muted/70"> / 3</span>
           </p>
@@ -74,7 +74,7 @@ export default function GoalsSummaryCard() {
           </p>
           {primaryGoal ? (
             <>
-              <p className="mt-2 font-display text-4xl font-bold tabular-nums text-text">
+              <p className="mt-2 text-4xl font-bold tabular-nums tracking-tight text-text">
                 {progressPercent}
                 <span className="text-lg font-normal text-text-muted/70">%</span>
               </p>
@@ -86,7 +86,7 @@ export default function GoalsSummaryCard() {
             </>
           ) : (
             <>
-              <p className="mt-2 font-display text-2xl font-semibold text-text-muted/50">
+              <p className="mt-2 text-2xl font-semibold text-text-muted/50">
                 —
               </p>
               <p className="mt-1 text-sm text-text-muted">Sem meta prioritária</p>

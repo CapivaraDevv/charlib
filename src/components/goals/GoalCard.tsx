@@ -146,7 +146,7 @@ export default function GoalCard({
                 key={goal.target}
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="mt-2 font-display text-5xl font-bold tabular-nums text-primary"
+                className="mt-2 text-5xl font-bold tabular-nums tracking-tight text-primary"
               >
                 {goal.target}
               </motion.p>
