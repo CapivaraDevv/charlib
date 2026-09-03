@@ -4,7 +4,10 @@ import {
   getWeeklyReadingGoal,
   getMonthlyReadingGoal,
 } from "../../services/readingService";
-import { getProgressForPeriod } from "../../utils/goalProgress";
+import {
+  getProgressForPeriod,
+  getProgressPercent,
+} from "../../utils/goalProgress";
 import ProgressBar from "../common/ProgressBar";
 
 export default function GoalsSummaryCard() {
@@ -36,10 +39,9 @@ export default function GoalsSummaryCard() {
       ? getProgressForPeriod(primaryPeriod, primaryGoal.type)
       : 0;
 
-  const progressPercent =
-    primaryGoal && primaryGoal.target > 0
-      ? Math.min(100, Math.round((currentProgress / primaryGoal.target) * 100))
-      : 0;
+  const progressPercent = primaryGoal
+    ? getProgressPercent(currentProgress, primaryGoal.target)
+    : 0;
 
   return (
     <motion.section
