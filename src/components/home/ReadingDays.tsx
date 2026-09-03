@@ -8,8 +8,8 @@ export default function ReadingDays() {
   const readingDays = getRecentReadingDays(entries);
 
   return (
-    <Card className="mt-8 p-8">
-        <h2 className="font-display text-2xl font-bold text-text">
+    <Card className="mt-8 p-5 sm:p-8">
+        <h2 className="font-display text-xl font-bold text-text sm:text-2xl">
             Dias de leitura
         </h2>
 

@@ -107,7 +107,7 @@ export default function GoalCard({
         bg-card-background shadow-[0_8px_32px_rgba(0,0,0,0.22)]
         transition-shadow duration-300 hover:border-text/15
         hover:shadow-[0_12px_40px_rgba(0,0,0,0.28)]
-        ${isFeatured ? "p-8 lg:p-9" : "p-6 lg:p-7"}
+        ${isFeatured ? "p-6 sm:p-8 lg:p-9" : "p-5 sm:p-6 lg:p-7"}
       `}
     >
       <header className="relative">

@@ -39,7 +39,7 @@ export default function ReadingCardStreak() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.3 }}
-      className="relative overflow-hidden rounded-[var(--radius-card)] border border-text/10 bg-card-background p-6 lg:p-8"
+      className="relative overflow-hidden rounded-[var(--radius-card)] border border-text/10 bg-card-background p-5 sm:p-6 lg:p-8"
     >
       <div className="relative">
         <p className="text-xs font-medium uppercase tracking-[0.22em] text-text-muted">

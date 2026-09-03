@@ -326,13 +326,17 @@ export default function BookReader() {
 
       {/* Informações */}
       {!readingMode && (
-        <section className="flex gap-10 p-10">
-          <img src={book.image} alt={book.title} className="w-52 rounded-lg" />
+        <section className="flex flex-col gap-6 p-4 sm:flex-row sm:gap-10 sm:p-10">
+          <img
+            src={book.image}
+            alt={book.title}
+            className="mx-auto w-36 rounded-lg sm:mx-0 sm:w-52"
+          />
 
-          <div>
-            <h1 className="text-5xl font-bold">{book.title}</h1>
+          <div className="min-w-0 flex-1">
+            <h1 className="break-words text-3xl font-bold sm:text-5xl">{book.title}</h1>
 
-            <p className="mt-3 text-xl text-gray-400">{book.author}</p>
+            <p className="mt-3 text-lg text-gray-400 sm:text-xl">{book.author}</p>
 
             <div className="mt-8">
               <p className="mb-2">Progresso</p>
@@ -388,7 +392,7 @@ export default function BookReader() {
       />
 
       {readingError && (
-        <p role="alert" className="px-10 py-3 text-sm text-red-300">
+        <p role="alert" className="px-4 py-3 text-sm text-red-300 sm:px-10">
           {readingError}
         </p>
       )}

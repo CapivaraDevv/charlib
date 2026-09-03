@@ -19,15 +19,15 @@ export default function RecentBooks({ books }: RecentBooksProps) {
   .slice(0, 4);
 
   return (
-    <Card className="mt-8 p-8">
-      <div className="mb-6 flex items-center justify-between px-4">
-        <h2 className="font-display text-2xl font-bold text-text">
+    <Card className="mt-8 p-5 sm:p-8">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="font-display text-xl font-bold text-text sm:text-2xl">
           Adicionados recentemente
         </h2>
 
         <Link
           to="/library"
-          className="cursor-pointer rounded-2xl bg-primary p-2 font-bold text-background transition hover:bg-primary-hover"
+          className="self-start cursor-pointer rounded-2xl bg-primary p-2 font-bold text-background transition hover:bg-primary-hover sm:self-auto"
         >
           Ver todos
         </Link>

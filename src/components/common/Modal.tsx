@@ -57,7 +57,7 @@ export default function Modal({
         aria-labelledby={title ? titleId : undefined}
         onClick={(e) => e.stopPropagation()}
         className={clsx(
-          "w-full rounded-2xl bg-surface p-6 shadow-xl",
+          "max-h-[calc(100vh-2rem)] w-full overflow-y-auto rounded-2xl bg-surface p-5 shadow-xl sm:p-6",
           sizes[size],
           className,
         )}

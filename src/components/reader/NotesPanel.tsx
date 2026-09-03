@@ -44,7 +44,7 @@ export default function NotesPanel({
   return (
     <>
       <aside
-        className={`fixed top-0 right-0 z-40 h-screen w-[380px] border-l border-white/10 bg-card-background shadow-2xl transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-40 h-screen w-full max-w-[380px] border-l border-white/10 bg-card-background shadow-2xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >

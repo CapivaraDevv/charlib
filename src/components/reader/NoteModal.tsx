@@ -61,12 +61,12 @@ export default function NoteModal({
         "
       />
 
-      <div className="mt-6 flex justify-end gap-3">
-        <Button variant="outline" onClick={onClose} className="w-auto">
+      <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
           Cancelar
         </Button>
 
-        <Button onClick={handleSave} className="w-auto">
+        <Button onClick={handleSave} className="w-full sm:w-auto">
           {note ? "Atualizar" : "Salvar"}
         </Button>
       </div>

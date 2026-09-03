@@ -17,7 +17,7 @@ export default function BookmarksPanel({
 }: BookmarksPanelProps) {
   return (
     <aside
-      className={`fixed right-0 top-0 z-50 h-screen w-96 border-l border-card-background bg-card-background shadow-2xl transition-transform duration-300 ${
+      className={`fixed right-0 top-0 z-50 h-screen w-full max-w-sm border-l border-card-background bg-card-background shadow-2xl transition-transform duration-300 ${
         open ? "translate-x-0" : "translate-x-full"
       }`}
     >

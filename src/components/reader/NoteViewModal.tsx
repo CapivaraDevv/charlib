@@ -38,11 +38,11 @@ export default function NoteViewModal({
         {note.content}
       </div>
 
-      <div className="mt-6 flex justify-end gap-3">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
         <Button
           onClick={() => onDelete(note)}
           variant="danger"
-          className="flex items-center gap-2"
+          className="flex w-full items-center gap-2 sm:w-auto"
         >
           <Trash2 size={18} />
           Excluir
@@ -51,7 +51,7 @@ export default function NoteViewModal({
         <Button
           onClick={() => onEdit(note)}
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex w-full items-center gap-2 sm:w-auto"
         >
           <Pencil size={18} />
           Editar
@@ -59,7 +59,7 @@ export default function NoteViewModal({
 
         <Button
           onClick={() => onGoToPage(note.page)}
-          className="flex items-center gap-2"
+          className="flex w-full items-center gap-2 sm:w-auto"
         >
           <BookOpen size={18} />
           Ir para página

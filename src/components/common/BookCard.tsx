@@ -27,7 +27,7 @@ export default function BookCard({ book }: BookCardProps) {
       <BookCover
         src={book.image}
         alt={book.title}
-        className="h-64 w-full"
+        className="h-48 w-full sm:h-64"
       />
 
       <div className="mt-4">

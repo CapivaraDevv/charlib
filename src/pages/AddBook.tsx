@@ -78,7 +78,7 @@ export default function AddBook() {
             Sua coleção
           </p>
 
-          <h1 className="mt-2 font-display text-4xl font-bold text-text">
+          <h1 className="mt-2 font-display text-3xl font-bold text-text sm:text-4xl">
             Adicionar livro
           </h1>
 

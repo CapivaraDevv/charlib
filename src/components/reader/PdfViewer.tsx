@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.js?url";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -28,6 +28,27 @@ export default function PdfViewer({
 }: PdfViewerProps) {
   const [numPages, setNumPages] = useState(0);
   const [lastPageRegistered, setLastPageRegistered] = useState(false);
+  const [pageWidth, setPageWidth] = useState(600);
+  const viewerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const viewer = viewerRef.current;
+
+    if (!viewer) return;
+
+    function updatePageWidth() {
+      if (!viewer) return;
+
+      setPageWidth(Math.min(800, viewer.clientWidth));
+    }
+
+    updatePageWidth();
+
+    const observer = new ResizeObserver(updatePageWidth);
+    observer.observe(viewer);
+
+    return () => observer.disconnect();
+  }, []);
 
   function onLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -100,13 +121,15 @@ export default function PdfViewer({
   }, [nextPage, prevPage, navigationEnabled]);
 
   return (
-    <div className="flex flex-col items-center gap-4 mb-4">
-      <div className="relative inline-block">
+    <div className="mb-4 flex w-full flex-col items-center gap-4">
+      <div ref={viewerRef} className="w-full max-w-4xl px-4 sm:px-6">
+      <div className="relative flex justify-center">
         <BookmarkRibbon active={bookmarked} />
 
         <Document file={file} onLoadSuccess={onLoadSuccess}>
           <Page
             pageNumber={page}
+            width={pageWidth}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />
@@ -115,6 +138,7 @@ export default function PdfViewer({
             <div className="hidden">
               <Page
                 pageNumber={page + 1}
+                width={pageWidth}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
               />
@@ -125,6 +149,7 @@ export default function PdfViewer({
             <div className="hidden">
               <Page
                 pageNumber={page - 1}
+                width={pageWidth}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
               />
@@ -132,8 +157,9 @@ export default function PdfViewer({
           )}
         </Document>
       </div>
+      </div>
 
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
         <button onClick={prevPage} disabled={!navigationEnabled || page <= 1}>
           <ChevronLeft />
         </button>

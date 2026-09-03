@@ -46,7 +46,7 @@ export default function GoalsSummaryCard() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="relative overflow-hidden rounded-[var(--radius-card)] border border-text/10 bg-surface p-6 lg:p-8"
+      className="relative overflow-hidden rounded-[var(--radius-card)] border border-text/10 bg-surface p-5 sm:p-6 lg:p-8"
     >
       <div className="relative grid gap-6 sm:grid-cols-3">
         <div className="sm:border-r sm:border-text/10 sm:pr-6">

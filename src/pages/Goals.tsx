@@ -21,8 +21,12 @@ export default function Goals() {
     <DashboardLayout>
       <div className="mx-auto w-full max-w-6xl space-y-8 pb-8 sm:space-y-10">
         <GoalsHero />
-        <div className="flex justify-end">
-          <Button type="button" onClick={() => setIsManualReadingOpen(true)}>
+        <div className="flex sm:justify-end">
+          <Button
+            type="button"
+            className="w-full sm:w-auto"
+            onClick={() => setIsManualReadingOpen(true)}
+          >
             Registrar leitura
           </Button>
         </div>
@@ -38,7 +42,7 @@ export default function Goals() {
           </h2>
 
           <div className="flex flex-col gap-5">
-            <div className="flex flex-row grid grid-cols-2 gap-5 ">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <DailyGoalCard onGoalChange={refreshGoalsData} />
               <WeeklyGoalCard onGoalChange={refreshGoalsData} />
             </div>

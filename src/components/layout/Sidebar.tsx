@@ -1,7 +1,11 @@
 import Logo from "../../assets/Logo.png";
 import { NavLink } from "react-router-dom";
 
-export default function Sidebar() {
+type SidebarProps = {
+  mobile?: boolean;
+};
+
+export default function Sidebar({ mobile = false }: SidebarProps) {
   const menu = [
     { label: "Home", path: "/" },
     { label: "Biblioteca", path: "/library" },
@@ -12,17 +16,35 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="flex h-screen w-64 flex-col bg-[#372318]">
-      <header className="flex items-center justify-center py-8">
-        <img src={Logo} alt="LogoCharlib" className="w-40" />
+    <aside
+      className={
+        mobile
+          ? "w-full bg-[#372318]"
+          : "flex h-screen w-64 flex-col bg-[#372318]"
+      }
+    >
+      <header
+        className={
+          mobile
+            ? "flex items-center px-4 py-3"
+            : "flex items-center justify-center py-8"
+        }
+      >
+        <img src={Logo} alt="LogoCharlib" className={mobile ? "w-24" : "w-40"} />
       </header>
-      <nav className="mt-8 flex flex-col gap-4 px-6">
+      <nav
+        className={
+          mobile
+            ? "flex gap-2 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            : "mt-8 flex flex-col gap-4 px-6"
+        }
+      >
         {menu.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-lg px-4 py-3 transition-colors ${
+              `${mobile ? "shrink-0 px-3 py-2 text-sm" : "px-4 py-3"} rounded-lg transition-colors ${
                 isActive
                   ? "bg-surface-hover text-text"
                   : "text-text-muted hover:bg-surface hover:text-text"
