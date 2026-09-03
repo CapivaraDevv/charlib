@@ -11,8 +11,6 @@ export default function Sidebar({ mobile = false }: SidebarProps) {
     { label: "Biblioteca", path: "/library" },
     { label: "Adicionar Livro", path: "/adicionar-livro" },
     { label: "Objetivos", path: "/objetivos" },
-    { label: "Estatísticas", path: "/estatisticas" },
-    { label: "Configurações", path: "/configuracoes" },
   ];
 
   return (

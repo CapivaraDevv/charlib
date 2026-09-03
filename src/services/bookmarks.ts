@@ -1,19 +1,22 @@
 import type { BookMark } from "../types/bookmark";
+import { getStoredJson } from "../utils/storage";
 
 const STORAGE_KEY = "charlib-bookmarks"
 
+function getAllBookmarks(): BookMark[] {
+  const bookmarks = getStoredJson<unknown>(STORAGE_KEY);
+
+  return Array.isArray(bookmarks) ? (bookmarks as BookMark[]) : [];
+}
+
 export function getBookMarks(bookId: number): BookMark[] {
-    const bookmarks: BookMark[] = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) ?? "[]"
-    )
+    const bookmarks = getAllBookmarks();
 
     return bookmarks.filter((bookmark) => bookmark.bookId === bookId)
 }
 
 export function saveBookMark(bookmark: BookMark){
-    const bookmarks: BookMark[] = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) ?? "[]"
-    );
+    const bookmarks = getAllBookmarks();
 
     localStorage.setItem(
         STORAGE_KEY,
@@ -22,9 +25,7 @@ export function saveBookMark(bookmark: BookMark){
 }
 
 export function removeBookMark(id: string){
-    const bookmarks: BookMark[] = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) ?? "[]"
-    )
+    const bookmarks = getAllBookmarks();
 
     localStorage.setItem(
         STORAGE_KEY,
@@ -33,9 +34,7 @@ export function removeBookMark(id: string){
 }
 
 export function removeBookMarksForBook(bookId: number): void {
-  const bookmarks: BookMark[] = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) ?? "[]",
-  );
+  const bookmarks = getAllBookmarks();
 
   const remainingBookmarks = bookmarks.filter(
     (bookmark) => bookmark.bookId !== bookId,

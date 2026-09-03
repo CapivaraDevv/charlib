@@ -42,6 +42,14 @@ export default function BookReader() {
 
   const book = books.find((book) => book.id === Number(id));
 
+  const [notes, setNotes] = useState<Note[]>(() =>
+    book ? getNotes(book.id) : [],
+  );
+
+  const [bookMarks, setBookMarks] = useState<BookMark[]>(() =>
+    book ? getBookMarks(book.id) : [],
+  );
+
   useEffect(() => {
     if (!book) return;
 
@@ -53,18 +61,6 @@ export default function BookReader() {
 
     localStorage.setItem("last-book", String(book.id));
   }, [book]);
-
-  const [notes, setNotes] = useState<Note[]>(() => {
-    if (!book) return [];
-
-    return getNotes(book.id);
-  });
-
-  const [bookMarks, setBookMarks] = useState<BookMark[]>(() => {
-    if (!book) return [];
-
-    return getBookMarks(book.id);
-  });
 
   useEffect(() => {
     if (!readingMode) {
@@ -176,7 +172,9 @@ export default function BookReader() {
       setReadingError(null);
       return true;
     } catch {
-      setReadingError("Não foi possível registrar a leitura desta página. Tente novamente.");
+      setReadingError(
+        "Não foi possível registrar a leitura desta página. Tente novamente.",
+      );
       return false;
     }
   }
@@ -334,9 +332,13 @@ export default function BookReader() {
           />
 
           <div className="min-w-0 flex-1">
-            <h1 className="break-words text-3xl font-bold sm:text-5xl">{book.title}</h1>
+            <h1 className="break-words text-3xl font-bold sm:text-5xl">
+              {book.title}
+            </h1>
 
-            <p className="mt-3 text-lg text-gray-400 sm:text-xl">{book.author}</p>
+            <p className="mt-3 text-lg text-gray-400 sm:text-xl">
+              {book.author}
+            </p>
 
             <div className="mt-8">
               <p className="mb-2">Progresso</p>

@@ -1,13 +1,14 @@
 import type { Note } from "../types/note";
+import { getStoredJson } from "../utils/storage";
 
 function getStorageKey(bookId: number) {
     return `book-notes-${bookId}`;
 }
 
 export function getNotes(bookId: number): Note[] {
-    const notes = localStorage.getItem(getStorageKey(bookId))
+  const notes = getStoredJson<unknown>(getStorageKey(bookId));
 
-    return notes ? JSON.parse(notes) : [];
+  return Array.isArray(notes) ? (notes as Note[]) : [];
 }
 
 export function saveNote(note: Note) {
