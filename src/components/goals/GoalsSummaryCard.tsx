@@ -5,6 +5,7 @@ import {
   getMonthlyReadingGoal,
 } from "../../services/readingService";
 import { getProgressForPeriod } from "../../utils/goalProgress";
+import ProgressBar from "../common/ProgressBar";
 
 export default function GoalsSummaryCard() {
   const daily = getDailyReadingGoal();
@@ -79,6 +80,7 @@ export default function GoalsSummaryCard() {
                 {currentProgress} de {primaryGoal.target}{" "}
                 {primaryGoal.type === "pages" ? "páginas" : "min"}
               </p>
+              <ProgressBar value={progressPercent} className="mt-3" />
             </>
           ) : (
             <>
