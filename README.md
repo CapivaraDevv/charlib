@@ -2,6 +2,8 @@
 
 Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de leitura. O CharLib funciona localmente no navegador: os dados permanecem no dispositivo do usuário, sem exigir cadastro ou servidor.
 
+🔗 **Demo:** https://charlib-three.vercel.app/
+
 ## Funcionalidades
 
 - Biblioteca com busca, filtros e ordenação.
