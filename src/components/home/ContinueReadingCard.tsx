@@ -7,16 +7,51 @@ import ProgressBar from "../common/ProgressBar";
 
 type ContinueReadingCardProps = {
   book: Book;
+  lastReadAt: string | null;
 };
+
+function formatLastRead(dateString: string | null): string {
+  if (!dateString) {
+    return "Ainda não há leitura registrada";
+  }
+
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Ainda não há leitura registrada";
+  }
+
+  const now = new Date();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+
+  const time = date.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (date.toDateString() === now.toDateString()) {
+    return `Hoje às ${time}`;
+  }
+
+  if (date.toDateString() === yesterday.toDateString()) {
+    return `Ontem às ${time}`;
+  }
+
+  return `Última leitura em ${date.toLocaleDateString("pt-BR")}`;
+}
 
 export default function ContinueReadingCard({
   book,
+  lastReadAt,
 }: ContinueReadingCardProps) {
   const currentPage =
     Number(localStorage.getItem(`book-progress-${book.id}`)) ||
     book.currentPage;
 
   const progress = Math.round((currentPage / book.pages) * 100);
+
+  const lastReadText = formatLastRead(lastReadAt);
 
   return (
     <Card className="mt-6 flex flex-col p-5 sm:p-8">
@@ -52,7 +87,7 @@ export default function ContinueReadingCard({
             <ProgressBar value={progress} />
           </div>
 
-          <p className="mt-2 text-text-muted">Última leitura hoje às 20:15</p>
+          <p className="mt-2 text-text-muted">{lastReadText}</p>
 
           <Link
             to={`/library/${book.id}`}

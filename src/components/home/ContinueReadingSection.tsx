@@ -32,9 +32,29 @@ export default function ContinueReadingSection({
 
   const lastBook = books.find((book) => book.id === lastBookId) ?? books[0];
 
+  const lastReadAt = lastBook
+  ? entries.reduce<string | null>((latestDate, entry) => {
+      if (
+        entry.bookId !== lastBook.id ||
+        Number.isNaN(Date.parse(entry.date))
+      ) {
+        return latestDate;
+      }
+
+      if (
+        latestDate === null ||
+        Date.parse(entry.date) > Date.parse(latestDate)
+      ) {
+        return entry.date;
+      }
+
+      return latestDate;
+    }, null)
+  : null;
+
   return (
     <section className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-2">
-      {lastBook && <ContinueReadingCard book={lastBook} />}
+      {lastBook && <ContinueReadingCard book={lastBook} lastReadAt={lastReadAt} />}
 
       <aside className="flex flex-col gap-4 lg:pt-6">
         <StatsCard
