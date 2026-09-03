@@ -6,7 +6,7 @@ import {
   getMonthlyReadingGoal,
 } from "../../services/readingService";
 import { getCurrentReadingStreak } from "../../utils/readingActivity";
-import { getProgressForPeriod } from "../../utils/goalProgress";
+import { getProgressForPeriod, getProgressPercent } from "../../utils/goalProgress";
 import { Flame, BookOpen, Target } from "lucide-react";
 
 type ContinueReadingSectionProps = {
@@ -25,6 +25,11 @@ export default function ContinueReadingSection({
     ? getProgressForPeriod("monthly", monthlyGoal.type)
     : null;
 
+  const monthlyProgressPercent =
+  monthlyGoal?.enabled && monthlyProgress !== null
+    ? getProgressPercent(monthlyProgress, monthlyGoal.target)
+    : undefined;
+
   const lastBook = books.find((book) => book.id === lastBookId) ?? books[0];
 
   return (
@@ -41,6 +46,7 @@ export default function ContinueReadingSection({
 
         <StatsCard
           title="Meta do mês"
+          progress={monthlyProgressPercent}
           value={
             monthlyGoal?.enabled
               ? `${monthlyProgress}/${monthlyGoal.target}`
