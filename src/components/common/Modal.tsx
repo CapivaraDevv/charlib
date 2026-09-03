@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useId, type ReactNode } from "react";
 import { X } from "lucide-react";
 import clsx from "clsx";
 
@@ -19,6 +19,8 @@ export default function Modal({
   className,
   size = "md",
 }: ModalProps) {
+  const titleId = useId();
+
   useEffect(() => {
     if (!open) return;
 
@@ -50,6 +52,9 @@ export default function Modal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
         onClick={(e) => e.stopPropagation()}
         className={clsx(
           "w-full rounded-2xl bg-surface p-6 shadow-xl",
@@ -59,11 +64,14 @@ export default function Modal({
       >
         <div className="mb-2 flex items-center justify-between">
           {title && (
-            <h2 className="font-display text-2xl font-bold">{title}</h2>
+            <h2 id={titleId} className="font-display text-2xl font-bold">
+              {title}
+            </h2>
           )}
 
           <button
             onClick={onClose}
+            aria-label="Fechar modal"
             className="rounded-lg p-2 transition hover:bg-surface-hover"
           >
             <X size={22} />
