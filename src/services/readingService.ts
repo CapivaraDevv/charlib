@@ -1,29 +1,36 @@
-import type { ReadingEntry, DailyReadingGoal, WeeklyReadingGoal, MonthlyReadingGoal, ReadingType } from "../types/reading";
+import type {
+  ReadingEntry,
+  DailyReadingGoal,
+  WeeklyReadingGoal,
+  MonthlyReadingGoal,
+  ReadingType,
+} from "../types/reading";
+import { getStoredJson } from "../utils/storage";
 
 const READING_ENTRIES_KEY = "reading_entries";
 
-export function getReadingEntries(): ReadingEntry[]{
-    const entries = localStorage.getItem(READING_ENTRIES_KEY);
+export function getReadingEntries(): ReadingEntry[] {
+  const storedEntries = getStoredJson<unknown>(READING_ENTRIES_KEY);
 
-    if(!entries){
-        return [];
-    }
+  if (!Array.isArray(storedEntries)) {
+    return [];
+  }
 
-    return JSON.parse(entries)
+  return storedEntries as ReadingEntry[];
 }
 
-export function addReadingEntry(entry: ReadingEntry): void{
-    const entries = getReadingEntries()
+export function addReadingEntry(entry: ReadingEntry): void {
+  const entries = getReadingEntries();
 
-    entries.push(entry)
+  entries.push(entry);
 
-    localStorage.setItem(READING_ENTRIES_KEY, JSON.stringify(entries))
+  localStorage.setItem(READING_ENTRIES_KEY, JSON.stringify(entries));
 }
 
 export function recordManualReading(
   bookId: number,
   type: ReadingType,
-  amount: number
+  amount: number,
 ): void {
   if (!Number.isInteger(bookId) || bookId <= 0) {
     throw new Error("Livro inválido.");
@@ -50,79 +57,56 @@ export function recordManualReading(
 const DAILY_READING_GOAL_KEY = "daily_reading_goal";
 
 export function setDailyReadingGoal(goal: DailyReadingGoal): void {
-    localStorage.setItem(
-        DAILY_READING_GOAL_KEY,
-        JSON.stringify(goal)
-    );
+  localStorage.setItem(DAILY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
 export function getDailyReadingGoal(): DailyReadingGoal | null {
-    const goal = localStorage.getItem(DAILY_READING_GOAL_KEY);
-
-    if(!goal){
-        return null;
-    }
-
-    return JSON.parse(goal)
+  return getStoredJson<DailyReadingGoal>(DAILY_READING_GOAL_KEY);
 }
 
 const WEEKLY_READING_GOAL_KEY = "weekly_reading_goal";
 
-export function getWeeklyReadingGoal() {
-    const data = localStorage.getItem(WEEKLY_READING_GOAL_KEY)
-
-    if(!data) return null;
-
-    return JSON.parse(data)
+export function getWeeklyReadingGoal(): WeeklyReadingGoal | null {
+  return getStoredJson<WeeklyReadingGoal>(WEEKLY_READING_GOAL_KEY);
 }
 
 export function setWeeklyReadingGoal(goal: WeeklyReadingGoal): void {
-    localStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal))
+  localStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
 const MONTHLY_READING_GOAL_KEY = "monthly_reading_goal";
 
-export function getMonthlyReadingGoal() {
-    const data = localStorage.getItem(MONTHLY_READING_GOAL_KEY)
-
-    if(!data) return null;
-
-    return JSON.parse(data)
+export function getMonthlyReadingGoal(): MonthlyReadingGoal | null {
+  return getStoredJson<MonthlyReadingGoal>(MONTHLY_READING_GOAL_KEY);
 }
 
 export function setMonthlyReadingGoal(goal: MonthlyReadingGoal): void {
-    localStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal))
+  localStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
-export function recordReadPage(
-    bookId: number,
-    pageNumber: number,
-): void {
-    if(
-        !Number.isInteger(bookId) ||
-        bookId < 1 ||
-        !Number.isInteger(pageNumber) ||
-        pageNumber < 1
-    ) {
-        return;
-    }
+export function recordReadPage(bookId: number, pageNumber: number): void {
+  if (
+    !Number.isInteger(bookId) ||
+    bookId < 1 ||
+    !Number.isInteger(pageNumber) ||
+    pageNumber < 1
+  ) {
+    return;
+  }
 
-    const entryId = `reader:${bookId}:page:${pageNumber}`;
-    const entries = getReadingEntries();
+  const entryId = `reader:${bookId}:page:${pageNumber}`;
+  const entries = getReadingEntries();
 
-    const alreadyRecorded = entries.some(
-        (entry) => entry.id === entryId,
-    );
+  const alreadyRecorded = entries.some((entry) => entry.id === entryId);
 
-    if (alreadyRecorded) return;
+  if (alreadyRecorded) return;
 
-    addReadingEntry({
-        id: entryId,
-        bookId,
-        type: "pages",
-        amount: 1,
-        date: new Date().toISOString(),
-        source: "reader",
-    });
-
+  addReadingEntry({
+    id: entryId,
+    bookId,
+    type: "pages",
+    amount: 1,
+    date: new Date().toISOString(),
+    source: "reader",
+  });
 }
