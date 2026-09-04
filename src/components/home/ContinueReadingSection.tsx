@@ -61,7 +61,6 @@ export default function ContinueReadingSection({
           title="Sequência"
           value={`${streak} dia${streak === 1 ? "" : "s"}`}
           subtitle="Lendo sem interrupções"
-          icon={<Flame size={28} />}
         />
 
         <StatsCard
@@ -79,14 +78,12 @@ export default function ContinueReadingSection({
                 : "Minutos lidos"
               : "Configure sua meta mensal"
           }
-          icon={<Target size={28} />}
         />
 
         <StatsCard
           title="Biblioteca"
           value={`${books.length}`}
           subtitle="Livros cadastrados"
-          icon={<BookOpen size={28} />}
         />
       </aside>
     </section>

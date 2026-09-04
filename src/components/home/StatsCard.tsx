@@ -10,7 +10,6 @@ type StatsCardProps = {
 
   subtitle?: string;
 
-  icon: ReactNode;
 
   progress?: number;
 };
@@ -22,15 +21,12 @@ export default function StatsCard({
 
   subtitle,
 
-  icon,
-
   progress,
 }: StatsCardProps) {
   
 
   return (
     <Card className="flex items-center gap-4 border border-text/10 p-4 shadow-sm transition-colors hover:border-text/20 sm:p-5">
-      <div className="rounded-2xl p-3 text-[#ffc46b]">{icon}</div>
 
       <div className="min-w-0 flex-1">
         <p className="text-sm text-text-muted">{title}</p>
