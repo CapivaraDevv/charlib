@@ -8,6 +8,7 @@ import {
   getProgressForPeriod,
   type GoalPeriod,
 } from "../../utils/goalProgress";
+import mouseCelebrating from "../../assets/mascot/mouse-celebrating.png";
 
 type GoalConfig = {
   enabled: boolean;
@@ -62,6 +63,9 @@ export default function GoalCard({
   const unit =
     goal?.type === "minutes" ? unitLabels.minutes : unitLabels.pages;
 
+  const isCompleted =
+    goal?.enabled && currentProgress >= goal.target;
+
   function handleSaveGoal() {
     if (target <= 0) return;
 
@@ -110,7 +114,16 @@ export default function GoalCard({
         ${isFeatured ? "p-6 sm:p-8 lg:p-9" : "p-5 sm:p-6 lg:p-7"}
       `}
     >
-      <header className="relative">
+      {isCompleted && (
+        <img
+          src={mouseCelebrating}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 -top-8 z-0 hidden w-40 opacity-30 lg:block"
+        />
+      )}
+
+      <header className="relative z-10">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
           {periodLabel}
         </p>
@@ -137,7 +150,7 @@ export default function GoalCard({
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <div className="relative mt-6 rounded-xl border border-text/10 bg-background/50 p-5">
+            <div className="relative z-10 mt-6 rounded-xl border border-text/10 bg-background/50 p-5">
               <p className="text-xs uppercase tracking-widest text-text-muted">
                 Meta definida
               </p>
@@ -215,7 +228,7 @@ export default function GoalCard({
         )}
       </AnimatePresence>
 
-      <div className="relative mt-6 flex flex-wrap gap-2">
+      <div className="relative z-10 mt-6 flex flex-wrap gap-2">
         {goal?.enabled && !isEditing ? (
           <Button variant="primary" onClick={() => setIsEditing(true)}>
             Editar meta

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../common/Button";
 import mouseReadingStack from "../../assets/mascot/mouse-reading-stack.png";
+import mouseSearching from "../../assets/mascot/mouse-searching.png";
 
 type EmptyLibraryProps = {
   hasActiveFilters?: boolean;
@@ -21,6 +22,15 @@ export default function EmptyLibrary({
             pointer-events-none absolute -right-10 -bottom-4 z-0
             hidden h-44 w-auto md:block
             "
+          />
+        )}
+
+        {hasActiveFilters && (
+          <img
+            src={mouseSearching}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-12 -bottom-6 z-0 hidden h-48 w-auto md:block"
           />
         )}
         <div className="relative z-10 space-y-6" aria-hidden>

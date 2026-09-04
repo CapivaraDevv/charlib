@@ -1,6 +1,7 @@
 import type { Note } from "../../types/note";
-import { Pencil, Trash2, NotebookText } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import EmptyState from "../common/EmptyState";
+import mouseWritingNote from "../../assets/mascot/mouse-writing-note.png";
 
 type NotesListProps = {
   notes: Note[];
@@ -20,7 +21,14 @@ export default function NotesList({
   if (notes.length === 0) {
     return (
       <EmptyState
-        icon={<NotebookText size={40} />}
+        illustration={
+          <img
+            src={mouseWritingNote}
+            alt=""
+            aria-hidden="true"
+            className="h-28 w-auto"
+          />
+        }
         title="Nenhuma nota"
         description="Crie sua primeira anotação durante a leitura."
       />

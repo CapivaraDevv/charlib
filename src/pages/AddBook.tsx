@@ -7,6 +7,7 @@ import Button from "../components/common/Button";
 import type { Book } from "../types/book";
 import { saveBook } from "../services/libraryService";
 import { useLibrary } from "../hooks/useLibrary";
+import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -73,18 +74,27 @@ export default function AddBook() {
   return (
     <DashboardLayout>
       <div className="mx-auto w-full max-w-5xl ">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
-            Sua coleção
-          </p>
+        <header className="relative">
+          <img
+            src={mouseCarryingBooks}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-8 -top-10 z-0 hidden h-44 w-auto xl:block"
+          />
 
-          <h1 className="mt-2 font-display text-3xl font-bold text-text sm:text-4xl">
-            Adicionar livro
-          </h1>
+          <div className="relative z-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+              Sua coleção
+            </p>
 
-          <p className="mt-3 max-w-2xl text-text-muted">
-            Cadastre um PDF para começar a leitura e acompanhar seu progresso.
-          </p>
+            <h1 className="mt-2 font-display text-3xl font-bold text-text sm:text-4xl">
+              Adicionar livro
+            </h1>
+
+            <p className="mt-3 max-w-2xl text-text-muted">
+              Cadastre um PDF para começar a leitura e acompanhar seu progresso.
+            </p>
+          </div>
         </header>
 
         <Card className="mt-8 border border-text/10 p-6 shadow-xl sm:p-8">
