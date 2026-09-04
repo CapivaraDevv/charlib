@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 
 import ProgressBar from "../common/ProgressBar";
-import MouseReading from "../../../dist/assets/Logo-Clk3JzQt.png";
+import mousePeeking from "../../assets/mascot/mouse-peeking.png";
 
 type ContinueReadingCardProps = {
   book: Book;
@@ -56,19 +56,18 @@ export default function ContinueReadingCard({
   const lastReadText = formatLastRead(lastReadAt);
 
   return (
-    <div className="relative ">
+    <div className="relative mt-6">
       <img
-        src={MouseReading}
+        src={mousePeeking}
         alt=""
         aria-hidden="true"
         className="
-        pointer-events-none absolute -right-8 -top-12 z-0
-        hidden w-40 rotate-6 opacity-90
-        lg:block
+        pointer-events-none absolute -right-12 top-25 z-10
+        hidden w-64 lg:block
       "
       />
 
-      <Card className="mt-6 flex flex-col border border-text/10 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.16)] sm:p-8">
+      <Card className="relative z-0 flex flex-col border border-text/10 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.16)] sm:p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">

@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
+import mouseResting from "../assets/mascot/mouse-resting.png"
 
 export default function NotFound() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-4 text-text">
-      <section className="max-w-md text-center">
+      <section className="relative max-w-md text-center mt-12">
+        <img
+            src={mouseResting}
+            alt=""
+            aria-hidden="true"
+            className="
+            pointer-events-none absolute right-15 -top-40 z-0
+            hidden h-44 w-auto md:block
+            "
+          />
         <p className="font-display text-7xl font-bold text-primary sm:text-8xl">
           404
         </p>

@@ -28,7 +28,7 @@ export default function Sidebar({ mobile = false }: SidebarProps) {
             : "flex items-center justify-center py-8"
         }
       >
-        <img src={Logo} alt="LogoCharlib" className={mobile ? "w-24" : "w-40"} />
+        <img src={Logo} alt="LogoCharlib" className={mobile ? "w-24" : "w-72"} />
       </header>
       <nav
         className={
