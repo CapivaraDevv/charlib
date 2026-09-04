@@ -33,7 +33,7 @@ export default function Sidebar({ mobile = false }: SidebarProps) {
       <nav
         className={
           mobile
-            ? "flex gap-2 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            ? "flex gap-2 overflow-x-auto px-4 pb-3 scrollbar-none [&::-webkit-scrollbar]:hidden"
             : "mt-8 flex flex-col gap-4 px-6"
         }
       >

@@ -2,37 +2,23 @@ interface BookmarkRibbonProps {
   active: boolean;
 }
 
+import mouseBookmark from "../../assets/decorations/mouse-bookmark.png";
+
 export default function BookmarkRibbon({ active }: BookmarkRibbonProps) {
   return (
     <div
       className={`
-        absolute
-        top-0
-        right-4
-        z-20
-        transition-all
-        duration-300
-        ${
-          active
-            ? "translate-y-0 opacity-100"
-            : "-translate-y-6 opacity-0 pointer-events-none"
-        }
-      `}
+      pointer-events-none absolute right-2 -top-12 z-20
+      transition-all duration-300 sm:right-4
+      ${active ? "translate-y-0 opacity-100" : "-translate-y-8 opacity-0"}
+    `}
     >
-      <svg
-        width="32"
-        height="84"
-        viewBox="0 0 32 84"
-        xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-lg"
-      >
-        <path
-          d="M0 0 H32 V68 L16 84 L0 68 Z"
-          fill="#7A4A2A"
-          stroke="#5E3420"
-          strokeWidth="1.5"
-        />
-      </svg>
+      <img
+        src={mouseBookmark}
+        alt=""
+        aria-hidden="true"
+        className="h-32 w-auto max-w-none drop-shadow-lg sm:h-36"
+      />
     </div>
   );
 }

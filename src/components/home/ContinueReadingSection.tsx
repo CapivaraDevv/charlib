@@ -7,7 +7,7 @@ import {
 } from "../../services/readingService";
 import { getCurrentReadingStreak } from "../../utils/readingActivity";
 import { getProgressForPeriod, getProgressPercent } from "../../utils/goalProgress";
-import { Flame, BookOpen, Target } from "lucide-react";
+
 
 type ContinueReadingSectionProps = {
   books: Book[];

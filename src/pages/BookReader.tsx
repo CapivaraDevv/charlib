@@ -352,7 +352,7 @@ export default function BookReader() {
               <div className="mt-8">
                 <p className="mb-2">Progresso</p>
 
-                <ProgressBar value={progress} />
+                <ProgressBar value={progress} className="max-w-sm" />
 
                 <p className="mt-2">
                   {currentPage} / {book.pages} páginas

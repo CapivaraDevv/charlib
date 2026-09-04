@@ -21,7 +21,7 @@ export default function Goals() {
     <DashboardLayout>
       <div className="mx-auto w-full max-w-6xl space-y-8 pb-8 sm:space-y-10">
         <GoalsHero />
-        <div className="flex sm:justify-end">
+        <div className="flex">
           <Button
             type="button"
             className="w-full sm:w-auto"

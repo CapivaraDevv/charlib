@@ -10,6 +10,10 @@ import { useLibrary } from "../hooks/useLibrary";
 import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
 import booksCorner from "../assets/decorations/books-corner.png";
 
+const MAX_PDF_SIZE = 25 * 1024 * 1024;
+const MAX_COVER_SIZE = 5 * 1024 * 1024;
+const VALID_COVER_TYPES = ["image/png", "image/jpeg", "image/webp"];
+
 export default function AddBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -44,6 +48,29 @@ export default function AddBook() {
 
     if (!pdf) {
       setError("Selecione o PDF do livro.");
+      return;
+    }
+
+    const isPdf =
+      pdf.type === "application/pdf" || pdf.name.toLowerCase().endsWith(".pdf");
+
+    if (!isPdf) {
+      setError("Selecione um arquivo PDF válido.");
+      return;
+    }
+
+    if (pdf.size > MAX_PDF_SIZE) {
+      setError("O PDF deve ter no máximo 25 MB.");
+      return;
+    }
+
+    if (cover && !VALID_COVER_TYPES.includes(cover.type)) {
+      setError("A capa deve estar no formato PNG, JPG ou WebP.");
+      return;
+    }
+
+    if (cover && cover.size > MAX_COVER_SIZE) {
+      setError("A capa deve ter no máximo 5 MB.");
       return;
     }
 
@@ -242,6 +269,12 @@ export default function AddBook() {
                 </label>
               </div>
             </div>
+
+            <p className="rounded-xl border border-text/10 bg-background/30 px-4 py-3 text-xs leading-relaxed text-text-muted">
+              Seus arquivos ficam somente neste navegador. Eles não são enviados
+              para servidores e podem ser perdidos se você limpar os dados do
+              navegador.
+            </p>
 
             {error && (
               <p

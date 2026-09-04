@@ -3,6 +3,9 @@ import Card from "../common/Card";
 import type { Book } from "../../types/book";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
+import Button from "../common/Button";
+import { useNavigate } from "react-router-dom";
+
 
 import ProgressBar from "../common/ProgressBar";
 import mousePeeking from "../../assets/mascot/mouse-peeking.png";
@@ -23,23 +26,24 @@ function formatLastRead(dateString: string | null): string {
     return "Ainda não há leitura registrada";
   }
 
+  
   const now = new Date();
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
-
+  
   const time = date.toLocaleTimeString("pt-BR", {
     hour: "2-digit",
     minute: "2-digit",
   });
-
+  
   if (date.toDateString() === now.toDateString()) {
     return `Hoje às ${time}`;
   }
-
+  
   if (date.toDateString() === yesterday.toDateString()) {
     return `Ontem às ${time}`;
   }
-
+  
   return `Última leitura em ${date.toLocaleDateString("pt-BR")}`;
 }
 
@@ -48,11 +52,12 @@ export default function ContinueReadingCard({
   lastReadAt,
 }: ContinueReadingCardProps) {
   const currentPage =
-    Number(localStorage.getItem(`book-progress-${book.id}`)) ||
-    book.currentPage;
-
+  Number(localStorage.getItem(`book-progress-${book.id}`)) ||
+  book.currentPage;
+  
   const progress = Math.round((currentPage / book.pages) * 100);
-
+  
+  const navigate = useNavigate();
   const lastReadText = formatLastRead(lastReadAt);
 
   return (
@@ -119,13 +124,11 @@ export default function ContinueReadingCard({
 
             <p className="mt-2 text-text-muted">{lastReadText}</p>
 
-            <Link
-              to={`/library/${book.id}`}
-              className="mt-6 inline-flex self-stretch items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-6 py-3 text-center font-medium text-primary transition-colors hover:bg-primary hover:text-background sm:mt-auto sm:self-end"
-            >
-              Continuar leitura
-              <ArrowRight size={18} />
-            </Link>
+            <div className="flex mt-4">
+              <Button type="button" onClick={() => navigate(`/library/${book.id}`)} className="w-full sm:w-auto">
+                Continuar lendo
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
