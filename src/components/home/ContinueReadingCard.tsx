@@ -56,7 +56,9 @@ export default function ContinueReadingCard({
   book.currentPage;
   
   const progress = Math.round((currentPage / book.pages) * 100);
-  
+  const notes = Number(localStorage.getItem(`book-notes-${book.id}`)) || book.notes
+
+
   const navigate = useNavigate();
   const lastReadText = formatLastRead(lastReadAt);
 
@@ -111,7 +113,7 @@ export default function ContinueReadingCard({
                 {currentPage} / {book.pages} páginas
               </span>
 
-              <span>{book.notes} notas</span>
+              <span>{notes} notas</span>
             </div>
 
             <div className="mt-8">

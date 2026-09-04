@@ -341,7 +341,7 @@ export default function BookReader() {
             />
 
             <div className="min-w-0 flex-1">
-              <h1 className="break-words font-display text-3xl font-bold sm:text-5xl">
+              <h1 className="wrap-break-word font-display text-3xl font-bold sm:text-5xl">
                 {book.title}
               </h1>
 
