@@ -21,9 +21,6 @@ export default function RecentBooks({ books }: RecentBooksProps) {
     <section className="mt-10 border-t border-text/10 pt-6 sm:pt-8">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-            Biblioteca
-          </p>
           <h2 className="mt-1 font-display text-xl font-bold text-text sm:text-2xl">
             Adicionados recentemente
           </h2>

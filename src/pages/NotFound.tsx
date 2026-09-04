@@ -4,17 +4,14 @@ import mouseResting from "../assets/mascot/mouse-resting.png";
 export default function NotFound() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-4 text-text">
-      <section className="relative mt-0 max-w-md text-center md:mt-12">
+      <section className="max-w-md text-center">
         <img
-            src={mouseResting}
-            alt=""
-            aria-hidden="true"
-            className="
-            pointer-events-none absolute right-15 -top-40 z-0
-            hidden h-44 w-auto md:block
-            "
-          />
-        <div className="relative z-10">
+          src={mouseResting}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none mx-auto mb-6 hidden h-40 w-auto md:block"
+        />
+        <div>
           <p className="font-display text-7xl font-bold text-primary sm:text-8xl">
             404
           </p>

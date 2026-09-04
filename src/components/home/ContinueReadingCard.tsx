@@ -67,12 +67,9 @@ export default function ContinueReadingCard({
       "
       />
 
-      <Card className="relative z-0 flex flex-col border border-text/10 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.16)] sm:p-8">
+      <Card className="flex flex-col border border-text/10 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.16)] sm:p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-              Em andamento
-            </p>
             <h2 className="mt-1 font-display text-xl font-bold text-text sm:text-2xl">
               Continue lendo
             </h2>

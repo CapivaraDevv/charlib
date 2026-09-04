@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import bookStack from "../../assets/decorations/book-stack.png";
 
 export default function GoalsHero() {
   return (
@@ -24,15 +25,12 @@ export default function GoalsHero() {
           </p>
         </div>
 
-        <div className="hidden shrink-0 lg:block" aria-hidden>
-          <div className="relative h-20 w-32">
-            <div className="absolute bottom-0 left-0 right-0 h-1 rounded-full bg-surface-hover/80" />
-            <div className="absolute bottom-1 left-2 h-14 w-5 rounded-sm bg-surface shadow-md" />
-            <div className="absolute bottom-1 left-9 h-16 w-5 rounded-sm bg-surface-hover shadow-md" />
-            <div className="absolute bottom-1 left-16 h-12 w-5 rounded-sm bg-primary/30 shadow-md" />
-            <div className="absolute bottom-1 left-[5.75rem] h-[3.75rem] w-5 rounded-sm bg-card-background shadow-md" />
-          </div>
-        </div>
+        <img
+          src={bookStack}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none hidden h-36 w-auto opacity-75 lg:block"
+        />
       </div>
 
       <div className="mt-8 flex items-center gap-4">

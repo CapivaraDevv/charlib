@@ -19,6 +19,7 @@ import BookmarksPanel from "../components/reader/BookMarksPanel";
 import { recordReadPage } from "../services/readingService";
 import Modal from "../components/common/Modal";
 import Button from "../components/common/Button";
+import readingLamp from "../assets/decorations/reading-lamp.png";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -324,30 +325,39 @@ export default function BookReader() {
 
       {/* Informações */}
       {!readingMode && (
-        <section className="flex flex-col gap-6 p-4 sm:flex-row sm:gap-10 sm:p-10">
+        <section className="relative overflow-hidden p-4 sm:p-10">
           <img
-            src={book.image}
-            alt={book.title}
-            className="mx-auto w-36 rounded-lg sm:mx-0 sm:w-52"
+            src={readingLamp}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute right-6 top-6 z-0 hidden h-48 w-auto opacity-25 xl:block"
           />
 
-          <div className="min-w-0 flex-1">
-            <h1 className="break-words text-3xl font-bold sm:text-5xl">
-              {book.title}
-            </h1>
+          <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:gap-10">
+            <img
+              src={book.image}
+              alt={book.title}
+              className="mx-auto w-36 rounded-lg sm:mx-0 sm:w-52"
+            />
 
-            <p className="mt-3 text-lg text-gray-400 sm:text-xl">
-              {book.author}
-            </p>
+            <div className="min-w-0 flex-1">
+              <h1 className="break-words font-display text-3xl font-bold sm:text-5xl">
+                {book.title}
+              </h1>
 
-            <div className="mt-8">
-              <p className="mb-2">Progresso</p>
-
-              <ProgressBar value={progress} />
-
-              <p className="mt-2">
-                {currentPage} / {book.pages} páginas
+              <p className="mt-3 text-lg text-text-muted sm:text-xl">
+                {book.author}
               </p>
+
+              <div className="mt-8">
+                <p className="mb-2">Progresso</p>
+
+                <ProgressBar value={progress} />
+
+                <p className="mt-2">
+                  {currentPage} / {book.pages} páginas
+                </p>
+              </div>
             </div>
           </div>
         </section>

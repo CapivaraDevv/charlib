@@ -8,6 +8,7 @@ import type { Book } from "../types/book";
 import { saveBook } from "../services/libraryService";
 import { useLibrary } from "../hooks/useLibrary";
 import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
+import booksCorner from "../assets/decorations/books-corner.png";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -74,12 +75,12 @@ export default function AddBook() {
   return (
     <DashboardLayout>
       <div className="mx-auto w-full max-w-5xl ">
-        <header className="relative">
+        <header className="relative xl:pr-44">
           <img
             src={mouseCarryingBooks}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute -right-8 -top-10 z-0 hidden h-44 w-auto xl:block"
+            className="pointer-events-none absolute right-0 top-0 z-0 hidden h-32 w-auto xl:block"
           />
 
           <div className="relative z-10">
@@ -97,8 +98,15 @@ export default function AddBook() {
           </div>
         </header>
 
-        <Card className="mt-8 border border-text/10 p-6 shadow-xl sm:p-8">
-          <form onSubmit={handleSubmit} className="space-y-8">
+        <Card className="relative mt-8 overflow-hidden border border-text/10 p-6 shadow-xl sm:p-8">
+          <img
+            src={booksCorner}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-4 right-4 z-0 hidden h-28 w-auto opacity-20 2xl:block"
+          />
+
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
             <div className="space-y-2">
               <label htmlFor="book-title" className="block ">
                 Título

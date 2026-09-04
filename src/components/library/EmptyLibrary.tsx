@@ -13,26 +13,6 @@ export default function EmptyLibrary({
   return (
     <div className="empty-library py-8">
       <div className="relative mx-auto max-w-lg">
-        {!hasActiveFilters && (
-          <img
-            src={mouseReadingStack}
-            alt=""
-            aria-hidden="true"
-            className="
-            pointer-events-none absolute -right-10 -bottom-4 z-0
-            hidden h-44 w-auto md:block
-            "
-          />
-        )}
-
-        {hasActiveFilters && (
-          <img
-            src={mouseSearching}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-12 -bottom-6 z-0 hidden h-48 w-auto md:block"
-          />
-        )}
         <div className="relative z-10 space-y-6" aria-hidden>
           {[0, 1].map((row) => (
             <div key={row}>
@@ -68,6 +48,13 @@ export default function EmptyLibrary({
           )}
         </div>
       </div>
+
+      <img
+        src={hasActiveFilters ? mouseSearching : mouseReadingStack}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none mx-auto mt-5 hidden h-32 w-auto md:block"
+      />
     </div>
   );
 }
