@@ -1,8 +1,7 @@
 import Card from "../common/Card";
 
 import type { Book } from "../../types/book";
-import { Link } from "react-router-dom";
-import { ArrowRight, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 
