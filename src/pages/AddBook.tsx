@@ -102,15 +102,15 @@ export default function AddBook() {
   return (
     <DashboardLayout>
       <div className="mx-auto w-full max-w-5xl ">
-        <header className="relative xl:pr-44">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <img
             src={mouseCarryingBooks}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute right-0 top-0 z-0 hidden h-32 w-auto xl:block"
+            className="pointer-events-none order-last h-28 w-32 shrink-0 self-end object-contain sm:h-36 sm:w-40"
           />
 
-          <div className="relative z-10">
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
               Sua coleção
             </p>
@@ -126,12 +126,6 @@ export default function AddBook() {
         </header>
 
         <Card className="relative mt-8 overflow-hidden border border-text/10 p-6 shadow-xl sm:p-8">
-          <img
-            src={booksCorner}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-4 right-4 z-0 hidden h-28 w-auto opacity-20 2xl:block"
-          />
 
           <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
             <div className="space-y-2">
@@ -270,11 +264,14 @@ export default function AddBook() {
               </div>
             </div>
 
-            <p className="rounded-xl border border-text/10 bg-background/30 px-4 py-3 text-xs leading-relaxed text-text-muted">
+            <div className="flex flex-col items-center gap-4 rounded-xl border border-text/10 bg-background/30 p-4 sm:flex-row">
+            <img src={booksCorner} alt="" aria-hidden="true" className="pointer-events-none h-20 w-28 shrink-0 object-contain sm:h-24" />
+            <p className="text-xs leading-relaxed text-text-muted">
               Seus arquivos ficam somente neste navegador. Eles não são enviados
               para servidores e podem ser perdidos se você limpar os dados do
               navegador.
             </p>
+            </div>
 
             {error && (
               <p

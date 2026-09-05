@@ -9,7 +9,7 @@ export default function NotFound() {
           src={mouseResting}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none mx-auto mb-6 hidden h-40 w-auto md:block"
+          className="pointer-events-none mx-auto mb-6 h-28 w-auto sm:h-40"
         />
         <div>
           <p className="font-display text-7xl font-bold text-primary sm:text-8xl">

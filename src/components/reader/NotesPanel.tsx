@@ -44,14 +44,16 @@ export default function NotesPanel({
   return (
     <>
       <aside
-        className={`fixed top-0 right-0 z-40 h-screen w-full max-w-[380px] border-l border-white/10 bg-card-background shadow-2xl transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
+        aria-hidden={!open}
+        className={`fixed top-0 right-0 z-40 flex h-dvh w-full max-w-[380px] flex-col border-l border-white/10 bg-card-background shadow-2xl transition-transform duration-300 ${
+          open ? "visible translate-x-0" : "invisible translate-x-full"
         }`}
       >
         <header className="flex items-center justify-between border-b border-white/10 p-6">
           <h2 className="font-display text-2xl font-bold">Notas</h2>
 
           <button
+            aria-label="Fechar notas"
             onClick={onClose}
             className="rounded-lg p-2 transition hover:bg-surface-hover"
           >
@@ -67,7 +69,7 @@ export default function NotesPanel({
           />
         </div>
 
-        <div className="h-[calc(100vh-88px)] overflow-y-auto p-4">
+        <div className="min-h-0 flex-1 overflow-y-auto p-4">
           <NotesList
             notes={filteredNotes}
             currentPage={currentPage}

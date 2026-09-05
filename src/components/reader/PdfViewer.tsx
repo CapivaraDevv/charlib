@@ -39,7 +39,9 @@ export default function PdfViewer({
     function updatePageWidth() {
       if (!viewer) return;
 
-      setPageWidth(Math.min(800, viewer.clientWidth));
+      const style = window.getComputedStyle(viewer);
+      const contentWidth = viewer.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      setPageWidth(Math.min(800, Math.max(1, contentWidth)));
     }
 
     updatePageWidth();

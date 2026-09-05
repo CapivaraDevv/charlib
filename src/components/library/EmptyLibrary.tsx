@@ -12,11 +12,17 @@ export default function EmptyLibrary({
 }: EmptyLibraryProps) {
   return (
     <div className="empty-library py-8">
-      <div className="relative mx-auto max-w-lg">
-        <div className="relative z-10 space-y-6" aria-hidden>
+      <div className="mx-auto flex max-w-lg flex-col items-center text-center">
+        <img
+          src={hasActiveFilters ? mouseSearching : mouseReadingStack}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none h-32 w-auto sm:h-40"
+        />
+        <div className="w-full space-y-6" aria-hidden>
           {[0].map((row) => (
             <div key={row}>
-              <div className="flex min-h-32 items-end gap-2 px-4 opacity-30">
+              <div className="flex items-end justify-center gap-2 px-4 opacity-30">
                 {Array.from({ length: row === 0 ? 6 : 4 }).map((_, i) => (
                   <div
                     key={i}
@@ -30,7 +36,7 @@ export default function EmptyLibrary({
           ))}
         </div>
 
-        <div className="absolute inset-0 top-26 z-10 flex flex-col items-center justify-center px-6 text-center">
+        <div className="mt-6 flex flex-col items-center px-2 text-center">
           <p className="font-display text-xl font-semibold text-text sm:text-2xl">
             {hasActiveFilters ? "Nenhum livro encontrado" : "Estante vazia"}
           </p>
@@ -49,12 +55,6 @@ export default function EmptyLibrary({
         </div>
       </div>
 
-      <img
-        src={hasActiveFilters ? mouseSearching : mouseReadingStack}
-        alt=""
-        aria-hidden="true"
-        className="relative -top-52 left-52 pointer-events-none mx-auto mt-22 hidden h-32 w-auto md:block"
-      />
     </div>
   );
 }

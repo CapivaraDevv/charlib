@@ -325,14 +325,7 @@ export default function BookReader() {
 
       {/* Informações */}
       {!readingMode && (
-        <section className="relative overflow-hidden p-4 sm:p-10">
-          <img
-            src={readingLamp}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute right-6 top-6 z-0 hidden h-48 w-auto opacity-25 xl:block"
-          />
-
+        <section className="p-4 sm:px-10 sm:py-6">
           <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:gap-10">
             <img
               src={book.image}
@@ -359,6 +352,12 @@ export default function BookReader() {
                 </p>
               </div>
             </div>
+            <img
+              src={readingLamp}
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none h-24 w-24 shrink-0 self-end object-contain sm:h-32 sm:w-24 lg:h-44 lg:w-36"
+            />
           </div>
         </section>
       )}

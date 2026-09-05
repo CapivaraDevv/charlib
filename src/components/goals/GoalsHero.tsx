@@ -9,8 +9,8 @@ export default function GoalsHero() {
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className="relative"
     >
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-2xl">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 max-w-2xl">
           <p className="text-xs font-medium uppercase tracking-[0.24em] text-primary/80">
             Sua sala de leitura
           </p>
@@ -29,7 +29,7 @@ export default function GoalsHero() {
           src={bookStack}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none hidden h-36 w-auto opacity-75 lg:block"
+          className="pointer-events-none h-24 w-32 shrink-0 self-end object-contain sm:h-36 sm:w-40"
         />
       </div>
 

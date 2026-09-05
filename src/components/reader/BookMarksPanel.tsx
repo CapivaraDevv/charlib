@@ -17,8 +17,9 @@ export default function BookmarksPanel({
 }: BookmarksPanelProps) {
   return (
     <aside
-      className={`fixed right-0 top-0 z-50 h-screen w-full max-w-sm border-l border-card-background bg-card-background shadow-2xl transition-transform duration-300 ${
-        open ? "translate-x-0" : "translate-x-full"
+      aria-hidden={!open}
+      className={`fixed right-0 top-0 z-40 flex h-dvh w-full max-w-sm flex-col border-l border-card-background bg-card-background shadow-2xl transition-transform duration-300 ${
+        open ? "visible translate-x-0" : "invisible translate-x-full"
       }`}
     >
       <header className="flex items-center justify-between border-b border-[#3E281D] p-6">
@@ -27,12 +28,12 @@ export default function BookmarksPanel({
           <h2 className="text-xl font-semibold">Marcadores</h2>
         </div>
 
-        <button onClick={onClose} className="rounded p-2 hover:bg-white/10">
+        <button aria-label="Fechar marcadores" onClick={onClose} className="rounded p-2 hover:bg-white/10">
           <X size={20} />
         </button>
       </header>
 
-      <div className="flex flex-col gap-3 p-6">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-6">
         {bookmarks.length === 0 ? (
           <EmptyState
             icon={<BookmarkIcon size={40} />}

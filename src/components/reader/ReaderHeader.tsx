@@ -14,7 +14,7 @@ export default function ReaderHeader({
   const navigate = useNavigate();
 
   return (
-    <header className="flex items-center justify-between gap-3 px-4 py-4 sm:px-10 sm:py-5">
+    <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-10 sm:py-5">
       <Button
         onClick={() => navigate("/library")}
         variant="outline"

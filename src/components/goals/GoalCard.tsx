@@ -119,7 +119,7 @@ export default function GoalCard({
           src={mouseCelebrating}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute right-4 top-4 z-0 hidden w-28 opacity-30 lg:block"
+          className="pointer-events-none mb-4 ml-auto h-24 w-28 object-contain sm:h-28"
         />
       )}
 

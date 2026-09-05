@@ -16,11 +16,13 @@ export default function Tooltip({
       className="relative inline-flex"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
     >
       {children}
 
       {open && (
-        <div className="absolute -top-10 left-1/2 -translate-x-1/2 rounded-lg bg-surface px-3 py-2 text-sm shadow-lg whitespace-nowrap">
+        <div role="tooltip" className="pointer-events-none absolute top-full left-1/2 mt-2 w-max max-w-32 -translate-x-1/2 rounded-lg bg-surface px-3 py-2 text-center text-sm shadow-lg">
           {content}
         </div>
       )}
