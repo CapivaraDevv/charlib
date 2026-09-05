@@ -1,4 +1,5 @@
 import type { Book } from "../types/book";
+import { getCurrentPage } from "../utils/bookProgress";
 
 const DATABASE_NAME = "charlib";
 const DATABASE_VERSION = 1;
@@ -85,7 +86,7 @@ export async function saveBook(
     title: input.title.trim(),
     author: input.author.trim(),
     pages: input.pages,
-    currentPage: 0,
+    currentPage: input.status === "completed" ? input.pages : 0,
     rating: 0,
     notes: 0,
     status: input.status,
@@ -141,6 +142,41 @@ export async function deleteStoredBook(id: number): Promise<void> {
     transaction.objectStore(BOOKS_STORE).delete(id);
 
     await transactionToPromise(transaction);
+  } finally {
+    database.close();
+  }
+}
+
+export type UpdateBookInput = Omit<NewBookInput, "file" | "cover"> & {
+  file?: File;
+  cover?: File | null;
+};
+
+export async function updateBook(id: number, input: UpdateBookInput): Promise<void> {
+  if (!input.title.trim() || !input.author.trim() || !Number.isInteger(input.pages) || input.pages < 1) {
+    throw new Error("Informe título, autor e uma quantidade válida de páginas.");
+  }
+  const database = await openDatabase();
+  try {
+    const transaction = database.transaction(BOOKS_STORE, "readwrite");
+    const completion = transactionToPromise(transaction);
+    const store = transaction.objectStore(BOOKS_STORE);
+    const request = store.get(id);
+    request.onsuccess = () => {
+      const existing = request.result as StoredBook | undefined;
+      if (!existing) { transaction.abort(); return; }
+      store.put({
+        ...existing,
+        title: input.title.trim(),
+        author: input.author.trim(),
+        pages: input.pages,
+        status: input.status,
+        currentPage: input.status === "completed" ? input.pages : Math.min(input.pages, getCurrentPage(existing)),
+        file: input.file ?? existing.file,
+        cover: input.cover === undefined ? existing.cover : input.cover,
+      } satisfies StoredBook);
+    };
+    await completion;
   } finally {
     database.close();
   }

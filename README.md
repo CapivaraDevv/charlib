@@ -47,10 +47,22 @@ Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173`.
 ```bash
 npm run dev    # inicia o ambiente de desenvolvimento
 npm run lint   # verifica regras de qualidade do código
+npm test       # testa regras de progresso (Node.js 22.6 ou superior)
 npm run build  # valida TypeScript e gera a build de produção
 ```
 
 ## Persistência de dados
+
+No leitor, use **Editar livro** para alterar título, autor, status, quantidade de
+páginas, PDF ou capa. Sem selecionar novos arquivos, os atuais são mantidos;
+também é possível remover a capa. O ID, as notas, os marcadores e o histórico
+permanecem associados ao livro. Se trocar o PDF, confira as páginas das anotações.
+
+Livros marcados como finalizados exibem 100% e abrem na última página do PDF,
+inclusive cadastros antigos. Consultar outra página não desfaz a conclusão.
+Marcar como finalizado não credita retroativamente páginas nas metas.
+O status pode ser alterado pela edição; apenas abrir o leitor não muda o status.
+O card mensal mostra os livros da biblioteca com status **Lendo**.
 
 O projeto adota uma abordagem local-first:
 

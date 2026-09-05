@@ -1,8 +1,8 @@
 import type { Book } from "../types/book";
+import { getCurrentPage } from "./bookProgress";
 
 export function getBookProgress(book: Book): number {
-  const currentPage =
-    Number(localStorage.getItem(`book-progress-${book.id}`)) || book.currentPage;
+  const currentPage = getCurrentPage(book);
   return Math.min(100, Math.round((currentPage / book.pages) * 100));
 }
 

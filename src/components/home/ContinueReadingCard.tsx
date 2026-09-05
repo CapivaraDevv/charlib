@@ -1,4 +1,5 @@
 import Card from "../common/Card";
+import { getCurrentPage } from "../../utils/bookProgress";
 
 import type { Book } from "../../types/book";
 import { Star } from "lucide-react";
@@ -50,9 +51,7 @@ export default function ContinueReadingCard({
   book,
   lastReadAt,
 }: ContinueReadingCardProps) {
-  const currentPage =
-  Number(localStorage.getItem(`book-progress-${book.id}`)) ||
-  book.currentPage;
+  const currentPage = getCurrentPage(book);
   
   const progress = Math.round((currentPage / book.pages) * 100);
   const notes = Number(localStorage.getItem(`book-notes-${book.id}`)) || book.notes

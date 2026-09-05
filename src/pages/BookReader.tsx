@@ -20,15 +20,15 @@ import { recordReadPage } from "../services/readingService";
 import Modal from "../components/common/Modal";
 import Button from "../components/common/Button";
 import readingLamp from "../assets/decorations/reading-lamp.png";
+import { getCurrentPage } from "../utils/bookProgress";
 
 export default function BookReader() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { books, isLoading, removeBook } = useLibrary();
+  const book = books.find((book) => book.id === Number(id));
   const [currentPage, setCurrentPage] = useState(() => {
-    const saved = localStorage.getItem(`book-progress-${id}`);
-
-    return saved ? Number(saved) : 1;
+    return book ? Math.max(1, getCurrentPage(book)) : 1;
   });
   const [readingMode, setReadingMode] = useState(false);
   const [showControls, setShowControls] = useState(true);
@@ -41,7 +41,6 @@ export default function BookReader() {
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [readingError, setReadingError] = useState<string | null>(null);
 
-  const book = books.find((book) => book.id === Number(id));
 
   const [notes, setNotes] = useState<Note[]>(() =>
     book ? getNotes(book.id) : [],
@@ -221,7 +220,7 @@ export default function BookReader() {
     (bookmark) => bookmark.page === currentPage,
   );
 
-  const progress = Math.round((currentPage / book.pages) * 100);
+  const progress = book.status === "completed" ? 100 : Math.min(100, Math.round((currentPage / book.pages) * 100));
 
   return (
     <main
@@ -234,6 +233,7 @@ export default function BookReader() {
       {!readingMode && (
         <ReaderHeader
           canDelete={book.isUserAdded === true}
+          onEdit={book.isUserAdded ? () => navigate(`/library/${book.id}/editar`) : undefined}
           onDelete={() => {
             setDeleteError(null);
             setShowDeleteConfirm(true);
@@ -412,6 +412,7 @@ export default function BookReader() {
         <PdfViewer
           key={book.id}
           file={book.file}
+          startAtEnd={book.status === "completed"}
           page={currentPage}
           setPage={setCurrentPage}
           bookmarked={isCurrentPageBookmarked}

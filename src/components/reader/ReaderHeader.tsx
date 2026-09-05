@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
-import { ChevronLeft, Trash2 } from "lucide-react";
+import { ChevronLeft, Trash2, Pencil } from "lucide-react";
 
 type ReaderHeaderProps = {
   canDelete?: boolean;
   onDelete?: () => void;
+  onEdit?: () => void;
 };
 
 export default function ReaderHeader({
   canDelete = false,
   onDelete,
+  onEdit,
 }: ReaderHeaderProps) {
   const navigate = useNavigate();
 
@@ -24,6 +26,12 @@ export default function ReaderHeader({
         Biblioteca
       </Button>
 
+      <div className="flex flex-wrap gap-3">
+      {onEdit && (
+        <Button type="button" variant="outline" onClick={onEdit} className="flex items-center gap-2">
+          <Pencil size={18} /> Editar livro
+        </Button>
+      )}
       {canDelete && (
         <Button
           type="button"
@@ -35,6 +43,7 @@ export default function ReaderHeader({
           Excluir livro
         </Button>
       )}
+      </div>
     </header>
   );
 }

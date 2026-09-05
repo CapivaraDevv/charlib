@@ -6,6 +6,7 @@ import Library from "../pages/Library";
 import BookReader from "../pages/BookReader";
 import Goals from "../pages/Goals";
 import AddBook from "../pages/AddBook";
+import EditBook from "../pages/EditBook";
 import NotFound from "../pages/NotFound";
 
 function BookReaderRoute() {
@@ -22,6 +23,7 @@ export function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/library" element={<Library />} />
         <Route path="/library/:id" element={<BookReaderRoute />} />
+        <Route path="/library/:id/editar" element={<EditBook />} />
         <Route path="/objetivos" element={<Goals />} />
         <Route path="/adicionar-livro" element={<AddBook />} />
         <Route path="*" element={<NotFound />} />

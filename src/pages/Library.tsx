@@ -9,6 +9,7 @@ import Bookshelf from "../components/library/Bookshelf";
 import LibraryToolbar from "../components/library/LibraryToolbar";
 import { useLibrary } from "../hooks/useLibrary";
 import type { Book } from "../types/book";
+import { getCurrentPage } from "../utils/bookProgress";
 
 export default function Library() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -60,7 +61,7 @@ export default function Library() {
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
         case "progress":
-          return b.currentPage / b.pages - a.currentPage / a.pages;
+          return getCurrentPage(b) / b.pages - getCurrentPage(a) / a.pages;
 
         case "rating":
           return b.rating - a.rating;

@@ -11,6 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 interface PdfViewerProps {
   file: string;
+  startAtEnd?: boolean;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   bookmarked: boolean;
@@ -20,6 +21,7 @@ interface PdfViewerProps {
 
 export default function PdfViewer({
   file,
+  startAtEnd = false,
   page,
   setPage,
   bookmarked,
@@ -54,6 +56,7 @@ export default function PdfViewer({
 
   function onLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+    setPage((current) => startAtEnd ? numPages : Math.max(1, Math.min(current, numPages)));
   }
 
   function handleRegisterLastPage() {
@@ -129,12 +132,14 @@ export default function PdfViewer({
         <BookmarkRibbon active={bookmarked} />
 
         <Document file={file} onLoadSuccess={onLoadSuccess}>
+          {numPages > 0 && (
           <Page
             pageNumber={page}
             width={pageWidth}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />
+          )}
 
           {page < numPages && (
             <div className="hidden">
@@ -147,7 +152,7 @@ export default function PdfViewer({
             </div>
           )}
 
-          {page > 1 && (
+          {numPages > 0 && page > 1 && page <= numPages && (
             <div className="hidden">
               <Page
                 pageNumber={page - 1}

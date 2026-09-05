@@ -1,19 +1,19 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { books } from "../../data/books";
+import { useLibrary } from "../../hooks/useLibrary";
 
 type MiniBookshelfProps = {
   pulseKey?: number;
   maxBooks?: number;
 };
 
-const readingBooks = books.filter((book) => book.status === "reading");
 
 export default function MiniBookshelf({
   pulseKey = 0,
   maxBooks = 5,
 }: MiniBookshelfProps) {
-  const shelfBooks = readingBooks.slice(0, maxBooks);
+  const { books } = useLibrary();
+  const shelfBooks = books.filter((book) => book.status === "reading").slice(0, maxBooks);
 
   return (
     <div className="mt-6">

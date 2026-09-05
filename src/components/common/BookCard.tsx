@@ -1,4 +1,5 @@
 import type { Book } from "../../types/book";
+import { getCurrentPage } from "../../utils/bookProgress";
 import Card from "./Card";
 import BookCover from "./BookCover";
 import ProgressBar from "./ProgressBar";
@@ -10,8 +11,7 @@ type BookCardProps = {
 };
 
 export default function BookCard({ book }: BookCardProps) {
-  const currentPage =
-  Number(localStorage.getItem(`book-progress-${book.id}`)) || book.currentPage;
+  const currentPage = getCurrentPage(book);
   const progress = ((currentPage / book.pages) * 100)
 
   return (

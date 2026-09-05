@@ -5,7 +5,7 @@ import Card from "../components/common/Card";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 import type { Book } from "../types/book";
-import { saveBook } from "../services/libraryService";
+import { saveBook, updateBook } from "../services/libraryService";
 import { useLibrary } from "../hooks/useLibrary";
 import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
 import booksCorner from "../assets/decorations/books-corner.png";
@@ -14,11 +14,12 @@ const MAX_PDF_SIZE = 25 * 1024 * 1024;
 const MAX_COVER_SIZE = 5 * 1024 * 1024;
 const VALID_COVER_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
-export default function AddBook() {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [pages, setPages] = useState("");
-  const [status, setStatus] = useState<Book["status"]>("planned");
+export default function AddBook({ book }: { book?: Book }) {
+  const [title, setTitle] = useState(book?.title ?? "");
+  const [author, setAuthor] = useState(book?.author ?? "");
+  const [pages, setPages] = useState(book ? String(book.pages) : "");
+  const [status, setStatus] = useState<Book["status"]>(book?.status ?? "planned");
+  const [removeCover, setRemoveCover] = useState(false);
   const [pdf, setPdf] = useState<File | null>(null);
   const [cover, setCover] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -46,20 +47,20 @@ export default function AddBook() {
       return;
     }
 
-    if (!pdf) {
+    if (!pdf && !book) {
       setError("Selecione o PDF do livro.");
       return;
     }
 
     const isPdf =
-      pdf.type === "application/pdf" || pdf.name.toLowerCase().endsWith(".pdf");
+      !pdf || pdf.type === "application/pdf" || pdf.name.toLowerCase().endsWith(".pdf");
 
     if (!isPdf) {
       setError("Selecione um arquivo PDF válido.");
       return;
     }
 
-    if (pdf.size > MAX_PDF_SIZE) {
+    if (pdf && pdf.size > MAX_PDF_SIZE) {
       setError("O PDF deve ter no máximo 25 MB.");
       return;
     }
@@ -77,18 +78,25 @@ export default function AddBook() {
     try {
       setIsSaving(true);
 
-      await saveBook({
+      const details = {
         title,
         author,
         pages: pageCount,
         status,
-        file: pdf,
-        cover,
-      });
+      };
+      if (book) {
+        await updateBook(book.id, {
+          ...details,
+          file: pdf ?? undefined,
+          cover: removeCover ? null : cover ?? undefined,
+        });
+      } else if (pdf) {
+        await saveBook({ ...details, file: pdf, cover });
+      }
 
       await reloadBooks();
 
-      navigate("/library")
+      navigate(book ? `/library/${book.id}` : "/library");
 
     } catch {
       setError(
@@ -116,11 +124,11 @@ export default function AddBook() {
             </p>
 
             <h1 className="mt-2 font-display text-3xl font-bold text-text sm:text-4xl">
-              Adicionar livro
+              {book ? "Editar livro" : "Adicionar livro"}
             </h1>
 
             <p className="mt-3 max-w-2xl text-text-muted">
-              Cadastre um PDF para começar a leitura e acompanhar seu progresso.
+              {book ? "Atualize os dados do livro. Os arquivos atuais serão mantidos se você não selecionar outros." : "Cadastre um PDF para começar a leitura e acompanhar seu progresso."}
             </p>
           </div>
         </header>
@@ -212,7 +220,7 @@ export default function AddBook() {
                   </span>
 
                   <span className="mt-1 max-w-full truncate text-xs text-text-muted">
-                    {pdf ? pdf.name : "Arquivo no formato PDF"}
+                    {pdf ? pdf.name : book ? "Manter PDF atual" : "Arquivo no formato PDF"}
                   </span>
 
                   <input
@@ -248,7 +256,7 @@ export default function AddBook() {
                   </span>
 
                   <span className="mt-1 max-w-full truncate text-xs text-text-muted">
-                    {cover ? cover.name : "PNG, JPG ou WebP"}
+                    {removeCover ? "Capa será removida" : cover ? cover.name : book ? "Manter capa atual" : "PNG, JPG ou WebP"}
                   </span>
 
                   <input
@@ -256,13 +264,24 @@ export default function AddBook() {
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
                     className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                    onChange={(event) =>
-                      setCover(event.target.files?.[0] ?? null)
-                    }
+                    onChange={(event) => {
+                      setCover(event.target.files?.[0] ?? null);
+                      setRemoveCover(false);
+                    }}
                   />
                 </label>
+                {book && (
+                  <label className="flex items-center gap-2 text-sm text-text-muted">
+                    <input type="checkbox" checked={removeCover} onChange={(event) => setRemoveCover(event.target.checked)} />
+                    Remover capa
+                  </label>
+                )}
               </div>
             </div>
+
+            {book && pdf && (
+              <p className="text-sm text-text-muted">Ao substituir o PDF, confira a quantidade de páginas. Suas notas e marcadores serão preservados e continuarão associados aos números de página anteriores.</p>
+            )}
 
             <div className="flex flex-col items-center gap-4 rounded-xl border border-text/10 bg-background/30 p-4 sm:flex-row">
             <img src={booksCorner} alt="" aria-hidden="true" className="pointer-events-none h-20 w-28 shrink-0 object-contain sm:h-24" />
@@ -287,7 +306,8 @@ export default function AddBook() {
                 type="button"
                 variant="outline"
                 className="w-full sm:w-auto"
-                onClick={() => navigate("/library")}
+                disabled={isSaving}
+                onClick={() => navigate(book ? `/library/${book.id}` : "/library")}
               >
                 Cancelar
               </Button>
@@ -297,7 +317,7 @@ export default function AddBook() {
                 className="w-full sm:w-auto"
                 disabled={isSaving}
               >
-                {isSaving ? "Salvando..." : "Adicionar à biblioteca"}
+                {isSaving ? "Salvando..." : book ? "Salvar alterações" : "Adicionar à biblioteca"}
               </Button>
             </div>
           </form>
