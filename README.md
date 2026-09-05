@@ -59,6 +59,37 @@ O projeto adota uma abordagem local-first:
 
 Por isso, os dados permanecem no navegador atual. Limpar os dados do site ou usar outro dispositivo não transfere automaticamente a biblioteca.
 
+Os PDFs e capas são persistidos como arquivos (Blobs), não como URLs `blob:`.
+As URLs temporárias são recriadas a partir do IndexedDB ao carregar a biblioteca
+e revogadas quando substituídas ou quando o provider é desmontado. Recarregar a
+página ou publicar uma nova versão no mesmo domínio não exige reimportar o PDF;
+outro domínio (inclusive uma URL de preview) tem seu próprio armazenamento.
+
+## Publicação na Vercel
+
+O `vercel.json` define os headers de segurança e o fallback das rotas do React
+Router para `/index.html`. Esse rewrite permite abrir ou recarregar diretamente
+`/library/<id>` e as demais telas; os arquivos estáticos existentes continuam
+sendo servidos normalmente. Não existe API de upload: a importação é local.
+
+A CSP permite `blob:` em `connect-src` porque o PDF.js lê a URL temporária do
+PDF. As permissões já existentes em `img-src` (capas) e `worker-src` não foram
+ampliadas, e scripts continuam restritos a `'self'`. O worker do PDF.js é
+empacotado pelo Vite como um arquivo da própria aplicação.
+
+Após um deploy, valide no mesmo navegador e domínio:
+
+1. Importe um PDF local, abra-o na biblioteca e navegue entre as páginas.
+2. Recarregue `/library/<id>` e confirme que o PDF e o progresso permanecem.
+3. Feche e reabra a aba nessa URL; confirme também a capa, caso tenha sido enviada.
+4. No painel Network, confirme HTTP 200 para a rota e para o worker em `/assets/`,
+   e ausência de bloqueios CSP na leitura do PDF. O header deve conter
+   `connect-src 'self' blob:`.
+
+`npm run dev` e `npm run preview` não aplicam automaticamente os headers e
+rewrites do `vercel.json`; testar apenas nesses servidores não valida a CSP da
+Vercel.
+
 ## Estrutura principal
 
 ```text
