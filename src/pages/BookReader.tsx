@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useLibrary } from "../hooks/useLibrary";
 import ReaderHeader from "../components/reader/ReaderHeader";
 import PdfViewer from "../components/reader/PdfViewer";
+import CloudPdfViewer from "../components/reader/CloudPdfViewer";
 import ProgressBar from "../components/common/ProgressBar";
 import ReaderToolbar from "../components/reader/ReaderToolbar";
 import NoteModal from "../components/reader/NoteModal";
@@ -21,6 +22,7 @@ import Modal from "../components/common/Modal";
 import Button from "../components/common/Button";
 import readingLamp from "../assets/decorations/reading-lamp.png";
 import { getCurrentPage } from "../utils/bookProgress";
+import { accountStorage } from "../services/accountStorage";
 
 export default function BookReader() {
   const { id } = useParams();
@@ -53,13 +55,13 @@ export default function BookReader() {
   useEffect(() => {
     if (!book) return;
 
-    localStorage.setItem(`book-progress-${book.id}`, String(currentPage));
+    accountStorage.setItem(`book-progress-${book.id}`, String(currentPage));
   }, [currentPage, book]);
 
   useEffect(() => {
     if (!book) return;
 
-    localStorage.setItem("last-book", String(book.id));
+    accountStorage.setItem("last-book", String(book.id));
   }, [book]);
 
   useEffect(() => {
@@ -221,6 +223,7 @@ export default function BookReader() {
   );
 
   const progress = book.status === "completed" ? 100 : Math.min(100, Math.round((currentPage / book.pages) * 100));
+  const Viewer = book.cloud ? CloudPdfViewer : PdfViewer;
 
   return (
     <main
@@ -409,7 +412,7 @@ export default function BookReader() {
       )}
 
       <div className={readingMode ? "w-full flex justify-center" : ""}>
-        <PdfViewer
+        <Viewer
           key={book.id}
           file={book.file}
           startAtEnd={book.status === "completed"}

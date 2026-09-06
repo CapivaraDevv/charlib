@@ -1,5 +1,6 @@
 import type { BookMark } from "../types/bookmark";
 import { getStoredJson } from "../utils/storage";
+import { accountStorage } from "./accountStorage";
 
 const STORAGE_KEY = "charlib-bookmarks"
 
@@ -18,7 +19,7 @@ export function getBookMarks(bookId: number): BookMark[] {
 export function saveBookMark(bookmark: BookMark){
     const bookmarks = getAllBookmarks();
 
-    localStorage.setItem(
+    accountStorage.setItem(
         STORAGE_KEY,
         JSON.stringify([...bookmarks, bookmark])
     );
@@ -27,7 +28,7 @@ export function saveBookMark(bookmark: BookMark){
 export function removeBookMark(id: string){
     const bookmarks = getAllBookmarks();
 
-    localStorage.setItem(
+    accountStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(bookmarks.filter((bookmark) => bookmark.id !== id))
     )
@@ -40,7 +41,7 @@ export function removeBookMarksForBook(bookId: number): void {
     (bookmark) => bookmark.bookId !== bookId,
   );
 
-  localStorage.setItem(
+  accountStorage.setItem(
     STORAGE_KEY,
     JSON.stringify(remainingBookmarks),
   );

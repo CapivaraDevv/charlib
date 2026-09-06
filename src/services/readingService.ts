@@ -6,6 +6,7 @@ import type {
   ReadingType,
 } from "../types/reading";
 import { getStoredJson } from "../utils/storage";
+import { accountStorage } from "./accountStorage";
 
 const READING_ENTRIES_KEY = "reading_entries";
 
@@ -24,7 +25,7 @@ export function addReadingEntry(entry: ReadingEntry): void {
 
   entries.push(entry);
 
-  localStorage.setItem(READING_ENTRIES_KEY, JSON.stringify(entries));
+  accountStorage.setItem(READING_ENTRIES_KEY, JSON.stringify(entries));
 }
 
 export function recordManualReading(
@@ -57,7 +58,7 @@ export function recordManualReading(
 const DAILY_READING_GOAL_KEY = "daily_reading_goal";
 
 export function setDailyReadingGoal(goal: DailyReadingGoal): void {
-  localStorage.setItem(DAILY_READING_GOAL_KEY, JSON.stringify(goal));
+  accountStorage.setItem(DAILY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
 export function getDailyReadingGoal(): DailyReadingGoal | null {
@@ -71,7 +72,7 @@ export function getWeeklyReadingGoal(): WeeklyReadingGoal | null {
 }
 
 export function setWeeklyReadingGoal(goal: WeeklyReadingGoal): void {
-  localStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal));
+  accountStorage.setItem(WEEKLY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
 const MONTHLY_READING_GOAL_KEY = "monthly_reading_goal";
@@ -81,7 +82,7 @@ export function getMonthlyReadingGoal(): MonthlyReadingGoal | null {
 }
 
 export function setMonthlyReadingGoal(goal: MonthlyReadingGoal): void {
-  localStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal));
+  accountStorage.setItem(MONTHLY_READING_GOAL_KEY, JSON.stringify(goal));
 }
 
 export function recordReadPage(bookId: number, pageNumber: number): void {

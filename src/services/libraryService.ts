@@ -1,5 +1,7 @@
 import type { Book } from "../types/book";
 import { getCurrentPage } from "../utils/bookProgress";
+import { storageAccount } from "./accountStorage";
+import { saveCloudBook, updateCloudBook, deleteCloudBook } from "./cloudLibrary";
 
 const DATABASE_NAME = "charlib";
 const DATABASE_VERSION = 1;
@@ -79,6 +81,7 @@ function openDatabase(): Promise<IDBDatabase> {
 export async function saveBook(
   input: NewBookInput,
 ): Promise<StoredBook> {
+  if (storageAccount()) return saveCloudBook(input);
   const database = await openDatabase();
 
   const book: StoredBook = {
@@ -131,6 +134,7 @@ export async function getStoredBooks(): Promise<StoredBook[]> {
 }
 
 export async function deleteStoredBook(id: number): Promise<void> {
+  if (storageAccount()) return deleteCloudBook(id);
   const database = await openDatabase();
 
   try {
@@ -148,6 +152,7 @@ export async function deleteStoredBook(id: number): Promise<void> {
 }
 
 export type UpdateBookInput = Omit<NewBookInput, "file" | "cover"> & {
+  expectedUpdatedAt?: string;
   file?: File;
   cover?: File | null;
 };
@@ -156,6 +161,7 @@ export async function updateBook(id: number, input: UpdateBookInput): Promise<vo
   if (!input.title.trim() || !input.author.trim() || !Number.isInteger(input.pages) || input.pages < 1) {
     throw new Error("Informe título, autor e uma quantidade válida de páginas.");
   }
+  if (storageAccount()) return updateCloudBook(id, input);
   const database = await openDatabase();
   try {
     const transaction = database.transaction(BOOKS_STORE, "readwrite");

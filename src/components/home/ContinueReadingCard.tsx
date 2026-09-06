@@ -1,4 +1,5 @@
 import Card from "../common/Card";
+import { getNotes } from "../../services/notes";
 import { getCurrentPage } from "../../utils/bookProgress";
 
 import type { Book } from "../../types/book";
@@ -54,7 +55,7 @@ export default function ContinueReadingCard({
   const currentPage = getCurrentPage(book);
   
   const progress = Math.round((currentPage / book.pages) * 100);
-  const notes = Number(localStorage.getItem(`book-notes-${book.id}`)) || book.notes
+  const notes = getNotes(book.id).length;
 
 
   const navigate = useNavigate();

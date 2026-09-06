@@ -1,4 +1,5 @@
 import ContinueReadingCard from "./ContinueReadingCard";
+import { accountStorage } from "../../services/accountStorage";
 import StatsCard from "./StatsCard";
 import type { Book } from "../../types/book";
 import {
@@ -16,7 +17,7 @@ type ContinueReadingSectionProps = {
 export default function ContinueReadingSection({
   books,
 }: ContinueReadingSectionProps) {
-  const savedBookId = localStorage.getItem("last-book");
+  const savedBookId = accountStorage.getItem("last-book");
   const lastBookId = savedBookId ? Number(savedBookId) : null;
   const entries = getReadingEntries();
   const streak = getCurrentReadingStreak(entries);

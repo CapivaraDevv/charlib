@@ -14,4 +14,7 @@ Ordem sugerida de implementação:
 6. Definir a regra de conflito inicial: a alteração mais recente prevalece.
 7. Manter uma estratégia de migração dos dados locais existentes para não apagar a biblioteca atual do usuário.
 
-> Esta é uma melhoria de versão futura. A versão atual continua local-first, usando IndexedDB e localStorage.
+> A primeira integração está implementada. Consulte `supabase/SETUP.md` para ativação,
+> testes e limitações. Próximos passos: sincronização Realtime, tabelas analíticas
+> por entidade e cache offline de PDFs. Conflitos são resolvidos explicitamente,
+> em vez de sobrescrever silenciosamente a outra versão.

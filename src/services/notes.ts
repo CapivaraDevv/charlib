@@ -1,5 +1,6 @@
 import type { Note } from "../types/note";
 import { getStoredJson } from "../utils/storage";
+import { accountStorage } from "./accountStorage";
 
 function getStorageKey(bookId: number) {
     return `book-notes-${bookId}`;
@@ -16,7 +17,7 @@ export function saveNote(note: Note) {
 
     notes.push(note)
 
-    localStorage.setItem(getStorageKey(note.bookId), JSON.stringify(notes))
+    accountStorage.setItem(getStorageKey(note.bookId), JSON.stringify(notes))
 }
 
 export function updateNote(updateNote: Note) {
@@ -30,7 +31,7 @@ export function updateNote(updateNote: Note) {
     : note,
     );
 
-    localStorage.setItem(
+    accountStorage.setItem(
         getStorageKey(updateNote.bookId),
         JSON.stringify(updatedNotes)
     )
@@ -43,13 +44,13 @@ export function deleteNote(noteId: string, bookId: number) {
         (note) => note.id !== noteId,
     );
 
-    localStorage.setItem(
+    accountStorage.setItem(
         getStorageKey(bookId),
         JSON.stringify(updatedNotes),
     );
 }
 
 export function removeNotesForBook(bookId: number): void {
-    localStorage.removeItem(getStorageKey(bookId));
+    accountStorage.removeItem(getStorageKey(bookId));
 }
 

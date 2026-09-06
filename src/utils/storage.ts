@@ -1,6 +1,6 @@
 export function getStoredJson<T>(key: string): T | null {
     try {
-        const rawValue = localStorage.getItem(key);
+        const rawValue = accountStorage.getItem(key);
 
         if(!rawValue) {
             return null;
@@ -11,3 +11,4 @@ export function getStoredJson<T>(key: string): T | null {
         return null;
     }
 }
+import { accountStorage } from "../services/accountStorage";

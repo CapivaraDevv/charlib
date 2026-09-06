@@ -1,6 +1,6 @@
 # CharLib
 
-Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de leitura. O CharLib funciona localmente no navegador: os dados permanecem no dispositivo do usuário, sem exigir cadastro ou servidor.
+Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de leitura. O CharLib oferece modo local e integração opcional com Supabase para acessar a biblioteca por conta.
 
 🔗 **Demo:** https://charlib-three.vercel.app/
 
@@ -17,6 +17,8 @@ Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de 
 - Exclusão segura de livros adicionados pelo usuário, com limpeza dos dados associados.
 - Interface responsiva para desktop e dispositivos móveis.
 - Página 404 para rotas inexistentes.
+- Login por e-mail/senha, cadastro, recuperação de senha e biblioteca privada na nuvem.
+- Migração explícita dos dados locais, sem apagar os originais.
 
 ## Tecnologias
 
@@ -47,7 +49,7 @@ Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173`.
 ```bash
 npm run dev    # inicia o ambiente de desenvolvimento
 npm run lint   # verifica regras de qualidade do código
-npm test       # testa regras de progresso (Node.js 22.6 ou superior)
+npm test       # progresso, isolamento do cache e políticas SQL (Node.js 22.6+)
 npm run build  # valida TypeScript e gera a build de produção
 ```
 
@@ -64,12 +66,17 @@ Marcar como finalizado não credita retroativamente páginas nas metas.
 O status pode ser alterado pela edição; apenas abrir o leitor não muda o status.
 O card mensal mostra os livros da biblioteca com status **Lendo**.
 
-O projeto adota uma abordagem local-first:
+No modo local:
 
 - **IndexedDB:** guarda livros adicionados, PDFs e capas.
 - **localStorage:** guarda progresso, última leitura, metas, registros de leitura, notas e marcadores.
 
 Por isso, os dados permanecem no navegador atual. Limpar os dados do site ou usar outro dispositivo não transfere automaticamente a biblioteca.
+
+Com login, livros e arquivos ficam no Supabase; os demais dados de leitura têm
+cache por conta e fila de sincronização. A configuração e as limitações estão no
+[guia de ativação do Supabase](supabase/SETUP.md). Em Minha conta, é possível
+importar a biblioteca local, sincronizar e resolver conflitos entre dispositivos.
 
 Os PDFs e capas são persistidos como arquivos (Blobs), não como URLs `blob:`.
 As URLs temporárias são recriadas a partir do IndexedDB ao carregar a biblioteca
@@ -82,11 +89,11 @@ outro domínio (inclusive uma URL de preview) tem seu próprio armazenamento.
 O `vercel.json` define os headers de segurança e o fallback das rotas do React
 Router para `/index.html`. Esse rewrite permite abrir ou recarregar diretamente
 `/library/<id>` e as demais telas; os arquivos estáticos existentes continuam
-sendo servidos normalmente. Não existe API de upload: a importação é local.
+sendo servidos normalmente. No modo autenticado, uploads usam o Supabase Storage.
 
 A CSP permite `blob:` em `connect-src` porque o PDF.js lê a URL temporária do
-PDF. As permissões já existentes em `img-src` (capas) e `worker-src` não foram
-ampliadas, e scripts continuam restritos a `'self'`. O worker do PDF.js é
+PDF. O domínio exato do projeto Supabase é permitido em `connect-src` e `img-src`.
+Scripts continuam restritos a `'self'`. O worker do PDF.js é
 empacotado pelo Vite como um arquivo da própria aplicação.
 
 Após um deploy, valide no mesmo navegador e domínio:
@@ -120,12 +127,9 @@ Antes da versão 1.0.0, os fluxos principais foram testados manualmente: cadastr
 
 ## Roadmap
 
-A próxima evolução planejada é a sincronização em nuvem com Supabase:
-
-- autenticação de usuários;
-- sincronização de metas, progresso, notas e marcadores;
-- armazenamento de PDFs e capas;
-- migração segura dos dados locais existentes.
+A primeira integração com Supabase está implementada, com autenticação,
+biblioteca privada e migração local. As próximas evoluções incluem Realtime,
+cache offline de PDFs e tabelas analíticas por entidade.
 
 Os detalhes estão em [ROADMAP.md](ROADMAP.md).
 

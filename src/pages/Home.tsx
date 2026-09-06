@@ -8,8 +8,10 @@ import { useLibrary } from "../hooks/useLibrary";
 import openBookBookmark from "../assets/decorations/open-book-bookmark.png";
 import mouseReadingStack from "../assets/mascot/mouse-reading-stack.png";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Home() {
+  const { session } = useAuth();
   const { books, isLoading, error } = useLibrary();
 
   return (
@@ -65,7 +67,7 @@ export default function Home() {
               </h2>
 
               <p className="mx-auto mt-3 max-w-lg text-text-muted">
-                Seus livros, arquivos e progresso ficam somente neste navegador.
+                {session ? "Seus livros e progresso ficam na sua conta. Em Minha conta, você também pode importar a biblioteca deste navegador." : "Seus livros, arquivos e progresso ficam somente neste navegador."}
               </p>
 
               <Link to="/adicionar-livro" className="mt-7 inline-block">

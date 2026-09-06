@@ -1,5 +1,6 @@
 import Logo from "../../assets/Logo.png";
 import { NavLink } from "react-router-dom";
+import AccountPanel from "../common/AccountPanel";
 
 type SidebarProps = {
   mobile?: boolean;
@@ -53,6 +54,7 @@ export default function Sidebar({ mobile = false }: SidebarProps) {
           </NavLink>
         ))}
       </nav>
+      <div className={mobile ? "px-4 pb-3" : "mt-auto px-6 py-6"}><AccountPanel /></div>
     </aside>
   );
 }

@@ -9,12 +9,14 @@ import { saveBook, updateBook } from "../services/libraryService";
 import { useLibrary } from "../hooks/useLibrary";
 import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
 import booksCorner from "../assets/decorations/books-corner.png";
+import { useAuth } from "../hooks/useAuth";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024;
 const MAX_COVER_SIZE = 5 * 1024 * 1024;
 const VALID_COVER_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
 export default function AddBook({ book }: { book?: Book }) {
+  const { session } = useAuth();
   const [title, setTitle] = useState(book?.title ?? "");
   const [author, setAuthor] = useState(book?.author ?? "");
   const [pages, setPages] = useState(book ? String(book.pages) : "");
@@ -87,6 +89,7 @@ export default function AddBook({ book }: { book?: Book }) {
       if (book) {
         await updateBook(book.id, {
           ...details,
+          expectedUpdatedAt: book.updatedAt,
           file: pdf ?? undefined,
           cover: removeCover ? null : cover ?? undefined,
         });
@@ -98,9 +101,9 @@ export default function AddBook({ book }: { book?: Book }) {
 
       navigate(book ? `/library/${book.id}` : "/library");
 
-    } catch {
+    } catch (cause) {
       setError(
-        "Não foi possível salvar o livro. Verifique o espaço disponível e tente novamente.",
+        cause instanceof Error ? cause.message : "Não foi possível salvar o livro. Verifique o espaço disponível e tente novamente.",
       );
     } finally {
       setIsSaving(false);
@@ -286,9 +289,7 @@ export default function AddBook({ book }: { book?: Book }) {
             <div className="flex flex-col items-center gap-4 rounded-xl border border-text/10 bg-background/30 p-4 sm:flex-row">
             <img src={booksCorner} alt="" aria-hidden="true" className="pointer-events-none h-20 w-28 shrink-0 object-contain sm:h-24" />
             <p className="text-xs leading-relaxed text-text-muted">
-              Seus arquivos ficam somente neste navegador. Eles não são enviados
-              para servidores e podem ser perdidos se você limpar os dados do
-              navegador.
+              {session ? "Os arquivos serão salvos no armazenamento privado da sua conta. Será necessário estar conectado à internet para abrir PDFs em outro dispositivo." : "Seus arquivos ficam somente neste navegador. Eles não são enviados para servidores e podem ser perdidos se você limpar os dados do navegador."}
             </p>
             </div>
 

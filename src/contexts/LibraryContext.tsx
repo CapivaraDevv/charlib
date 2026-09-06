@@ -16,6 +16,8 @@ import {
 import type { Book } from "../types/book";
 import { removeNotesForBook } from "../services/notes";
 import { removeBookMarksForBook } from "../services/bookmarks";
+import { accountStorage, storageAccount } from "../services/accountStorage";
+import { getCloudBooks } from "../services/cloudLibrary";
 
 function convertStoredBook(storedBook: StoredBook, objectUrls: string[]): Book {
   const fileUrl = URL.createObjectURL(storedBook.file);
@@ -53,12 +55,14 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const reloadBooks = useCallback(async () => {
     try {
-      const storedBooks = await getStoredBooks();
+      const user = storageAccount();
+      const storedBooks = user ? [] : await getStoredBooks();
       const newObjectUrls: string[] = [];
 
-      const convertedBooks = storedBooks.map((book) =>
+      const convertedBooks = user ? await getCloudBooks() : storedBooks.map((book) =>
         convertStoredBook(book, newObjectUrls),
       );
+      if (storageAccount() !== user) return;
 
       objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
 
@@ -66,8 +70,9 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
       setBooks([...initialBooks, ...convertedBooks]);
       setError(null);
-    } catch {
-      setError("Não foi possível carregar os livros salvos neste navegador.");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Não foi possível carregar a biblioteca.");
+      throw cause;
     } finally {
       setIsLoading(false);
     }
@@ -87,10 +92,10 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
         removeNotesForBook(id);
         removeBookMarksForBook(id);
 
-        localStorage.removeItem(`book-progress-${id}`);
+        accountStorage.removeItem(`book-progress-${id}`);
 
-        if (localStorage.getItem("last-book") === String(id)) {
-          localStorage.removeItem("last-book");
+        if (accountStorage.getItem("last-book") === String(id)) {
+          accountStorage.removeItem("last-book");
         }
       } catch {
         cleanupFailed = true;
@@ -109,7 +114,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      void reloadBooks();
+      void reloadBooks().catch(() => {});
     }, 0);
 
     return () => {
