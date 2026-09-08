@@ -152,12 +152,16 @@ export async function deleteStoredBook(id: number): Promise<void> {
 }
 
 export type UpdateBookInput = Omit<NewBookInput, "file" | "cover"> & {
+  rating?: number;
   expectedUpdatedAt?: string;
   file?: File;
   cover?: File | null;
 };
 
 export async function updateBook(id: number, input: UpdateBookInput): Promise<void> {
+  if (input.rating !== undefined && (!Number.isFinite(input.rating) || input.rating < 0 || input.rating > 5)) {
+    throw new Error("A avaliação deve estar entre 0 e 5 estrelas.");
+  }
   if (!input.title.trim() || !input.author.trim() || !Number.isInteger(input.pages) || input.pages < 1) {
     throw new Error("Informe título, autor e uma quantidade válida de páginas.");
   }
@@ -173,6 +177,7 @@ export async function updateBook(id: number, input: UpdateBookInput): Promise<vo
       if (!existing) { transaction.abort(); return; }
       store.put({
         ...existing,
+        rating: input.rating ?? existing.rating,
         title: input.title.trim(),
         author: input.author.trim(),
         pages: input.pages,

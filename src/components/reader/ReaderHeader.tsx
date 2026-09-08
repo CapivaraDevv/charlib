@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
-import AccountPanel from "../common/AccountPanel";
 import { ChevronLeft, Trash2, Pencil } from "lucide-react";
 
 type ReaderHeaderProps = {
@@ -28,23 +27,28 @@ export default function ReaderHeader({
       </Button>
 
       <div className="flex flex-wrap gap-3">
-      <AccountPanel />
-      {onEdit && (
-        <Button type="button" variant="outline" onClick={onEdit} className="flex items-center gap-2">
-          <Pencil size={18} /> Editar livro
-        </Button>
-      )}
-      {canDelete && (
-        <Button
-          type="button"
-          variant="danger"
-          className="flex items-center gap-2"
-          onClick={onDelete}
-        >
-          <Trash2 size={18} />
-          Excluir livro
-        </Button>
-      )}
+        {/* <AccountPanel /> */}
+        {onEdit && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onEdit}
+            className="flex items-center gap-2"
+          >
+            <Pencil size={18} /> Editar livro
+          </Button>
+        )}
+        {canDelete && (
+          <Button
+            type="button"
+            variant="danger"
+            className="flex items-center gap-2"
+            onClick={onDelete}
+          >
+            <Trash2 size={18} />
+            Excluir livro
+          </Button>
+        )}
       </div>
     </header>
   );

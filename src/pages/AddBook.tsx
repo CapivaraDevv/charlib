@@ -10,6 +10,7 @@ import { useLibrary } from "../hooks/useLibrary";
 import mouseCarryingBooks from "../assets/mascot/mouse-carrying-books.png";
 import booksCorner from "../assets/decorations/books-corner.png";
 import { useAuth } from "../hooks/useAuth";
+import { Star } from "lucide-react";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024;
 const MAX_COVER_SIZE = 5 * 1024 * 1024;
@@ -22,6 +23,7 @@ export default function AddBook({ book }: { book?: Book }) {
   const [pages, setPages] = useState(book ? String(book.pages) : "");
   const [status, setStatus] = useState<Book["status"]>(book?.status ?? "planned");
   const [removeCover, setRemoveCover] = useState(false);
+  const [rating, setRating] = useState(book?.rating ?? 0);
   const [pdf, setPdf] = useState<File | null>(null);
   const [cover, setCover] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +92,7 @@ export default function AddBook({ book }: { book?: Book }) {
         await updateBook(book.id, {
           ...details,
           expectedUpdatedAt: book.updatedAt,
+          rating,
           file: pdf ?? undefined,
           cover: removeCover ? null : cover ?? undefined,
         });
@@ -197,6 +200,41 @@ export default function AddBook({ book }: { book?: Book }) {
                 </select>
               </div>
             </div>
+
+            {book && (
+              <fieldset disabled={isSaving} className="space-y-2">
+                <legend className="font-medium text-text">Sua avaliação</legend>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        aria-label={`Avaliar com ${value} ${value === 1 ? "estrela" : "estrelas"}`}
+                        aria-pressed={rating === value}
+                        onClick={() => setRating(rating === value ? 0 : value)}
+                        className="flex h-11 w-11 items-center justify-center rounded-lg text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50"
+                      >
+                        <Star size={26} fill={value <= rating ? "currentColor" : "none"} aria-hidden="true" />
+                      </button>
+                    ))}
+                  </div>
+                  <span aria-live="polite" className="text-sm text-text-muted">
+                    {rating === 0 ? "Sem avaliação" : `${rating} / 5`}
+                  </span>
+                  {rating > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setRating(0)}
+                      className="min-h-11 rounded-lg px-3 text-sm text-text-muted underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
+                      Remover avaliação
+                    </button>
+                  )}
+                </div>
+                <p className="text-xs text-text-muted">Escolha de 1 a 5 estrelas. A avaliação será salva junto com as alterações do livro.</p>
+              </fieldset>
+            )}
 
             <div className="grid gap-5 md:grid-cols-2">
               {/* upload PDF */}

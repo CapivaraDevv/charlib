@@ -110,6 +110,7 @@ export async function updateCloudBook(id: number, input: UpdateBookInput) {
     commitAttempted = true;
     const { data, error } = await client.from("books").update({ title: input.title.trim(),
       author: input.author.trim(), pages: input.pages, status: input.status,
+      rating: input.rating ?? existing.rating,
       current_page: input.status === "completed" ? input.pages : Math.min(input.pages, getCurrentPage({ id, status: existing.status, pages: existing.pages, currentPage: existing.current_page })),
       file_path: filePath, cover_path: coverPath,
     }).eq("user_id", user).eq("id", id).eq("updated_at", existing.updated_at).select("id");

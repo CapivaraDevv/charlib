@@ -19,22 +19,6 @@ export default function EmptyLibrary({
           aria-hidden="true"
           className="pointer-events-none h-32 w-auto sm:h-40"
         />
-        <div className="w-full space-y-6" aria-hidden>
-          {[0].map((row) => (
-            <div key={row}>
-              <div className="flex items-end justify-center gap-2 px-4 opacity-30">
-                {Array.from({ length: row === 0 ? 6 : 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-7 bg-card-background shadow-[2px_3px_6px_rgba(0,0,0,0.3)]"
-                    style={{ height: 80 + (i % 3) * 16 }}
-                  />
-                ))}
-              </div>
-              <div className="h-2.5 rounded-sm bg-surface-hover/60" />
-            </div>
-          ))}
-        </div>
 
         <div className="mt-6 flex flex-col items-center px-2 text-center">
           <p className="font-display text-xl font-semibold text-text sm:text-2xl">
