@@ -1,138 +1,184 @@
-# CharLib
+<div align="center">
+  <img src="src/assets/Logo.png" alt="Logo do CharLib" width="180" />
 
-Uma biblioteca pessoal para organizar livros, ler PDFs e acompanhar hábitos de leitura. O CharLib oferece modo local e integração opcional com Supabase para acessar a biblioteca por conta.
+  # CharLib
 
-🔗 **Demo:** https://charlib-three.vercel.app/
+  **Sua biblioteca pessoal para ler, organizar e acompanhar cada capítulo.**
 
-## Funcionalidades
+  [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+  [![Supabase](https://img.shields.io/badge/Supabase-integrado-3FCF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
-- Biblioteca com busca, filtros e ordenação.
-- Cadastro de livros com PDF, capa, quantidade de páginas e status de leitura.
+  [Experimentar a aplicação](https://charlib-three.vercel.app/) · [Explorar o código](https://github.com/CapivaraDevv/charlib) · [Consultar o roadmap](ROADMAP.md)
+</div>
+
+## Sobre o projeto
+
+O CharLib nasceu para reunir em um só lugar o que normalmente fica espalhado entre leitores de PDF, aplicativos de notas e rastreadores de hábitos. Com ele, é possível montar uma biblioteca, continuar a leitura de onde parou, registrar anotações e acompanhar metas sem depender obrigatoriamente de uma conta.
+
+A aplicação funciona em dois modos:
+
+- **Local:** livros, arquivos e dados de leitura permanecem no navegador atual.
+- **Nuvem:** uma conta Supabase permite manter uma biblioteca privada e sincronizar dados entre dispositivos.
+
+## Principais funcionalidades
+
+### Biblioteca e leitura
+
+- Biblioteca com busca, filtros e ordenação, inclusive por avaliação.
+- Cadastro e edição de livros com PDF, capa, autor, gênero, páginas e status.
+- Avaliação pessoal de livros de 1 a 5 estrelas.
 - Leitor de PDF com navegação por botões e teclado.
-- Progresso salvo por livro e retomada da última leitura.
-- Notas e marcadores por página.
-- Metas diária, semanal e mensal em páginas ou minutos.
-- Registro automático de páginas lidas e registro manual de leitura.
-- Sequência de leitura, atividade recente e indicadores na Home.
-- Exclusão segura de livros adicionados pelo usuário, com limpeza dos dados associados.
-- Interface responsiva para desktop e dispositivos móveis.
-- Página 404 para rotas inexistentes.
-- Login por e-mail/senha, cadastro, recuperação de senha e biblioteca privada na nuvem.
-- Migração explícita dos dados locais, sem apagar os originais.
+- Progresso salvo por livro e retomada automática da última página.
+- Notas e marcadores associados às páginas do livro.
+
+### Hábitos e acompanhamento
+
+- Metas diárias, semanais e mensais em páginas ou minutos.
+- Registro automático de páginas lidas e registro manual de sessões.
+- Sequência de leitura, atividade recente e indicadores na página inicial.
+- Visualização responsiva para desktop e dispositivos móveis.
+
+### Conta e dados
+
+- Uso local sem cadastro.
+- Autenticação por e-mail e senha, cadastro e recuperação de acesso.
+- Biblioteca privada com arquivos no Supabase Storage.
+- Migração explícita dos dados locais para a conta, sem apagar os originais.
+- Exclusão segura de livros e limpeza dos dados associados.
 
 ## Tecnologias
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- React PDF / PDF.js
-- Framer Motion
-- IndexedDB e localStorage
+- **Interface:** React, TypeScript, Tailwind CSS e Framer Motion.
+- **Navegação:** React Router.
+- **PDFs:** React PDF e PDF.js.
+- **Dados locais:** IndexedDB e localStorage.
+- **Nuvem:** Supabase Auth, PostgreSQL e Storage.
+- **Ferramentas:** Vite, ESLint e Node.js Test Runner.
+- **Deploy:** Vercel.
 
-## Como executar
+## Arquitetura
 
-Pré-requisito: Node.js instalado.
+```text
+src/
+├── components/  # componentes reutilizáveis e seções da interface
+├── contexts/    # autenticação e estado compartilhado da biblioteca
+├── pages/       # páginas e fluxos principais
+├── services/    # persistência, sincronização e regras de acesso
+├── types/       # tipos TypeScript do domínio
+└── utils/       # cálculos de metas, atividade e helpers
+```
+
+Os serviços de persistência isolam o armazenamento local da integração em nuvem. Essa separação permite usar a aplicação sem conta e migrar os dados posteriormente, mantendo a experiência principal disponível mesmo quando o Supabase não está configurado.
+
+## Executando localmente
+
+### Pré-requisitos
+
+- Node.js 22.6 ou superior.
+- npm.
+
+### Instalação
 
 ```bash
-git clone <https://github.com/CapivaraDevv/charlib.git>
+git clone https://github.com/CapivaraDevv/charlib.git
 cd charlib
 npm install
+cp .env.example .env
 npm run dev
 ```
 
 Abra o endereço exibido pelo Vite, normalmente `http://localhost:5173`.
 
-## Scripts disponíveis
+O Supabase é opcional: sem as credenciais, o CharLib continua disponível no modo local. Para ativar autenticação, armazenamento e sincronização, consulte o [guia de configuração do Supabase](supabase/SETUP.md).
 
-```bash
-npm run dev    # inicia o ambiente de desenvolvimento
-npm run lint   # verifica regras de qualidade do código
-npm test       # progresso, isolamento do cache e políticas SQL (Node.js 22.6+)
-npm run build  # valida TypeScript e gera a build de produção
+## Variáveis de ambiente
+
+Crie um arquivo `.env` a partir de `.env.example`:
+
+```env
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publicavel
 ```
 
-## Persistência de dados
+Nunca envie o arquivo `.env` para o repositório.
 
-No leitor, use **Editar livro** para alterar título, autor, status, quantidade de
-páginas, PDF ou capa. Sem selecionar novos arquivos, os atuais são mantidos;
-também é possível remover a capa. O ID, as notas, os marcadores e o histórico
-permanecem associados ao livro. Se trocar o PDF, confira as páginas das anotações.
+## Scripts
 
-Livros marcados como finalizados exibem 100% e abrem na última página do PDF,
-inclusive cadastros antigos. Consultar outra página não desfaz a conclusão.
-Marcar como finalizado não credita retroativamente páginas nas metas.
-O status pode ser alterado pela edição; apenas abrir o leitor não muda o status.
-O card mensal mostra os livros da biblioteca com status **Lendo**.
+```bash
+npm run dev      # inicia o ambiente de desenvolvimento
+npm run lint     # verifica as regras de qualidade do código
+npm test         # executa os testes automatizados
+npm run build    # valida o TypeScript e gera a build de produção
+npm run preview  # serve localmente a build gerada
+```
+
+## Persistência e sincronização
 
 No modo local:
 
-- **IndexedDB:** guarda livros adicionados, PDFs e capas.
-- **localStorage:** guarda progresso, última leitura, metas, registros de leitura, notas e marcadores.
+- O **IndexedDB** guarda livros, PDFs e capas.
+- O **localStorage** guarda progresso, última leitura, avaliações, metas, registros, notas e marcadores.
 
-Por isso, os dados permanecem no navegador atual. Limpar os dados do site ou usar outro dispositivo não transfere automaticamente a biblioteca.
+Esses dados permanecem no navegador e no domínio atuais. Limpar os dados do site ou acessar outro dispositivo não transfere automaticamente a biblioteca.
 
-Com login, livros e arquivos ficam no Supabase; os demais dados de leitura têm
-cache por conta e fila de sincronização. A configuração e as limitações estão no
-[guia de ativação do Supabase](supabase/SETUP.md). Em Minha conta, é possível
-importar a biblioteca local, sincronizar e resolver conflitos entre dispositivos.
+Com uma conta, livros e arquivos ficam no Supabase. Os demais dados usam cache por conta e uma fila de sincronização. A migração local é iniciada pelo usuário e preserva os dados originais.
 
-Os PDFs e capas são persistidos como arquivos (Blobs), não como URLs `blob:`.
-As URLs temporárias são recriadas a partir do IndexedDB ao carregar a biblioteca
-e revogadas quando substituídas ou quando o provider é desmontado. Recarregar a
-página ou publicar uma nova versão no mesmo domínio não exige reimportar o PDF;
-outro domínio (inclusive uma URL de preview) tem seu próprio armazenamento.
+Os PDFs e as capas são persistidos como arquivos, não como URLs `blob:`. As URLs temporárias são recriadas ao carregar a biblioteca e revogadas quando deixam de ser necessárias.
 
-## Publicação na Vercel
+## Comportamentos importantes
 
-O `vercel.json` define os headers de segurança e o fallback das rotas do React
-Router para `/index.html`. Esse rewrite permite abrir ou recarregar diretamente
-`/library/<id>` e as demais telas; os arquivos estáticos existentes continuam
-sendo servidos normalmente. No modo autenticado, uploads usam o Supabase Storage.
+- Editar um livro sem escolher novos arquivos preserva o PDF e a capa atuais.
+- Trocar o PDF mantém notas, marcadores e histórico; por isso, as páginas das anotações devem ser conferidas.
+- Livros finalizados exibem 100% e são abertos na última página.
+- Consultar outra página não desfaz a conclusão do livro.
+- Marcar um livro como finalizado não credita páginas retroativamente nas metas.
 
-A CSP permite `blob:` em `connect-src` porque o PDF.js lê a URL temporária do
-PDF. O domínio exato do projeto Supabase é permitido em `connect-src` e `img-src`.
-Scripts continuam restritos a `'self'`. O worker do PDF.js é
-empacotado pelo Vite como um arquivo da própria aplicação.
+## Deploy na Vercel
+
+O arquivo `vercel.json` configura os headers de segurança e o fallback das rotas do React Router. Isso permite acessar ou recarregar diretamente URLs como `/library/<id>` sem retornar erro 404.
+
+A política de segurança permite `blob:` em `connect-src`, necessário para que o PDF.js leia os PDFs locais. O worker do PDF.js é empacotado pelo Vite e servido pela própria aplicação.
 
 Após um deploy, valide no mesmo navegador e domínio:
 
-1. Importe um PDF local, abra-o na biblioteca e navegue entre as páginas.
-2. Recarregue `/library/<id>` e confirme que o PDF e o progresso permanecem.
-3. Feche e reabra a aba nessa URL; confirme também a capa, caso tenha sido enviada.
-4. No painel Network, confirme HTTP 200 para a rota e para o worker em `/assets/`,
-   e ausência de bloqueios CSP na leitura do PDF. O header deve conter
-   `connect-src 'self' blob:`.
+1. Importe um PDF, abra-o e navegue entre as páginas.
+2. Recarregue a rota do livro e confirme a persistência do arquivo e do progresso.
+3. Feche e reabra a aba e confira também a capa.
+4. Verifique no painel de rede as respostas do documento e do worker em `/assets/`.
 
-`npm run dev` e `npm run preview` não aplicam automaticamente os headers e
-rewrites do `vercel.json`; testar apenas nesses servidores não valida a CSP da
-Vercel.
-
-## Estrutura principal
-
-```text
-src/
-├── components/  # componentes reutilizáveis e seções da interface
-├── contexts/    # estado compartilhado da biblioteca
-├── pages/       # páginas e rotas da aplicação
-├── services/    # persistência e regras de acesso aos dados
-├── types/       # tipos TypeScript do domínio
-└── utils/       # cálculos de metas, atividade e helpers
-```
+> `npm run dev` e `npm run preview` não aplicam automaticamente os headers e rewrites do `vercel.json`.
 
 ## Qualidade
 
-Antes da versão 1.0.0, os fluxos principais foram testados manualmente: cadastro, persistência, leitura de PDF, notas, marcadores, metas, registro manual, exclusão e layout móvel. O projeto também passa em `npm run lint` e `npm run build`.
+Os fluxos principais possuem testes automatizados para progresso, isolamento de cache e políticas SQL. Cadastro, persistência, leitura de PDF, notas, marcadores, metas, avaliações, edição, exclusão e layout móvel também foram validados manualmente.
+
+Antes de enviar alterações, execute:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
 
 ## Roadmap
 
-A primeira integração com Supabase está implementada, com autenticação,
-biblioteca privada e migração local. As próximas evoluções incluem Realtime,
-cache offline de PDFs e tabelas analíticas por entidade.
+A primeira integração com Supabase está concluída, incluindo autenticação, biblioteca privada, armazenamento de arquivos e migração dos dados locais. As próximas evoluções planejadas incluem:
 
-Os detalhes estão em [ROADMAP.md](ROADMAP.md).
+- sincronização em tempo real;
+- cache offline de PDFs;
+- tabelas analíticas por entidade;
+- aprimoramentos na resolução de conflitos entre dispositivos.
+
+Veja o planejamento completo em [ROADMAP.md](ROADMAP.md).
 
 ## Versão
 
 Versão atual: **v1.0.0**.
+
+---
+
+<div align="center">
+  Feito para transformar páginas lidas em uma jornada visível.
+</div>
