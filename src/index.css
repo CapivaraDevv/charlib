@@ -57,6 +57,17 @@ body {
   font-family: var(--font-reading);
 }
 
+@keyframes library-loading-pulse {
+  0%, 80%, 100% { opacity: 0.35; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .library-loading-dot {
+    animation: library-loading-pulse 1.4s ease-in-out infinite;
+  }
+}
+
 /* =========================
    Bookshelf
 ========================= */
